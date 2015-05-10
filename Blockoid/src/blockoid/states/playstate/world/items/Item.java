@@ -2,8 +2,8 @@ package blockoid.states.playstate.world.items;
 
 import java.awt.Graphics2D;
 
+import blockoid.Assets;
 import blockoid.graphics.SpriteSheet;
-import blockoid.states.playstate.world.Assets;
 import blockoid.states.playstate.world.World;
 
 public abstract class Item {

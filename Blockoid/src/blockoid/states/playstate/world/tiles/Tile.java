@@ -3,9 +3,9 @@ package blockoid.states.playstate.world.tiles;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import blockoid.Assets;
 import blockoid.Audio;
 import blockoid.graphics.SpriteSheet;
-import blockoid.states.playstate.world.Assets;
 import blockoid.states.playstate.world.World;
 import blockoid.states.playstate.world.items.Item;
 
@@ -18,7 +18,7 @@ public abstract class Tile {
 	public int yIndex;
 	public SpriteSheet sprite;
 	public SpriteSheet lightMask;
-	public SpriteSheet damageOverlay = Assets.get("damageOverlay");	
+	public SpriteSheet damageOverlay;
 	public double lightLevel = 0;
 	public double density = 0.9;
 	public boolean inTheSun = false;
@@ -35,7 +35,8 @@ public abstract class Tile {
 		this.yIndex = yIndex;
 		this.x = xIndex*TILE_SIZE;
 		this.y = yIndex*TILE_SIZE;
-		this.lightMask = Assets.get("lightMask");
+		this.lightMask = Assets.getSpriteSheet("tiles/lightMask", TILE_SIZE, TILE_SIZE);
+		this.damageOverlay = Assets.getSpriteSheet("tiles/damageOverlay", TILE_SIZE, TILE_SIZE);
 	}
 	
 	public void update(World world) {

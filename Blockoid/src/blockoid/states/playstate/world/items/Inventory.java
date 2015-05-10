@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import blockoid.Assets;
 import blockoid.Audio;
 import blockoid.graphics.SpriteSheet;
-import blockoid.states.playstate.world.Assets;
 import blockoid.states.playstate.world.tiles.Tile;
 
 public class Inventory {
@@ -23,7 +23,7 @@ public class Inventory {
 	public String title;
 	public InventorySlot[][] slots;
 	
-	public Audio pickupBloop = Assets.getSound("pickupItem");
+	public Audio pickupBloop = Assets.getAudio("pickupItem");
 	
 	public Inventory(String title, int nOfTilesX, int nOfTilesY) {
 		this.title = title;

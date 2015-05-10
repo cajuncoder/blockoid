@@ -3,15 +3,14 @@ package blockoid.states.playstate.world.tiles;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import blockoid.Assets;
 import blockoid.graphics.SpriteSheet;
-import blockoid.states.playstate.world.Assets;
 
 public class DesertGrass extends Tile {
 
 	public DesertGrass(int yIndex, int xIndex, boolean isBackgroundTile) {
 		super(yIndex, xIndex, isBackgroundTile);
-		super.sprite = Assets.get("desertGrass"); 
-		//new SpriteSheet("deserttop.png", TILE_SIZE, TILE_SIZE);
+		super.sprite = Assets.getSpriteSheet("tiles/desertGrass", Tile.TILE_SIZE, Tile.TILE_SIZE); 
 		super.hitpool = 16;
 		super.hitpoints = hitpool;
 		super.solid = true;

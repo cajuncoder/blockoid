@@ -1,13 +1,13 @@
 package blockoid.states.playstate.world.items;
 
+import blockoid.Assets;
 import blockoid.graphics.SpriteSheet;
-import blockoid.states.playstate.world.Assets;
 
 public class PickAxe extends Item {
 
 	public PickAxe() {
 		super.name = "PickAxe";
-		super.inventorySprite = Assets.get("inventoryPickaxe");
+		super.inventorySprite = Assets.getSpriteSheet("items/inventoryPickaxe", 11, 11);
 	}
 	
 	public Item getNewInstance() {

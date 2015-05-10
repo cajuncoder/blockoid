@@ -8,13 +8,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 
 public class SpriteSheet implements Serializable {
-
 	//private Color transparent = new Color(163,73,164);
 	public int spriteSizeX = 0;
 	public int spriteSizeY = 0;
@@ -27,19 +27,12 @@ public class SpriteSheet implements Serializable {
 	public Sprite[] sprites;
 	
 	//----------------Constructor----------------//
-	public SpriteSheet(String tileSheet, int spriteSizeX, int spriteSizeY) {
+	public SpriteSheet(BufferedImage sheet, int spriteSizeX, int spriteSizeY) {
 	
 		//size
 		this.spriteSizeX = spriteSizeX;
 		this.spriteSizeY = spriteSizeY;
 		
-		//load image
-		//sheet = new ImageIcon(tileSheet).getImage();
-		BufferedImage img = null;
-		try {
-		    sheet = ImageIO.read(new File(tileSheet));
-		} catch (IOException e) {
-		}
 		sheets = new BufferedImage[8];
 		for(int i = 0; i < 8; i++) {
 			sheets[i] = tint(sheet,i);

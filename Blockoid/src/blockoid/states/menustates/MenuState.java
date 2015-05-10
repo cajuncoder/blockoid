@@ -19,7 +19,7 @@ public class MenuState extends GameState {
 	private static final int OPTION_EDITOR = 1;
 	private static final int OPTION_HELP  = 2;
 	private static final int OPTION_EXIT  = 3;
-	private static String TITLE = "Blokkoid";
+	private static String TITLE = "Blockoid";
 	ArrayList<Button> options = new ArrayList<Button>();
 	Font titleFont = new Font("Gabriola", Font.PLAIN, 32);
 	Font optionsFont = new Font("Gabriola", Font.PLAIN, 16);
