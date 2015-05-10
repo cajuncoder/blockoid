@@ -3,25 +3,24 @@ package blockoid.states.playstate.world.items;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import blockoid.Assets;
 import blockoid.graphics.SpriteSheet;
-import blockoid.states.playstate.world.Assets;
 import blockoid.states.playstate.world.World;
 import blockoid.states.playstate.world.tiles.Dirt;
+import blockoid.states.playstate.world.tiles.Tile;
 
 public class DirtBlock extends Item {
 
 	public DirtBlock() {
-		stackable = true;
-		numInStack = 1;
-		super.name = "Dirt Block";
-		super.inventorySprite = Assets.get("dirt");
+		this(1);
 	}
 	
 	public DirtBlock(int numInStack) {
+		super();
 		stackable = true;
+		name = "Dirt Block";
+		inventorySprite = Assets.getSpriteSheet("tiles/dirt", Tile.TILE_SIZE, Tile.TILE_SIZE);
 		this.numInStack = numInStack;
-		super.name = "Dirt Block";
-		super.inventorySprite = Assets.get("dirt");
 	}
 	
 	public Item getNewInstance() {

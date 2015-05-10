@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.ImageIcon;
 
+import blockoid.Assets;
 import blockoid.Game;
 import blockoid.graphics.SpriteSheet;
 import blockoid.states.playstate.world.characters.Player;
@@ -68,9 +70,9 @@ public class World {
 	public int[] lightLevels = {2,2,3,4,5,6,7,7,7,7,7,7,7,7,7,7,7,7,7,6,5,4,3,2};
 	
 	//public Image tilebg = new ImageIcon("res/gfx/tiles/tilebg.png").getImage();
-	public SpriteSheet tilebg = new SpriteSheet("res/gfx/tiles/tilebg.png",10,10);
-	public Image worldbg = new ImageIcon("res/gfx/bg/forebackground.png").getImage();
-	public Image worldbg2 = new ImageIcon("res/gfx/bg/backbackground.png").getImage();
+	public SpriteSheet tilebg = Assets.getSpriteSheet("tiles/tilebg", 10, 10);
+	public BufferedImage worldbg = Assets.getImage("bg/forebackground");
+	public BufferedImage worldbg2 = Assets.getImage("bg/backbackground");
 	public Star[] stars = new Star[64];
 	public CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<GameObject>();
 	public CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<Item>();

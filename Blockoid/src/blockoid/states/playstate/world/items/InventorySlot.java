@@ -4,8 +4,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import blockoid.Assets;
 import blockoid.graphics.SpriteSheet;
-import blockoid.states.playstate.world.Assets;
 
 public class InventorySlot {
 	public static int SIZE = 12;
@@ -15,7 +15,7 @@ public class InventorySlot {
 	public SpriteSheet sprite;
 	
 	public InventorySlot(int x, int y) {
-		this.sprite = Assets.get("inventorySlot");
+		this.sprite = Assets.getSpriteSheet("gui/inventorySlot", SIZE, SIZE);
 		this.x = x;
 		this.y = y;
 		item = null;

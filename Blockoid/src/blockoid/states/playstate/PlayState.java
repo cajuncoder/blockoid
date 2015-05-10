@@ -5,13 +5,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import blockoid.Assets;
 import blockoid.Game;
 import blockoid.states.GameState;
 import blockoid.states.playstate.world.tiles.Dirt;
 import blockoid.states.playstate.world.tiles.Empty;
 import blockoid.states.playstate.world.tiles.Tile;
 import blockoid.states.playstate.world.tiles.Water;
-import blockoid.states.playstate.world.Assets;
 import blockoid.states.playstate.world.World;
 
 public class PlayState extends GameState {

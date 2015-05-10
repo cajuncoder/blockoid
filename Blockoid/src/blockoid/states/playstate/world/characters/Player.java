@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import blockoid.Assets;
 import blockoid.Audio;
 import blockoid.Game;
 import blockoid.graphics.SpriteSheet;
@@ -53,7 +54,7 @@ public class Player {
 	public int[] walkLeft = {3, 4};
 	public int[] jumpRight = {2};
 	public int[] jumpLeft = {5};
-	Audio jump = new Audio("jump.wav");
+	Audio jump = Assets.getAudio("jump");
 	public Item rightHandItem = null;
 	public int toolbeltIndex = 0;
 	int lightLevel = 0;
@@ -72,7 +73,7 @@ public class Player {
 		name = "Ogg";
 		hitpool = 3;
 		hitpoints = hitpool;
-		sprite = new SpriteSheet("res/gfx/characters/character.png", 16, 16);
+		sprite = Assets.getSpriteSheet("characters/character", width, height);
 		animation = walkRight;
 		frame = 0;
 	}
