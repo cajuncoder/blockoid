@@ -77,6 +77,7 @@ public class World {
 	public CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<GameObject>();
 	public CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<Item>();
 	
+	Background background = new Background(this);
 	public Player player = new Player();
 	//public ArrayList<Object> liquidTiles = new ArrayList<Object>();
 	
@@ -215,26 +216,27 @@ public class World {
 		
 		// Background //
 		
-		if(sunlightLevel < 5) {
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, game.width, game.height);
-			for(int i = 0; i < 64; i++) {
-				stars[i].draw(g);
-			}
-		}
-		int lightLevel = (-256+128) + ((sunlightLevel+1)*48)-1;
-		if(lightLevel < 0) lightLevel = 0;
-		if(hour > 12 && sunlightLevel < 7) {
-			g.setColor(new Color(255,255-32,255-16,lightLevel));
-		}else if(hour <= 12 && sunlightLevel < 7) {
-			g.setColor(new Color(255,255,255-32,lightLevel));
-		}else{
-			g.setColor(new Color(255-64,255-32,255,lightLevel));
-		}
-		g.fillRect(0, 0, game.width, game.height);
+		//if(sunlightLevel < 5) {
+		//	g.setColor(Color.BLACK);
+		//	g.fillRect(0, 0, game.width, game.height);
+		//	for(int i = 0; i < 64; i++) {
+		//		stars[i].draw(g);
+		//	}
+		//}
+		//int lightLevel = (-256+128) + ((sunlightLevel+1)*48)-1;
+		//if(lightLevel < 0) lightLevel = 0;
+		//if(hour > 12 && sunlightLevel < 7) {
+		//	g.setColor(new Color(255,255-32,255-16,lightLevel));
+		//}else if(hour <= 12 && sunlightLevel < 7) {
+		//	g.setColor(new Color(255,255,255-32,lightLevel));
+		//}else{
+		//	g.setColor(new Color(255-64,255-32,255,lightLevel));
+		//}
+		//g.fillRect(0, 0, game.width, game.height);
 
 		//g.drawImage(worldbg2, 0, game.height/3, null);
 		//g.drawImage(worldbg, 0, game.height/3, null);
+		background.draw(g);
 		
 		//Outlines
 		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
