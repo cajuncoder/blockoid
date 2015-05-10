@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import blockoid.Assets;
 import blockoid.Game;
 import blockoid.graphics.SpriteSheet;
+import blockoid.states.playstate.world.characters.Creature;
 import blockoid.states.playstate.world.characters.Player;
 import blockoid.states.playstate.world.items.*;
 import blockoid.states.playstate.world.objects.GameObject;
@@ -79,6 +80,7 @@ public class World {
 	
 	public Player player = new Player();
 	//public ArrayList<Object> liquidTiles = new ArrayList<Object>();
+	public ArrayList<Creature> creatures = new ArrayList<Creature>();
 	
 	public World(Game game) {
 		this.game = game;
@@ -143,6 +145,9 @@ public class World {
 		
 		////////// PLAYER --- TEMPORARY //////////
 		player.place(((sizeX/2)*8)+4, getSurface(sizeX/2)*8);
+		
+		creatures.add(new Creature());
+		creatures.get(0).place(((sizeX/2)*8)+4+5, getSurface(sizeX/2)*8+5);
 	}
 	
 	public void update() {
@@ -174,6 +179,10 @@ public class World {
 		player.update(game, this);
 		for(Item i: items) {
 			i.update(this);
+		}
+		
+		for (Creature creature: creatures) {
+			creature.update(game, this);
 		}
 		
 		CameraOffX = player.dx - game.width/2;
@@ -290,6 +299,9 @@ public class World {
 			i.worldDraw(g, CameraOffX, CameraOffY);
 		}
 		
+		for (Creature creature: creatures) {
+			creature.draw(g, CameraOffX, CameraOffY);
+		}
 	}
 	
 	
