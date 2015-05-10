@@ -32,6 +32,7 @@ public class SpriteSheet implements Serializable {
 		//size
 		this.spriteSizeX = spriteSizeX;
 		this.spriteSizeY = spriteSizeY;
+		this.sheet = sheet;
 		
 		sheets = new BufferedImage[8];
 		for(int i = 0; i < 8; i++) {
