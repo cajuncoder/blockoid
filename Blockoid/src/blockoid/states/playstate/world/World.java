@@ -22,6 +22,7 @@ import blockoid.states.playstate.world.tiles.DesertGrass;
 import blockoid.states.playstate.world.tiles.Dirt;
 import blockoid.states.playstate.world.tiles.Empty;
 import blockoid.states.playstate.world.tiles.Grass;
+import blockoid.states.playstate.world.tiles.Stone;
 import blockoid.states.playstate.world.objects.OakTree;
 import blockoid.states.playstate.world.tiles.Tile;
 import blockoid.states.playstate.world.objects.PalmTree;
@@ -118,9 +119,13 @@ public class World {
 			
 			for(int y = 0; y < sizeY; y++) {
 				
-				if(y > stackHeight) {
+				if(y > stackHeight && y < stackHeight+11) {
 					tiles[x][y] = new Dirt(x, y, false);
 					bgTiles[x][y] = new Dirt(x, y, true);
+				}
+				if(y > stackHeight && y >= stackHeight+11) {
+					tiles[x][y] = new Stone(x, y, false);
+					bgTiles[x][y] = new Stone(x, y, true);
 				}
 				if(y == stackHeight) {
 					tiles[x][y] = new Grass(x, y, false);
@@ -201,38 +206,6 @@ public class World {
 		if(renderEndX >= sizeX) renderEndX = sizeX;
 		if(renderEndY >= sizeY) renderEndY = sizeY;
 		
-		//int lightRenderStartX = renderStartX -15;
-		//int lightRenderStartY = renderStartY -15;
-		//int lightRenderEndX = renderEndX +15;
-		//int lightRenderEndY = renderEndY +15;
-		
-		//if(lightRenderStartX < 0) lightRenderStartX = 0;
-		//if(lightRenderStartY < 0) lightRenderStartY = 0;
-		//if(lightRenderEndX >= sizeX) lightRenderEndX = sizeX;
-		//if(lightRenderEndY >= sizeY) lightRenderEndY = sizeY;
-		
-		// Background //
-		
-		//if(sunlightLevel < 5) {
-		//	g.setColor(Color.BLACK);
-		//	g.fillRect(0, 0, game.width, game.height);
-		//	for(int i = 0; i < 64; i++) {
-		//		stars[i].draw(g);
-		//	}
-		//}
-		//int lightLevel = (-256+128) + ((sunlightLevel+1)*48)-1;
-		//if(lightLevel < 0) lightLevel = 0;
-		//if(hour > 12 && sunlightLevel < 7) {
-		//	g.setColor(new Color(255,255-32,255-16,lightLevel));
-		//}else if(hour <= 12 && sunlightLevel < 7) {
-		//	g.setColor(new Color(255,255,255-32,lightLevel));
-		//}else{
-		//	g.setColor(new Color(255-64,255-32,255,lightLevel));
-		//}
-		//g.fillRect(0, 0, game.width, game.height);
-
-		//g.drawImage(worldbg2, 0, game.height/3, null);
-		//g.drawImage(worldbg, 0, game.height/3, null);
 		background.draw(g);
 		
 		//Outlines

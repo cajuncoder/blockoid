@@ -30,7 +30,6 @@ public class Background {
 		//g.fillRect(x, y, xSize, ySize);
 		
 		int interval = 255/7;
-		System.out.println("At atmos: " + lightLevel);
 		Color clr = modify(atmosphere, -(7-lightLevel)*interval, -(7-lightLevel)*interval, -(7-lightLevel)*interval);
 		for(int i = 5; i >= 0; i--) {
 			
@@ -44,12 +43,12 @@ public class Background {
 			//clr = clr.darker();
 			clr = modify(clr, -lightLevel, -lightLevel, 0);
 		}
-		System.out.println("At stars: " + lightLevel);
 		if(lightLevel < 3.9) {
 			if(lightLevel >= 3) {g.setColor(new Color(255,255,255,55));} else {g.setColor(Color.WHITE);}
 			for(int i = 0; i < stars.length; i++) {
 				
 				stars[i].draw(g);
+				if(stars[i].x > world.game.width) System.out.println("Star out of bounds");
 			}
 		}
 		
