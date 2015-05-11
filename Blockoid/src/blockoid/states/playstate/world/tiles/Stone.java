@@ -21,11 +21,6 @@ public class Stone extends Tile {
 	}
 
 	public void update(World world) {
-		if(yIndex-1 >= 0 && !isBackgroundTile) {
-			if(world.tiles[xIndex][yIndex-1].inTheSun) {
-				world.tiles[xIndex][yIndex] = new Grass(xIndex,yIndex,false);
-			}
-		}
 		processHP(world);
 	}
 	
