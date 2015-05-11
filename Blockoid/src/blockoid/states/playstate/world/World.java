@@ -73,19 +73,16 @@ public class World {
 	public SpriteSheet tilebg = Assets.getSpriteSheet("tiles/tilebg", 10, 10);
 	public BufferedImage worldbg = Assets.getImage("bg/forebackground");
 	public BufferedImage worldbg2 = Assets.getImage("bg/backbackground");
-	public Star[] stars = new Star[64];
 	public CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<GameObject>();
 	public CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<Item>();
 	
-	Background background = new Background(this);
+	Background background;
 	public Player player = new Player();
 	//public ArrayList<Object> liquidTiles = new ArrayList<Object>();
 	
 	public World(Game game) {
 		this.game = game;
-		for(int i = 0; i < 64; i++) {
-			stars[i] = new Star(game);
-		}
+		background = new Background(this);
 		
 		int stackHeight = sizeY/2;
 		int slope = 7;
