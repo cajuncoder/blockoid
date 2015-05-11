@@ -24,7 +24,7 @@ public class Creature extends Character {
 		super();
 	}
 	
-	public void move(Game game, World world) {
+	public void act(Game game, World world) {
 		double playerX = world.player.x;
 		double playerY = world.player.y;
 		

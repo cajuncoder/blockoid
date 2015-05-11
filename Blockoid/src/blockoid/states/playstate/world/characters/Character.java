@@ -74,51 +74,11 @@ abstract public class Character {
 		frame = 0;
 	}
 	
-	public abstract void move(Game game, World world);
+	public abstract void act(Game game, World world);
 	
 	public void update(Game game, World world) {
 		if(oldYTile-1 > 0) {
 			lightLevel = (int) Math.ceil(world.tiles[oldXTile][oldYTile-1].lightLevel);
-		}
-		
-		//Tool Belt
-		toolbelt.moveTo(game.width/2 - toolbelt.sizeX/2, game.height - toolbelt.sizeY-2);
-		if(game.mouseWheel.mouseWheelDown) {
-			toolbeltIndex-=1;
-			if(toolbeltIndex < 0) toolbeltIndex = toolbelt.slots.length-1;
-		}
-		if(game.mouseWheel.mouseWheelUp) {
-			toolbeltIndex+=1;
-			if(toolbeltIndex > toolbelt.slots.length-1) toolbeltIndex = 0;
-		}
-		rightHandItem = toolbelt.slots[toolbeltIndex][0].item;
-		
-		PlayState ps = (PlayState)game.gameState;
-		if(ps.gui.selectedInventory==null && rightHandItem==null) {
-			if(ps.gui.grabbedItem==null) {
-				emptyPrimary(world);
-				emptySecondary(world);
-			}
-		}
-		if(inventoryOpen == false && rightHandItem!=null) {
-			if(ps.gui.grabbedItem==null) {
-				rightHandItem.processPrimary(world);
-				rightHandItem.processSecondary(world);
-			}
-		}
-
-		
-		//Inventory
-		if(ps.gui.inventories.size() > 1) {
-			inventoryOpen = true;
-		}else{inventoryOpen = false;}
-		if(game.keyboard.i && oldi == false) {
-			if(inventoryOpen==true) {
-				ps.gui.removeInventory(inventory);
-			}else{
-				inventory.moveTo(game.width/2 - 4*12, game.height/2 - 2*12);
-				ps.gui.addInventory(inventory);
-			}
 		}
 		
 		if(standingOnGround) {
@@ -134,7 +94,7 @@ abstract public class Character {
 			timeInAir = 0;
 		}else{timeInAir++;}
 		
-		move(game, world);
+		act(game, world);
 		
 		if(!standingOnGround && animation == walkRight) {
 			animation = jumpRight;
