@@ -12,6 +12,7 @@ public class PlainsBiome extends Biome {
 		this.top = new Dirt(0,0,false);
 		this.roughnessVariance = 2;
 		this.slopeVariance = 6;
+		this.treeRarity = 15;
 		fill();
 	}
 

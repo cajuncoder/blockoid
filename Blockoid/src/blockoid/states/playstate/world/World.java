@@ -92,10 +92,12 @@ public class World {
 		biomes = new Biome[nOfBiomes];
 		for(int i = 0; i < nOfBiomes; i++) {
 			Random r = new Random();
-			int biomeType = r.nextInt(2);
-			if(biomeType == 0) biomes[i] = new PlainsBiome(this, i);
-			if(biomeType == 1) biomes[i] = new DesertBiome(this, i);
-			if(biomeType == 2) System.out.println("BIOME NULL");
+			int biomeType = r.nextInt(4);
+			//if(biomeType == 0) biomes[i] = new PlainsBiome(this, i);
+			//if(biomeType == 1) biomes[i] = new DesertBiome(this, i);
+			if(biomeType >= 0) biomes[i] = new MountainBiome(this, i);
+			//if(biomeType == 3) biomes[i] = new ForestBiome(this, i);
+			if(biomeType == 4) System.out.println("BIOME NULL");
 		}
 		//int stackHeight = sizeY/2;
 		//int slope = 7;
@@ -281,7 +283,7 @@ public class World {
 	public int getSurface(int x) {
 		for(int y = sizeY-1; y > 0; y--) {
 			if(tiles[x][y] != null && !tiles[x][y].solid && !bgTiles[x][y].solid) {
-				return tiles[x][y].yIndex;
+				return tiles[x][y].yIndex+1;
 			}
 		}
 		return 0;

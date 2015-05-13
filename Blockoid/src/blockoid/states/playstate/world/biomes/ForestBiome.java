@@ -4,14 +4,15 @@ import blockoid.states.playstate.world.World;
 import blockoid.states.playstate.world.tiles.Dirt;
 import blockoid.states.playstate.world.tiles.Stone;
 
-public class MountainBiome extends Biome {
+public class ForestBiome extends Biome {
 
-	public MountainBiome(World world, int index) {
+	public ForestBiome(World world, int index) {
 		super(world, index);
 		this.base = new Stone(0,0,false);
 		this.top = new Dirt(0,0,false);
-		this.roughnessVariance = 5;
-		this.slopeVariance = 32;
+		this.roughnessVariance = 2;
+		this.slopeVariance = 6;
+		this.treeRarity = 3;
 		fill();
 	}
 

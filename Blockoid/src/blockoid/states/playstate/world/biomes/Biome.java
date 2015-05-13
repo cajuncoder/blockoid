@@ -12,11 +12,13 @@ import blockoid.states.playstate.world.tiles.Tile;
 
 public abstract class Biome {
 
-	public static int BIOME_SIZE = 32;
+	public static int BIOME_SIZE = 128;
 	public World world;
 	public int index;
 	public int startX;
 	public int endX;
+	public int previousLow;
+	public int stackHeight;
 	public int slope;
 	public int slopeVariance = 16;
 	public int roughness;
@@ -35,42 +37,44 @@ public abstract class Biome {
 	}
 	
 	public void fill() {
-		int stackHeight = world.sizeY/2;
+		stackHeight = world.sizeY/2;
 		if(startX > 0) {
 			startX+=1;
 			stackHeight = world.getSurface(startX-1);
 		}
-		slope = slopeVariance;
-		roughness = roughnessVariance;
-
 		Random r = new Random();
-		int previousLow = stackHeight;
-		System.out.println("!!!!! Filling Biome !!!!");
-		System.out.println(base);
-		System.out.println(top);
+		
+		slope = r.nextInt(slopeVariance) - r.nextInt(slopeVariance);
+		if(slope==0) slope = 1;
+		roughness = r.nextInt(roughnessVariance)+2;
+
+		previousLow = stackHeight;
+		
 		for(int x = startX; x <= endX; x++) {
 			
 			//Slopes
-			if(stackHeight + slope > stackHeight) stackHeight-= r.nextInt(roughness);
-			if(stackHeight + slope < stackHeight) stackHeight+= r.nextInt(roughness);
-			if(slope >= 0 && stackHeight <= previousLow+slope){
+			if(slope>0) stackHeight+= r.nextInt(roughness);
+			if(slope<0) stackHeight-= r.nextInt(roughness);
+			System.out.println("Slope!!!: " + slope + " Roughness: " + roughness);
+			System.out.println("PreviousLow: " + previousLow + " StackHeight: " + stackHeight);
+			if(slope > 0 && stackHeight >= previousLow+slope){
 				previousLow = stackHeight;
-				slope = r.nextInt(slopeVariance*2)-slopeVariance;
-				if(slope==0) slope = r.nextInt(2)-1;
-				roughness = r.nextInt(roughnessVariance)+1;
+				slope = r.nextInt(slopeVariance) - r.nextInt(slopeVariance);
+				if(slope==0) slope = 1;
+				roughness = r.nextInt(roughnessVariance)+2;
 			}
-			if(slope < 0 && stackHeight >= previousLow+slope){
+			if(slope < 0 && stackHeight <= previousLow+slope){
 				previousLow = stackHeight;
-				slope = r.nextInt(slopeVariance*2)-slopeVariance;
-				if(slope==0) slope = r.nextInt(2)-1;
-				roughness = r.nextInt(roughnessVariance)+1;
+				slope = r.nextInt(slopeVariance) - r.nextInt(slopeVariance);
+				if(slope==0) slope = -1;
+				roughness = r.nextInt(roughnessVariance)+2;
 			}
 			if(stackHeight + slope > world.sizeY-64) {
-				slope = +slopeVariance;
+				slope = -slopeVariance;
 				previousLow = stackHeight;
 			}
 			if(stackHeight + slope < 64) {
-				slope = -slopeVariance;
+				slope = +slopeVariance;
 				previousLow = stackHeight;
 			}
 			
