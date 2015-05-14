@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 public class ToolBelt extends Inventory {
 
 	public ToolBelt(String str, int i, int ii) {
-		super("",12,1);
+		super("",i,ii); // ii -- REALLY???
 		padding = 1;
 		this.title = title;
 		this.nOfTilesX = nOfTilesX;
