@@ -139,8 +139,8 @@ public class World {
 			o.update(this);
 		}
 		
-		CameraOffX = player.dx - game.width/2;
-		CameraOffY = player.dy - game.height/2 - (game.height/8);
+		CameraOffX = Math.round(player.dx - game.width/2);
+		CameraOffY = Math.round(player.dy - game.height/2 - (game.height/8));
 		if(CameraOffX < 0) CameraOffX = 0;
 		if(CameraOffX > (sizeX*TILE_SIZE) - game.width) CameraOffX = (sizeX*TILE_SIZE) - game.width;
 		if(CameraOffY < 0) CameraOffY = 0;
