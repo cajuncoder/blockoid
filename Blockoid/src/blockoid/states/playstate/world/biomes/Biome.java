@@ -3,6 +3,7 @@ package blockoid.states.playstate.world.biomes;
 import java.util.Random;
 
 import blockoid.states.playstate.world.World;
+import blockoid.states.playstate.world.objects.GameObject;
 import blockoid.states.playstate.world.objects.OakTree;
 import blockoid.states.playstate.world.tiles.Dirt;
 import blockoid.states.playstate.world.tiles.Empty;
@@ -12,7 +13,7 @@ import blockoid.states.playstate.world.tiles.Tile;
 
 public abstract class Biome {
 
-	public static int BIOME_SIZE = 128;
+	public static int BIOME_SIZE = 64;
 	public World world;
 	public int index;
 	public int startX;
@@ -21,9 +22,11 @@ public abstract class Biome {
 	public int stackHeight;
 	public int slope;
 	public int slopeVariance = 16;
+	public int smoothness = 1;
 	public int roughness;
-	public int roughnessVariance = 5;
+	public int roughnessVariance = 3;
 	public int treeRarity = 10;
+	public GameObject treeType = new OakTree(null);
 	public Tile base;
 	public Tile top;
 	
@@ -53,8 +56,10 @@ public abstract class Biome {
 		for(int x = startX; x <= endX; x++) {
 			
 			//Slopes
-			if(slope>0) stackHeight+= r.nextInt(roughness);
-			if(slope<0) stackHeight-= r.nextInt(roughness);
+			if(r.nextInt(smoothness) == 0) {
+				if(slope>0) stackHeight+= r.nextInt(roughness);
+				if(slope<0) stackHeight-= r.nextInt(roughness);
+			}
 			System.out.println("Slope!!!: " + slope + " Roughness: " + roughness);
 			System.out.println("PreviousLow: " + previousLow + " StackHeight: " + stackHeight);
 			if(slope > 0 && stackHeight >= previousLow+slope){
@@ -92,7 +97,7 @@ public abstract class Biome {
 					world.tiles[x][y] = top.newInstance(x, y, false);
 					world.bgTiles[x][y] = top.newInstance(x, y, true);
 					int plantTree = r.nextInt(treeRarity);
-					if(plantTree == 0) world.objects.add(new OakTree(world.bgTiles[x][y]));
+					if(plantTree == 0) world.objects.add(treeType.getNewInstance(world.bgTiles[x][y]));//(new OakTree(world.bgTiles[x][y]));
 				}
 				if(y < stackHeight) {
 					world.tiles[x][y] = new Empty(x, y, false);

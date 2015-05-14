@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 import blockoid.Assets;
 import blockoid.graphics.SpriteSheet;
+import blockoid.states.playstate.world.items.Wood;
 import blockoid.states.playstate.world.objects.GameObject;
 import blockoid.states.playstate.world.tiles.Tile;
 
@@ -13,10 +14,11 @@ public class PalmTree extends GameObject {
 	public PalmTree(Tile tile) {
 		super(tile);
 		spriteSheet = Assets.getSpriteSheet("objects/palmtree", 51, 54);
+		dropItem = new Wood();
 	}
 	
-	//public void draw(Graphics2D g, int xOff, int yOff) {
-	//	int lightLevel = (int) Math.ceil(tile.lightLevel);
-	//	spriteSheet.drawSprite(dx-xOff-(spriteSheet.spriteSizeX/2)+5, dy-yOff-spriteSheet.spriteSizeY, 0, lightLevel, g);
-	//}
+	public GameObject getNewInstance(Tile tile) {
+		GameObject o = new PalmTree(tile);
+		return o;
+	}
 }

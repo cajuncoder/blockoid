@@ -56,7 +56,7 @@ public class World {
 	public int CameraOffX = 0;
 	public int CameraOffY = 0;
 	public Game game;
-	public int sizeX = 512;
+	public int sizeX = 512*2;
 	public int sizeY = 512;
 	public static int TILE_SIZE = 8;
 	public Tile[][] bgTiles = new Tile[sizeX][sizeY];
@@ -93,70 +93,12 @@ public class World {
 		for(int i = 0; i < nOfBiomes; i++) {
 			Random r = new Random();
 			int biomeType = r.nextInt(4);
-			//if(biomeType == 0) biomes[i] = new PlainsBiome(this, i);
-			//if(biomeType == 1) biomes[i] = new DesertBiome(this, i);
-			if(biomeType >= 0) biomes[i] = new MountainBiome(this, i);
-			//if(biomeType == 3) biomes[i] = new ForestBiome(this, i);
+			if(biomeType == 0) biomes[i] = new PlainsBiome(this, i);
+			if(biomeType == 1) biomes[i] = new DesertBiome(this, i);
+			if(biomeType == 2) biomes[i] = new MountainBiome(this, i);
+			if(biomeType == 3) biomes[i] = new ForestBiome(this, i);
 			if(biomeType == 4) System.out.println("BIOME NULL");
 		}
-		//int stackHeight = sizeY/2;
-		//int slope = 7;
-		//int roughness = 5;
-		//Random r = new Random();
-		//int previousLow = stackHeight;
-		
-		//for(int x = 0; x < sizeX; x++) {
-			
-			//Slopes
-		//	if(stackHeight + slope > stackHeight) stackHeight-= r.nextInt(roughness);
-		//	if(stackHeight + slope < stackHeight) stackHeight+= r.nextInt(roughness);
-		//	if(slope >= 0 && stackHeight <= previousLow+slope){
-		//		previousLow = stackHeight;
-		//		slope = r.nextInt(32)-16;
-		//		if(slope==0) slope = 1;
-		//		roughness = r.nextInt(1)+1;
-		//	}
-		//	if(slope < 0 && stackHeight >= previousLow+slope){
-		//		previousLow = stackHeight;
-		//		slope = r.nextInt(24)-12;
-		//		if(slope==0) slope=1;
-		//		roughness = r.nextInt(4)+1;
-		//	}
-		//	if(stackHeight + slope > sizeY-64) {
-		//		slope = +12;
-		//		previousLow = stackHeight;
-		//	}
-		//	if(stackHeight + slope < 64) {
-		//		slope = -12;
-		//		previousLow = stackHeight;
-		//	}
-		//	
-		//	for(int y = 0; y < sizeY; y++) {
-		//		
-		//		if(y > stackHeight && y < stackHeight+11) {
-		//			tiles[x][y] = new Dirt(x, y, false);
-		//			bgTiles[x][y] = new Dirt(x, y, true);
-		//		}
-		//		if(y > stackHeight && y >= stackHeight+11) {
-		//			tiles[x][y] = new Stone(x, y, false);
-		//			bgTiles[x][y] = new Stone(x, y, true);
-		//		}
-		//		if(y == stackHeight) {
-		//			tiles[x][y] = new Grass(x, y, false);
-		//			bgTiles[x][y] = new Dirt(x, y, true);
-		//			int plantTree = r.nextInt(10);
-		//			if(plantTree == 0) objects.add(new OakTree(bgTiles[x][y]));
-		//		}
-		//		if(y < stackHeight) {
-		//			tiles[x][y] = new Empty(x, y, false);
-		//			bgTiles[x][y] = new Empty(x, y, true);
-		//		}
-		//	}
-		//}
-		//for(int y = 0; y < sizeY; y++) {
-			//tiles[0][y] = new Desert(0, y, false);
-			//tiles[sizeX-1][y] = new Desert(sizeX-1, y, false);
-		//}
 		
 		////////// PLAYER --- TEMPORARY //////////
 		player.place(((sizeX/2)*8)+4, getSurface(sizeX/2)*8);
@@ -191,6 +133,10 @@ public class World {
 		player.update(game, this);
 		for(Item i: items) {
 			i.update(this);
+		}
+		
+		for(GameObject o: objects) {
+			o.update(this);
 		}
 		
 		CameraOffX = player.dx - game.width/2;
@@ -289,9 +235,17 @@ public class World {
 		return 0;
 	}
 	
-	public void addItem(Item item, int x, int y) {
+	public synchronized void addItem(Item item, int x, int y) {
 		item.x = x;
 		item.y = y;
 		items.add(item);
+	}
+	
+	public synchronized void addObject(GameObject object, Tile tile) {
+		
+	}
+	
+	public synchronized void removeObject(GameObject object) {
+		objects.remove(object);
 	}
 }
