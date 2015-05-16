@@ -1,5 +1,6 @@
 package blockoid.states.playstate.world.items;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import blockoid.Assets;
@@ -80,13 +81,16 @@ public abstract class Item {
 	
 	public void draw(Graphics2D g, int dx, int dy) {
 		inventorySprite.drawSprite(dx, dy, 0, g);
-		
+		if(stackable && numInStack > 1) {
+			g.setColor(Color.WHITE);
+			g.drawString(Integer.toString(numInStack), dx+1, dy+8);
+		}
 	}
 	
 	public void worldDraw(Graphics2D g, int xOff, int yOff) {
 		int dx = (int) x-xOff-(inventorySprite.spriteSizeX/2);
 		int dy = (int) y-yOff-inventorySprite.spriteSizeY;
-		inventorySprite.drawSprite(dx, dy, 0, lightLevel, g);	
+		inventorySprite.drawSprite(dx, dy, 0, lightLevel, g);
 	}
 
 }
