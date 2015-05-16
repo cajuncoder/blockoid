@@ -61,7 +61,7 @@ public class Player {
 	
 	public Player() {
 		inventory = new Inventory("Inventory",8,4);
-		toolbelt = new ToolBelt("Tool Belt", 12,1);
+		toolbelt = new ToolBelt("Tool Belt", 9,1);
 		inventory.addItem(new PickAxe());
 		inventory.addItem(new DirtBlock(16));
 		inventory.addItem(new DirtBlock());
@@ -92,6 +92,9 @@ public class Player {
 		if(game.mouseWheel.mouseWheelUp) {
 			toolbeltIndex+=1;
 			if(toolbeltIndex > toolbelt.slots.length-1) toolbeltIndex = 0;
+		}
+		for (int i = 1; i < 10; i++) {
+			if (game.keyboard.num[i]) toolbeltIndex = i-1;
 		}
 		rightHandItem = toolbelt.slots[toolbeltIndex][0].item;
 		

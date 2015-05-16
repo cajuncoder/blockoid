@@ -12,6 +12,7 @@ public class Keyboard implements KeyListener, Serializable {
 	private String lastKeyTyped = "";
 	private int lastKeyCodeTyped = 0;
 	public boolean up, down, left, right, space, shift, i, r, g, q, tab;
+	public boolean[] num = new boolean[10];
 	
 	//----------------------Keyboard.UPDATE-METHOD----------------------//
 	public void update() {
@@ -27,6 +28,16 @@ public class Keyboard implements KeyListener, Serializable {
 		g = keys[KeyEvent.VK_G];
 		q = keys[KeyEvent.VK_Q];
 		tab = keys[KeyEvent.VK_TAB];
+		num[0] = keys[KeyEvent.VK_0];
+		num[1] = keys[KeyEvent.VK_1];
+		num[2] = keys[KeyEvent.VK_2];
+		num[3] = keys[KeyEvent.VK_3];
+		num[4] = keys[KeyEvent.VK_4];
+		num[5] = keys[KeyEvent.VK_5];
+		num[6] = keys[KeyEvent.VK_6];
+		num[7] = keys[KeyEvent.VK_7];
+		num[8] = keys[KeyEvent.VK_8];
+		num[9] = keys[KeyEvent.VK_9];
 		
 		if(keyTyped.equals(lastKeyTyped)) keyTyped = "";
 		lastKeyTyped = keyTyped;
