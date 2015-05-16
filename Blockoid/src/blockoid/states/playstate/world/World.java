@@ -15,6 +15,7 @@ import blockoid.Assets;
 import blockoid.Game;
 import blockoid.graphics.SpriteSheet;
 import blockoid.states.playstate.world.characters.Creature;
+import blockoid.states.playstate.world.characters.ItFollows;
 import blockoid.states.playstate.world.biomes.*;
 import blockoid.states.playstate.world.characters.Player;
 import blockoid.states.playstate.world.items.*;
@@ -105,7 +106,7 @@ public class World {
 		////////// PLAYER --- TEMPORARY //////////
 		player.place(((sizeX/2)*8)+4, getSurface(sizeX/2)*8);
 		
-		creatures.add(new Creature());
+		creatures.add(new ItFollows());
 		creatures.get(0).place(((sizeX/2)*8)+4+5, getSurface(sizeX/2)*8+5);
 	}
 	

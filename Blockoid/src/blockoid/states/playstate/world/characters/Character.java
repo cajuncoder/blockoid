@@ -304,35 +304,6 @@ abstract public class Character {
 		//if(inventoryOpen) inventory.draw(g);
 	}
 	
-	
-	
-	////Empty Hand////
-	public void emptyPrimary(World world) {
-		if(world.game.mouse.holdL) {
-			int tileX = (int) ((world.game.mouseMotion.x+world.CameraOffX)/8);
-			int tileY = (int) ((world.game.mouseMotion.y+world.CameraOffY)/8);
-			if(tileX >= world.sizeX) tileX = world.sizeX-1;
-			if(tileX < 0) tileX = 0;
-			if(tileY >= world.sizeY) tileY = world.sizeY-1;
-			if(tileY < 0) tileY = 0;
-		
-			world.tiles[tileX][tileY].hitpoints-=2;// = new Empty(tileX,tileY,false);
-		}
-	}
-	
-	public void emptySecondary(World world) {
-		if(world.game.mouse.holdR) {
-			int tileX = (int) ((world.game.mouseMotion.x+world.CameraOffX)/8);
-			int tileY = (int) ((world.game.mouseMotion.y+world.CameraOffY)/8);
-			if(tileX >= world.sizeX) tileX = world.sizeX-1;
-			if(tileX < 0) tileX = 0;
-			if(tileY >= world.sizeY) tileY = world.sizeY-1;
-			if(tileY < 0) tileY = 0;
-		
-			world.bgTiles[tileX][tileY].hitpoints-=2;// = new Empty(tileX,tileY,false);
-		}
-	}
-	
 	public void moveLeft() {
 		if(standingOnGround || inWater) {
 			xVel=-1.00;

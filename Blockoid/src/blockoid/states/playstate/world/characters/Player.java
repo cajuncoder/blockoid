@@ -63,8 +63,10 @@ public class Player extends Character {
 		PlayState ps = (PlayState)game.gameState;
 		if(ps.gui.selectedInventory==null && rightHandItem==null) {
 			if(ps.gui.grabbedItem==null) {
-				emptyPrimary(world);
-				emptySecondary(world);
+				if(world.game.mouse.holdL)
+					emptyPrimary(world);
+				if(world.game.mouse.holdR) 
+					emptySecondary(world);
 			}
 		}
 		if(inventoryOpen == false && rightHandItem!=null) {
@@ -87,5 +89,28 @@ public class Player extends Character {
 				ps.gui.addInventory(inventory);
 			}
 		}
+	}
+	
+	////Empty Hand////
+	public void emptyPrimary(World world) {
+		int tileX = (int) ((world.game.mouseMotion.x+world.CameraOffX)/8);
+		int tileY = (int) ((world.game.mouseMotion.y+world.CameraOffY)/8);
+		if(tileX >= world.sizeX) tileX = world.sizeX-1;
+		if(tileX < 0) tileX = 0;
+		if(tileY >= world.sizeY) tileY = world.sizeY-1;
+		if(tileY < 0) tileY = 0;
+	
+		world.tiles[tileX][tileY].hitpoints-=2;// = new Empty(tileX,tileY,false);
+	}
+	
+	public void emptySecondary(World world) {
+		int tileX = (int) ((world.game.mouseMotion.x+world.CameraOffX)/8);
+		int tileY = (int) ((world.game.mouseMotion.y+world.CameraOffY)/8);
+		if(tileX >= world.sizeX) tileX = world.sizeX-1;
+		if(tileX < 0) tileX = 0;
+		if(tileY >= world.sizeY) tileY = world.sizeY-1;
+		if(tileY < 0) tileY = 0;
+	
+		world.bgTiles[tileX][tileY].hitpoints-=2;// = new Empty(tileX,tileY,false);
 	}
 }
