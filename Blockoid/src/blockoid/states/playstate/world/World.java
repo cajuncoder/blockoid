@@ -15,6 +15,7 @@ import blockoid.Assets;
 import blockoid.Game;
 import blockoid.graphics.SpriteSheet;
 import blockoid.states.playstate.world.characters.Creature;
+import blockoid.states.playstate.world.biomes.*;
 import blockoid.states.playstate.world.characters.Player;
 import blockoid.states.playstate.world.items.*;
 import blockoid.states.playstate.world.objects.GameObject;
@@ -23,6 +24,7 @@ import blockoid.states.playstate.world.tiles.DesertGrass;
 import blockoid.states.playstate.world.tiles.Dirt;
 import blockoid.states.playstate.world.tiles.Empty;
 import blockoid.states.playstate.world.tiles.Grass;
+import blockoid.states.playstate.world.tiles.Stone;
 import blockoid.states.playstate.world.objects.OakTree;
 import blockoid.states.playstate.world.tiles.Tile;
 import blockoid.states.playstate.world.objects.PalmTree;
@@ -55,7 +57,7 @@ public class World {
 	public int CameraOffX = 0;
 	public int CameraOffY = 0;
 	public Game game;
-	public int sizeX = 512;
+	public int sizeX = 512*2;
 	public int sizeY = 512;
 	public static int TILE_SIZE = 8;
 	public Tile[][] bgTiles = new Tile[sizeX][sizeY];
@@ -69,79 +71,36 @@ public class World {
 	public int minute = 0;
 	public int hour = 11;
 	public int[] lightLevels = {2,2,3,4,5,6,7,7,7,7,7,7,7,7,7,7,7,7,7,6,5,4,3,2};
+	public Biome[] biomes;
 	
 	//public Image tilebg = new ImageIcon("res/gfx/tiles/tilebg.png").getImage();
 	public SpriteSheet tilebg = Assets.getSpriteSheet("tiles/tilebg", 10, 10);
 	public BufferedImage worldbg = Assets.getImage("bg/forebackground");
 	public BufferedImage worldbg2 = Assets.getImage("bg/backbackground");
-	public Star[] stars = new Star[64];
 	public CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<GameObject>();
 	public CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<Item>();
 	
+	Background background;
 	public Player player = new Player();
 	//public ArrayList<Object> liquidTiles = new ArrayList<Object>();
 	public ArrayList<Creature> creatures = new ArrayList<Creature>();
 	
 	public World(Game game) {
 		this.game = game;
-		for(int i = 0; i < 64; i++) {
-			stars[i] = new Star(game);
-		}
+		background = new Background(this);
 		
-		int stackHeight = sizeY/2;
-		int slope = 7;
-		int roughness = 5;
-		Random r = new Random();
-		int previousLow = stackHeight;
+		int nOfBiomes = sizeX/Biome.BIOME_SIZE;
 		
-		for(int x = 0; x < sizeX; x++) {
-			
-			//Slopes
-			if(stackHeight + slope > stackHeight) stackHeight-= r.nextInt(roughness);
-			if(stackHeight + slope < stackHeight) stackHeight+= r.nextInt(roughness);
-			if(slope >= 0 && stackHeight <= previousLow+slope){
-				previousLow = stackHeight;
-				slope = r.nextInt(32)-16;
-				if(slope==0) slope = 1;
-				roughness = r.nextInt(1)+1;
-			}
-			if(slope < 0 && stackHeight >= previousLow+slope){
-				previousLow = stackHeight;
-				slope = r.nextInt(24)-12;
-				if(slope==0) slope=1;
-				roughness = r.nextInt(4)+1;
-			}
-			if(stackHeight + slope > sizeY-64) {
-				slope = +12;
-				previousLow = stackHeight;
-			}
-			if(stackHeight + slope < 64) {
-				slope = -12;
-				previousLow = stackHeight;
-			}
-			
-			for(int y = 0; y < sizeY; y++) {
-				
-				if(y > stackHeight) {
-					tiles[x][y] = new Dirt(x, y, false);
-					bgTiles[x][y] = new Dirt(x, y, true);
-				}
-				if(y == stackHeight) {
-					tiles[x][y] = new Grass(x, y, false);
-					bgTiles[x][y] = new Dirt(x, y, true);
-					int plantTree = r.nextInt(10);
-					if(plantTree == 0) objects.add(new OakTree(bgTiles[x][y]));
-				}
-				if(y < stackHeight) {
-					tiles[x][y] = new Empty(x, y, false);
-					bgTiles[x][y] = new Empty(x, y, true);
-				}
-			}
+		biomes = new Biome[nOfBiomes];
+		for(int i = 0; i < nOfBiomes; i++) {
+			Random r = new Random();
+			int biomeType = r.nextInt(4);
+			if(biomeType == 0) biomes[i] = new PlainsBiome(this, i);
+			if(biomeType == 1) biomes[i] = new DesertBiome(this, i);
+			if(biomeType == 2) biomes[i] = new MountainBiome(this, i);
+			if(biomeType == 3) biomes[i] = new ForestBiome(this, i);
+			if(biomeType == 4) System.out.println("BIOME NULL");
 		}
-		//for(int y = 0; y < sizeY; y++) {
-			//tiles[0][y] = new Desert(0, y, false);
-			//tiles[sizeX-1][y] = new Desert(sizeX-1, y, false);
-		//}
 		
 		////////// PLAYER --- TEMPORARY //////////
 		player.place(((sizeX/2)*8)+4, getSurface(sizeX/2)*8);
@@ -176,7 +135,6 @@ public class World {
 			}
 		}
 		
-		player.update(game, this);
 		for(Item i: items) {
 			i.update(this);
 		}
@@ -185,8 +143,16 @@ public class World {
 			creature.update(game, this);
 		}
 		
-		CameraOffX = player.dx - game.width/2;
-		CameraOffY = player.dy - game.height/2 - (game.height/8);
+		for(GameObject o: objects) {
+			o.update(this);
+		}
+		
+		if(player!=null) {
+			player.update(game, this);
+			CameraOffX = Math.round(player.dx - game.width/2);
+			CameraOffY = Math.round(player.dy - game.height/2 - (game.height/8));
+		}
+		
 		if(CameraOffX < 0) CameraOffX = 0;
 		if(CameraOffX > (sizeX*TILE_SIZE) - game.width) CameraOffX = (sizeX*TILE_SIZE) - game.width;
 		if(CameraOffY < 0) CameraOffY = 0;
@@ -212,38 +178,7 @@ public class World {
 		if(renderEndX >= sizeX) renderEndX = sizeX;
 		if(renderEndY >= sizeY) renderEndY = sizeY;
 		
-		//int lightRenderStartX = renderStartX -15;
-		//int lightRenderStartY = renderStartY -15;
-		//int lightRenderEndX = renderEndX +15;
-		//int lightRenderEndY = renderEndY +15;
-		
-		//if(lightRenderStartX < 0) lightRenderStartX = 0;
-		//if(lightRenderStartY < 0) lightRenderStartY = 0;
-		//if(lightRenderEndX >= sizeX) lightRenderEndX = sizeX;
-		//if(lightRenderEndY >= sizeY) lightRenderEndY = sizeY;
-		
-		// Background //
-		
-		if(sunlightLevel < 5) {
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, game.width, game.height);
-			for(int i = 0; i < 64; i++) {
-				stars[i].draw(g);
-			}
-		}
-		int lightLevel = (-256+128) + ((sunlightLevel+1)*48)-1;
-		if(lightLevel < 0) lightLevel = 0;
-		if(hour > 12 && sunlightLevel < 7) {
-			g.setColor(new Color(255,255-32,255-16,lightLevel));
-		}else if(hour <= 12 && sunlightLevel < 7) {
-			g.setColor(new Color(255,255,255-32,lightLevel));
-		}else{
-			g.setColor(new Color(255-64,255-32,255,lightLevel));
-		}
-		g.fillRect(0, 0, game.width, game.height);
-
-		//g.drawImage(worldbg2, 0, game.height/3, null);
-		//g.drawImage(worldbg, 0, game.height/3, null);
+		background.draw(g);
 		
 		//Outlines
 		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
@@ -308,16 +243,24 @@ public class World {
 	
 	public int getSurface(int x) {
 		for(int y = sizeY-1; y > 0; y--) {
-			if(!tiles[x][y].solid && !bgTiles[x][y].solid) {
-				return tiles[x][y].yIndex;
+			if(tiles[x][y] != null && !tiles[x][y].solid && !bgTiles[x][y].solid) {
+				return tiles[x][y].yIndex+1;
 			}
 		}
 		return 0;
 	}
 	
-	public void addItem(Item item, int x, int y) {
+	public synchronized void addItem(Item item, int x, int y) {
 		item.x = x;
 		item.y = y;
 		items.add(item);
+	}
+	
+	public synchronized void addObject(GameObject object, Tile tile) {
+		
+	}
+	
+	public synchronized void removeObject(GameObject object) {
+		objects.remove(object);
 	}
 }

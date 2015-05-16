@@ -2,6 +2,7 @@ package blockoid.states.playstate.world.tiles;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.lang.reflect.Constructor;
 
 import blockoid.Assets;
 import blockoid.Audio;
@@ -136,6 +137,21 @@ public abstract class Tile {
 		}
 		if(lightLevel < 0) lightLevel = 0;
 		//if(inTheSun && world.sunlightLevel > lightLevel) lightLevel = world.sunlightLevel;
+	}
+	
+	
+	public Tile newInstance(int xIndex, int yIndex, boolean isBackgroundTile) {
+
+			Object instance = null;
+			Class<?> clazz = this.getClass();
+			try {
+				Constructor<?> constructor = clazz.getConstructor(
+						int.class, int.class, boolean.class);
+				instance = constructor.newInstance(xIndex, yIndex, isBackgroundTile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return (Tile) instance;
 	}
 	
 	public void draw(Graphics2D g, int OffX, int OffY) {

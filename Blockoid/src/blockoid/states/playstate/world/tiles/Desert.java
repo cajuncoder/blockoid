@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 import blockoid.Assets;
 import blockoid.graphics.SpriteSheet;
+import blockoid.states.playstate.world.World;
 
 public class Desert extends Tile {
 
@@ -16,6 +17,15 @@ public class Desert extends Tile {
 		super.solid = true;
 	}
 
+	public void update(World world) {
+		if(yIndex-1 >= 0 && !isBackgroundTile) {
+			if(world.tiles[xIndex][yIndex-1].inTheSun) {
+				world.tiles[xIndex][yIndex] = new DesertGrass(xIndex,yIndex,false);
+			}
+		}
+		processHP(world);
+	}
+	
 	public void draw(Graphics2D g, int OffX, int OffY) {
 		sprite.drawSprite(x-OffX, y-OffY, 0, (int)Math.ceil(lightLevel), g);
 		drawDamageOverlay(g, OffX, OffY);

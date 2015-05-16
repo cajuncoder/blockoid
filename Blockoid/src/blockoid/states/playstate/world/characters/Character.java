@@ -76,6 +76,8 @@ abstract public class Character {
 	
 	public abstract void act(Game game, World world);
 	
+
+	
 	public void update(Game game, World world) {
 		if(oldYTile-1 > 0) {
 			lightLevel = (int) Math.ceil(world.tiles[oldXTile][oldYTile-1].lightLevel);
@@ -105,12 +107,6 @@ abstract public class Character {
 			frame = 0;
 		}
 		
-		standingOnGround = false;
-		if(inWater) {
-			xVel = xVel*0.66;
-			yVel = yVel*0.66;
-		}
-		
 		//Frame
 		if(frameCounter > 5) {
 			frameCounter = 0;
@@ -124,24 +120,28 @@ abstract public class Character {
 			if(animation==jumpLeft) animation = walkLeft;
 		}
 		
-
+		standingOnGround = false;
+		if(inWater) {
+			xVel = xVel*0.66;
+			yVel = yVel*0.66;
+		}
 		x+=xVel;
 		y+=yVel;
 		
-		dx = (int)x;
-		dy = (int)y;
+		//dx = (int)Math.round(x);
+		//dy = (int)Math.round(y);
 		checkCollision(world);
 		
 		oldX = x;
 		oldY = y;
 		oldFrameCounter = frameCounter;
-		dx = (int)x;
-		dy = (int)y;
+		dx = (int)Math.round(x);
+		dy = (int)Math.round(y);
 		if(standingOnGround) {timeOnGround+=1;} else {timeOnGround=0;}
 		
 		oldi = game.keyboard.i;
 	}
-	
+		
 	public void checkCollision(World world) {
 		if(world!=null) {
 			

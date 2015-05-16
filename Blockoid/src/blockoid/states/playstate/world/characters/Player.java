@@ -21,7 +21,7 @@ import blockoid.states.playstate.world.World;
 public class Player extends Character {	
 	public Player() {
 		super();
-		
+	
 		inventory.addItem(new PickAxe());
 		inventory.addItem(new DirtBlock(16));
 		inventory.addItem(new DirtBlock());
@@ -55,6 +55,9 @@ public class Player extends Character {
 			toolbeltIndex+=1;
 			if(toolbeltIndex > toolbelt.slots.length-1) toolbeltIndex = 0;
 		}
+		for (int i = 1; i < 10; i++) {
+			if (game.keyboard.num[i]) toolbeltIndex = i-1;
+		}
 		rightHandItem = toolbelt.slots[toolbeltIndex][0].item;
 		
 		PlayState ps = (PlayState)game.gameState;
@@ -84,6 +87,5 @@ public class Player extends Character {
 				ps.gui.addInventory(inventory);
 			}
 		}
-	}	
-
+	}
 }
