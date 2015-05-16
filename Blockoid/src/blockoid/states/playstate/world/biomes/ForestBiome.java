@@ -12,6 +12,7 @@ public class ForestBiome extends Biome {
 		this.top = new Dirt(0,0,false);
 		this.roughnessVariance = 2;
 		this.slopeVariance = 6;
+		this.smoothness = 2;
 		this.treeRarity = 3;
 		fill();
 	}

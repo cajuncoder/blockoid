@@ -130,7 +130,6 @@ public class World {
 			}
 		}
 		
-		player.update(game, this);
 		for(Item i: items) {
 			i.update(this);
 		}
@@ -139,8 +138,12 @@ public class World {
 			o.update(this);
 		}
 		
-		CameraOffX = Math.round(player.dx - game.width/2);
-		CameraOffY = Math.round(player.dy - game.height/2 - (game.height/8));
+		if(player!=null) {
+			player.update(game, this);
+			CameraOffX = Math.round(player.dx - game.width/2);
+			CameraOffY = Math.round(player.dy - game.height/2 - (game.height/8));
+		}
+		
 		if(CameraOffX < 0) CameraOffX = 0;
 		if(CameraOffX > (sizeX*TILE_SIZE) - game.width) CameraOffX = (sizeX*TILE_SIZE) - game.width;
 		if(CameraOffY < 0) CameraOffY = 0;

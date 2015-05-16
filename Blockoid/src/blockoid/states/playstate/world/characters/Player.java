@@ -200,15 +200,15 @@ public class Player {
 		x+=xVel;
 		y+=yVel;
 		
-		dx = (int)x;
-		dy = (int)y;
+		//dx = (int)Math.round(x);
+		//dy = (int)Math.round(y);
 		checkCollision(world);
 		
 		oldX = x;
 		oldY = y;
 		oldFrameCounter = frameCounter;
-		dx = (int)x;
-		dy = (int)y;
+		dx = (int)Math.round(x);
+		dy = (int)Math.round(y);
 		if(standingOnGround) {timeOnGround+=1;} else {timeOnGround=0;}
 		
 		oldi = game.keyboard.i;

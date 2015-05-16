@@ -15,6 +15,7 @@ public class DesertBiome extends Biome {
 		this.top = new Desert(0,0,false);
 		this.roughnessVariance = 1;
 		this.slopeVariance = 16;
+		this.smoothness = 4;
 		this.treeRarity = 20;
 		this.treeType = new PalmTree(null);
 		fill();
