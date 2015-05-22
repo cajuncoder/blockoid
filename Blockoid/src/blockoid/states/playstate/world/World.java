@@ -106,8 +106,8 @@ public class World {
 		////////// PLAYER --- TEMPORARY //////////
 		player.place(((sizeX/2)*8)+4, getSurface(sizeX/2)*8);
 		
-		creatures.add(new ItFollows());
-		creatures.get(0).place(((sizeX/2)*8)+4+5, getSurface(sizeX/2)*8+5);
+		//creatures.add(new ItFollows());
+		//creatures.get(0).place(((sizeX/2)*8)+4+5, getSurface(sizeX/2)*8+5);
 	}
 	
 	public void update() {
