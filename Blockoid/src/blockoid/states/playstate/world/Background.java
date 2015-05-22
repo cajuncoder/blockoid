@@ -3,6 +3,9 @@ package blockoid.states.playstate.world;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import blockoid.Assets;
+import blockoid.graphics.SpriteSheet;
+
 public class Background {
 
 	private World world;
@@ -11,15 +14,27 @@ public class Background {
 	Color base1 = new Color(169-16,222-16,193-16);
 	Color base2 = new Color(109,201,180);
 	Star[] stars = new Star[64];
+	SpriteSheet bgTile = Assets.getSpriteSheet("bg/backgroundTile2", 64, 128);
+	SpriteSheet tile = Assets.getSpriteSheet("bg/foregroundTile2", 128, 128);
+	SpriteSheet[] foreground;
+	SpriteSheet[] background;
 	
 	public Background(World world) {
 		this.world = world;
 		for(int i = 0; i < stars.length; i++) {
 			stars[i] = new Star(world.game);
 		}
+		foreground = new SpriteSheet[(((world.sizeX*8) + (world.game.width*4))/tile.spriteSizeX)/2];
+		background = new SpriteSheet[(((world.sizeX*8) + (world.game.width*6))/bgTile.spriteSizeX)/3];
+		for(int i = 0; i < foreground.length; i++) {
+			foreground[i] = tile;
+		}
+		for(int i = 0; i < background.length; i++) {
+			background[i] = bgTile;
+		}
 	}
 	
-	public void draw(Graphics2D g) {
+	public void draw(Graphics2D g, int CameraOffX, int CameraOffY) {
 		int lightLevel = world.sunlightLevel;
 		//Atmosphere
 		int x = 0;
@@ -31,12 +46,12 @@ public class Background {
 		
 		int interval = 255/7;
 		Color clr = modify(atmosphere, -(7-lightLevel)*interval, -(7-lightLevel)*interval, -(7-lightLevel)*interval);
-		for(int i = 5; i >= 0; i--) {
+		for(int i = 4; i >= 0; i--) {
 			
 			int dy = i*(world.game.height/10);
 			int dx = 0;
-			ySize = world.game.height/9;
-			if(i==5) ySize = ySize + world.game.height/2;
+			ySize = world.game.height/8;
+			if(i==4) ySize = ySize + world.game.height/2;
 			xSize = world.game.width;
 			g.setColor(clr);
 			g.fillRect(dx, dy, xSize, ySize);
@@ -70,6 +85,18 @@ public class Background {
 		
 		//g.setColor(new Color(0,0,0,bound((7-lightLevel)*interval,0,255)));
 		//g.fillRect(0, 0, world.game.width, world.game.height);
+		int foreOffX = CameraOffX/2;
+		int backOffX = CameraOffX/3;
+
+		for(int i = 0; i < background.length; i++) {
+			background[i].drawSprite((i*background[i].spriteSizeX)-backOffX, world.game.height/3, 0, world.sunlightLevel, g);
+		}
+		for(int i = 0; i < foreground.length; i++) {
+			foreground[i].drawSprite((i*foreground[i].spriteSizeX)-foreOffX, world.game.height/3, 0, world.sunlightLevel, g);
+		}
+		Color color = new Color(foreground[0].sheets[world.sunlightLevel].getRGB(127, 127), true);
+		g.setColor(color);
+		g.fillRect(0, world.game.height/3+tile.spriteSizeY, world.game.width, world.game.height/3);
 	}
 	
 	

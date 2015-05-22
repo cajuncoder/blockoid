@@ -21,9 +21,12 @@ public class Grass extends Tile {
 	}
 	
 	public void update(World world) {
-		if(yIndex-1 >= 0 && !isBackgroundTile) {
-			if(!world.tiles[xIndex][yIndex-1].getClass().equals(Empty.class)) {
+		if(yIndex-1 >= 0) {
+			if(!world.tiles[xIndex][yIndex-1].getClass().equals(Empty.class) && !isBackgroundTile) {
 				world.tiles[xIndex][yIndex] = new Dirt(xIndex,yIndex,false);
+			}
+			if(!world.bgTiles[xIndex][yIndex-1].getClass().equals(Empty.class) && isBackgroundTile) {
+				world.bgTiles[xIndex][yIndex] = new Dirt(xIndex,yIndex,true);
 			}
 		}
 		processHP(world);

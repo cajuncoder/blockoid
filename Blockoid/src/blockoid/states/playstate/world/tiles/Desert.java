@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import blockoid.Assets;
 import blockoid.graphics.SpriteSheet;
 import blockoid.states.playstate.world.World;
+import blockoid.states.playstate.world.items.DesertBlock;
+import blockoid.states.playstate.world.items.DirtBlock;
 
 public class Desert extends Tile {
 
@@ -15,12 +17,15 @@ public class Desert extends Tile {
 		super.hitpool = 4;
 		super.hitpoints = hitpool;
 		super.solid = true;
+		super.itemDrop = new DesertBlock();
+		super.breakSound = Assets.getAudio("breakDirt");
 	}
 
 	public void update(World world) {
-		if(yIndex-1 >= 0 && !isBackgroundTile) {
+		if(yIndex-1 >= 0) {
 			if(world.tiles[xIndex][yIndex-1].inTheSun) {
-				world.tiles[xIndex][yIndex] = new DesertGrass(xIndex,yIndex,false);
+				if(!isBackgroundTile) world.tiles[xIndex][yIndex] = new DesertGrass(xIndex,yIndex,false);
+				if(isBackgroundTile) world.bgTiles[xIndex][yIndex] = new DesertGrass(xIndex,yIndex,true);
 			}
 		}
 		processHP(world);

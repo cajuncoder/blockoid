@@ -181,7 +181,7 @@ public class World {
 		if(renderEndX >= sizeX) renderEndX = sizeX;
 		if(renderEndY >= sizeY) renderEndY = sizeY;
 		
-		background.draw(g);
+		background.draw(g, CameraOffX, CameraOffY);
 		
 		//Outlines
 		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {

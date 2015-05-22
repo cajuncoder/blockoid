@@ -21,9 +21,10 @@ public class Dirt extends Tile {
 	}
 
 	public void update(World world) {
-		if(yIndex-1 >= 0 && !isBackgroundTile) {
+		if(yIndex-1 >= 0) {
 			if(world.tiles[xIndex][yIndex-1].inTheSun) {
-				world.tiles[xIndex][yIndex] = new Grass(xIndex,yIndex,false);
+				if(!isBackgroundTile) world.tiles[xIndex][yIndex] = new Grass(xIndex,yIndex,false);
+				if(isBackgroundTile) world.bgTiles[xIndex][yIndex] = new Grass(xIndex,yIndex,true);
 			}
 		}
 		processHP(world);

@@ -7,6 +7,7 @@ import blockoid.Assets;
 import blockoid.graphics.SpriteSheet;
 import blockoid.states.playstate.world.World;
 import blockoid.states.playstate.world.items.DirtBlock;
+import blockoid.states.playstate.world.items.StoneBlock;
 
 public class Stone extends Tile {
 
@@ -16,7 +17,7 @@ public class Stone extends Tile {
 		super.hitpool = 8;
 		super.hitpoints = hitpool;
 		super.solid = true;
-		//super.itemDrop = new DirtBlock();
+		super.itemDrop = new StoneBlock();
 		super.breakSound = Assets.getAudio("breakDirt");
 	}
 

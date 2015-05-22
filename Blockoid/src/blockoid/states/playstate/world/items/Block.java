@@ -18,14 +18,19 @@ public abstract class Block extends Item {
 	public Block(int numInStack) {
 		super();
 		stackable = true;
-		name = "Dirt Block";
-		inventorySprite = Assets.getSpriteSheet("tiles/dirt", Tile.TILE_SIZE, Tile.TILE_SIZE);
+		//name = "Dirt Block";
+		//inventorySprite = Assets.getSpriteSheet("tiles/dirt", Tile.TILE_SIZE, Tile.TILE_SIZE);
 		this.numInStack = numInStack;
 	}
 	
 	public Item getNewInstance() {
-		Item result = new DirtBlock();
+		Item result = null;
 		return result;
+	}
+	
+	public Tile getNewTileInstance(int tileX, int tileY, boolean bgTile) {
+		Tile tile = null;
+		return tile;
 	}
 	
 	public void processPrimary(World world) {
@@ -38,7 +43,7 @@ public abstract class Block extends Item {
 			if(tileY < 0) tileY = 0;
 		
 			if(!world.tiles[tileX][tileY].solid) {
-				world.tiles[tileX][tileY] = new Dirt(tileX,tileY,false);
+				world.tiles[tileX][tileY] = getNewTileInstance(tileX,tileY,false);
 				if(numInStack > 1) {
 					numInStack-=1;
 				}else{
@@ -59,7 +64,7 @@ public abstract class Block extends Item {
 			if(tileY < 0) tileY = 0;
 		
 			if(!world.bgTiles[tileX][tileY].solid) {
-				world.bgTiles[tileX][tileY] = new Dirt(tileX,tileY,true);
+				world.bgTiles[tileX][tileY] = getNewTileInstance(tileX,tileY,true);
 				if(numInStack > 1) {
 					numInStack-=1;
 				}else{
