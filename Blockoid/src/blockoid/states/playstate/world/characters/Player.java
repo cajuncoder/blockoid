@@ -12,6 +12,7 @@ import blockoid.graphics.SpriteSheet;
 import blockoid.states.GameState;
 import blockoid.states.playstate.PlayState;
 import blockoid.states.playstate.world.items.*;
+import blockoid.states.playstate.world.objects.GameObject;
 import blockoid.states.playstate.world.tiles.Dirt;
 import blockoid.states.playstate.world.tiles.Empty;
 import blockoid.states.playstate.world.tiles.Tile;
@@ -19,9 +20,15 @@ import blockoid.states.playstate.world.tiles.Water;
 import blockoid.states.playstate.world.World;
 
 public class Player extends Character {	
+	
+	public boolean inventoryOpen = false;
+	public Inventory toolbelt;
+	public int toolbeltIndex = 0;
+	public GameObject selectedObject = null;
+	
 	public Player() {
 		super();
-	
+		toolbelt = new ToolBelt("Tool Belt");
 		inventory.addItem(new PickAxe());
 		inventory.addItem(new DirtBlock(16));
 		inventory.addItem(new DirtBlock());
@@ -32,6 +39,7 @@ public class Player extends Character {
 		inventory.addItem(new DirtBlock());
 	}
 	
+	boolean oldSpace = false;
 	public void act(Game game, World world) {
 		//Controls
 		if(game.keyboard.right){
@@ -41,9 +49,10 @@ public class Player extends Character {
 			moveLeft();
 		}
 	
-		if(game.keyboard.space && timeOnGround>1 || game.keyboard.space && yVel < 0 && timeInAir < 14){
+		if(game.keyboard.space && !oldSpace && timeOnGround>1 || game.keyboard.space && yVel < 0 && timeInAir < 14){
 			jump();
 		}
+		oldSpace = game.keyboard.space;
 		
 		//Tool Belt
 		toolbelt.moveTo(game.width/2 - toolbelt.sizeX/2, game.height - toolbelt.sizeY-2);
@@ -58,9 +67,12 @@ public class Player extends Character {
 		for (int i = 1; i < 10; i++) {
 			if (game.keyboard.num[i]) toolbeltIndex = i-1;
 		}
+		if(game.keyboard.num[0]) toolbeltIndex = 9;
+		
 		rightHandItem = toolbelt.slots[toolbeltIndex][0].item;
 		
 		PlayState ps = (PlayState)game.gameState;
+		lastItemUse++;
 		if(ps.gui.selectedInventory==null && rightHandItem==null) {
 			if(ps.gui.grabbedItem==null) {
 				if(world.game.mouse.holdL)
@@ -92,18 +104,34 @@ public class Player extends Character {
 	}
 	
 	////Empty Hand////
-	public void emptyPrimary(World world) {
-		int tileX = (int) ((world.game.mouseMotion.x+world.CameraOffX)/8);
-		int tileY = (int) ((world.game.mouseMotion.y+world.CameraOffY)/8);
-		if(tileX >= world.sizeX) tileX = world.sizeX-1;
-		if(tileX < 0) tileX = 0;
-		if(tileY >= world.sizeY) tileY = world.sizeY-1;
-		if(tileY < 0) tileY = 0;
+	int lastItemUse = 0;
 	
-		world.tiles[tileX][tileY].hitpoints-=2;// = new Empty(tileX,tileY,false);
+	public void emptyPrimary(World world) {
+		//lastItemUse++;
+		if(lastItemUse>=15) {
+		if(selectedObject==null) {
+			int tileX = (int) ((world.game.mouseMotion.x+world.CameraOffX)/8);
+			int tileY = (int) ((world.game.mouseMotion.y+world.CameraOffY)/8);
+			if(tileX >= world.sizeX) tileX = world.sizeX-1;
+			if(tileX < 0) tileX = 0;
+			if(tileY >= world.sizeY) tileY = world.sizeY-1;
+			if(tileY < 0) tileY = 0;
+	
+			if(world.tiles[tileX][tileY].object!=null){
+			world.tiles[tileX][tileY].object.damage(1);
+			}else{world.tiles[tileX][tileY].damage(1);}
+		}
+		else {
+			selectedObject.damage(1);
+			//selectedObject.
+		}
+		lastItemUse = 0;
+		}
 	}
 	
 	public void emptySecondary(World world) {
+		
+		if(lastItemUse>=15) {
 		int tileX = (int) ((world.game.mouseMotion.x+world.CameraOffX)/8);
 		int tileY = (int) ((world.game.mouseMotion.y+world.CameraOffY)/8);
 		if(tileX >= world.sizeX) tileX = world.sizeX-1;
@@ -111,6 +139,11 @@ public class Player extends Character {
 		if(tileY >= world.sizeY) tileY = world.sizeY-1;
 		if(tileY < 0) tileY = 0;
 	
-		world.bgTiles[tileX][tileY].hitpoints-=2;// = new Empty(tileX,tileY,false);
+		if(world.bgTiles[tileX][tileY].object!=null){
+			world.bgTiles[tileX][tileY].object.damage(1);
+		}else{world.bgTiles[tileX][tileY].damage(1);}
+		
+		lastItemUse = 0;
+		}
 	}
 }

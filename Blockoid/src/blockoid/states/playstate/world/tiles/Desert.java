@@ -12,7 +12,7 @@ public class Desert extends Tile {
 	public Desert(int yIndex, int xIndex, boolean isBackgroundTile) {
 		super(yIndex, xIndex, isBackgroundTile);
 		super.sprite = Assets.getSpriteSheet("tiles/desert", Tile.TILE_SIZE, Tile.TILE_SIZE);
-		super.hitpool = 16;
+		super.hitpool = 4;
 		super.hitpoints = hitpool;
 		super.solid = true;
 	}

@@ -144,11 +144,13 @@ public class World {
 			creature.update(game, this);
 		}
 		
+		if(player!=null) player.selectedObject=null;
 		for(GameObject o: objects) {
 			o.update(this);
 		}
 		
 		if(player!=null) {
+			if(player.selectedObject!=null) player.selectedObject.selected=true;
 			player.update(game, this);
 			CameraOffX = Math.round(player.dx - game.width/2);
 			CameraOffY = Math.round(player.dy - game.height/2 - (game.height/8));
@@ -170,9 +172,9 @@ public class World {
 	public void draw(Graphics2D g) {
 		
 		renderStartX = CameraOffX/8 -3;
-		renderStartY = CameraOffY/8 -3;
+		renderStartY = CameraOffY/8 -1;
 		renderEndX = (CameraOffX/8)+(game.width/8)+4;
-		renderEndY = (CameraOffY/8)+(game.height/8)+4;
+		renderEndY = (CameraOffY/8)+(game.height/8)+12;
 		
 		if(renderStartX < 0) renderStartX = 0;
 		if(renderStartY < 0) renderStartY = 0;
@@ -200,13 +202,14 @@ public class World {
 					bgTiles[x][y].draw(g, CameraOffX, CameraOffY);
 					g.fillRect(tiles[x][y].x-CameraOffX, tiles[x][y].y-CameraOffY, 8, 8);
 				}
+				if(bgTiles[x][y].object!=null) bgTiles[x][y].object.draw(g, CameraOffX, CameraOffY);
 			}
 		}
 		
 		// Game Objects //
-		for(GameObject o : objects) {
-			o.draw(g, CameraOffX, CameraOffY);
-		}
+		//for(GameObject o : objects) {
+		//	o.draw(g, CameraOffX, CameraOffY);
+		//}
 		
 		// Foreground //
 		//Outlines
@@ -226,6 +229,7 @@ public class World {
 		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
 			for(int x = renderStartX; x < sizeX && x < renderEndX; x++) {
 				tiles[x][y].draw(g, CameraOffX, CameraOffY);
+				if(tiles[x][y].object!=null) tiles[x][y].object.draw(g, CameraOffX, CameraOffY);
 			}
 		}
 		
@@ -262,6 +266,8 @@ public class World {
 	}
 	
 	public synchronized void removeObject(GameObject object) {
+		//if(player!=null && player.selectedObject.equals(object)) player.selectedObject = null;
+		if(object.tile.object!=null) object.tile.object=null;
 		objects.remove(object);
 	}
 }

@@ -11,7 +11,7 @@ public class DesertGrass extends Tile {
 	public DesertGrass(int yIndex, int xIndex, boolean isBackgroundTile) {
 		super(yIndex, xIndex, isBackgroundTile);
 		super.sprite = Assets.getSpriteSheet("tiles/desertGrass", Tile.TILE_SIZE, Tile.TILE_SIZE); 
-		super.hitpool = 16;
+		super.hitpool = 4;
 		super.hitpoints = hitpool;
 		super.solid = true;
 	}

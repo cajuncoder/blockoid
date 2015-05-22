@@ -34,8 +34,8 @@ public class SpriteSheet implements Serializable {
 		this.spriteSizeY = spriteSizeY;
 		this.sheet = sheet;
 		
-		sheets = new BufferedImage[8];
-		for(int i = 0; i < 8; i++) {
+		sheets = new BufferedImage[9];
+		for(int i = 0; i < 9; i++) {
 			sheets[i] = tint(sheet,i);
 		}
 		sheetWidth = sheet.getWidth(null);

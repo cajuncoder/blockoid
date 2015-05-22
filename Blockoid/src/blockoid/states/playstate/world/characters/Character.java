@@ -21,13 +21,11 @@ import blockoid.states.playstate.world.World;
 abstract public class Character {
 	protected static int inventoryWidth = 8;
 	protected static int inventoryHeight = 4;
-	protected static int toolbeltWidth = 12;
-	protected static int toolbeltHeight = 1;
-	
+	//protected static int toolbeltWidth = 12;
+	//protected static int toolbeltHeight = 1;
 	String name;
 	public SpriteSheet sprite;
 	public Inventory inventory;
-	public Inventory toolbelt;
 	public int dx = 0;
 	public int dy = 0;
 	public double x = 0;
@@ -41,7 +39,6 @@ abstract public class Character {
 	public double yVel = 0;
 	public int jumpVel = 0;
 	public int jumpCounter = 0;
-	public boolean inventoryOpen = false;
 	protected boolean standingOnGround = false;
 	public boolean inWater = false;
 	protected int timeOnGround = 0;
@@ -60,12 +57,11 @@ abstract public class Character {
 	public int[] jumpLeft = {5};
 	Audio jump = Assets.getAudio("jump");
 	public Item rightHandItem = null;
-	public int toolbeltIndex = 0;
 	int lightLevel = 0;
 	
 	public Character() {
 		inventory = new Inventory("Inventory",inventoryWidth,inventoryHeight);
-		toolbelt = new ToolBelt("Tool Belt", toolbeltWidth, toolbeltHeight);
+		
 		name = "Ogg";
 		hitpool = 3;
 		hitpoints = hitpool;
@@ -326,13 +322,13 @@ abstract public class Character {
 	
 	public void jump() {
 		if(timeOnGround>1 || yVel < 0 && timeInAir < 14){
-			yVel = -1.9;
+			yVel = -2.0;
 			//jump.play(false);
 		}
 		
 		if (inWater){
 			//jumpVel = 4;
-			yVel = -1.9;
+			yVel = -2.0;
 			//jump.play(false);
 		}
 	}

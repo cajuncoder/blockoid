@@ -9,6 +9,7 @@ import blockoid.Audio;
 import blockoid.graphics.SpriteSheet;
 import blockoid.states.playstate.world.World;
 import blockoid.states.playstate.world.items.Item;
+import blockoid.states.playstate.world.objects.GameObject;
 
 public abstract class Tile {
 
@@ -29,6 +30,7 @@ public abstract class Tile {
 	public int hitpoints = 0;
 	public Item itemDrop = null;
 	public Audio breakSound = null;
+	public GameObject object = null;
 	
 	public Tile(int xIndex, int yIndex, boolean isBackgroundTile) {
 		this.isBackgroundTile = isBackgroundTile;
@@ -44,8 +46,10 @@ public abstract class Tile {
 		processHP(world);
 	}
 	
+	int healCounter = 0;
 	public void processHP(World world) {
 		if(hitpool > 0) {
+			healCounter++;
 			if(hitpoints <= 0) {
 				if(itemDrop!=null)world.addItem(itemDrop.getNewInstance(), x+4, y);
 				Tile replacement = new Empty(xIndex,yIndex,isBackgroundTile);
@@ -59,10 +63,16 @@ public abstract class Tile {
 					if(breakSound!=null) breakSound.play(false);
 				}
 			}
-			if(hitpoints>0 && hitpoints < hitpool) {
+			if(hitpoints>0 && hitpoints < hitpool  && healCounter >= 60) {
 				hitpoints++;
+				healCounter=0;
 			}
 		}
+	}
+	
+	public void damage(int value) {
+		healCounter=0;
+		hitpoints-=value;
 	}
 	
 	public void getLight(World world) {

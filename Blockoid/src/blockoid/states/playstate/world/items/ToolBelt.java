@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 
 public class ToolBelt extends Inventory {
 
-	public ToolBelt(String str, int i, int ii) {
-		super("",i,ii); // ii -- REALLY???
+	public ToolBelt(String str) {
+		super("",10,1); // ii -- REALLY???
 		padding = 1;
 		this.title = title;
 		this.nOfTilesX = nOfTilesX;

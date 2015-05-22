@@ -14,6 +14,8 @@ public class Water extends Tile {
 	
 	public Water(int yIndex, int xIndex) {
 		super(yIndex, xIndex, false);
+		super.hitpool = 1;
+		super.hitpoints = hitpool;
 		sprite = null;
 		solid = false;
 	}

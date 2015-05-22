@@ -13,7 +13,7 @@ public class Grass extends Tile {
 	public Grass(int yIndex, int xIndex, boolean isBackgroundTile) {
 		super(yIndex, xIndex, isBackgroundTile);
 		super.sprite = Assets.getSpriteSheet("tiles/grass", Tile.TILE_SIZE, Tile.TILE_SIZE);
-		super.hitpool = 32;
+		super.hitpool = 4;
 		super.hitpoints = hitpool;
 		super.solid = true;
 		super.itemDrop = new DirtBlock();

@@ -13,7 +13,7 @@ public class Stone extends Tile {
 	public Stone(int yIndex, int xIndex, boolean isBackgroundTile) {
 		super(yIndex, xIndex, isBackgroundTile);
 		super.sprite = Assets.getSpriteSheet("tiles/stone", Tile.TILE_SIZE, Tile.TILE_SIZE);
-		super.hitpool = 64;
+		super.hitpool = 8;
 		super.hitpoints = hitpool;
 		super.solid = true;
 		//super.itemDrop = new DirtBlock();
