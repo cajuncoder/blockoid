@@ -103,6 +103,7 @@ public abstract class GameObject {
 	}
 	
 	public void remove(World world) {
+		this.tile.object = null;
 		if(dropItem!=null) {
 			Item item = dropItem.getNewInstance();
 			item.x = dx;
