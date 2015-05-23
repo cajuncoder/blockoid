@@ -76,31 +76,32 @@ public class SpriteSheet implements Serializable {
 		//BufferedImage result = new BufferedImage(img.getWidth(), img.getHeight(),
 		//        BufferedImage.TRANSLUCENT);
 		BufferedImage result = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		int[] multiples = {4, 12, 21, 30, 42, 56, 75, 100, 133};
+		
 		//shade = 8-shade;
 		for (int x = 0; x < img.getWidth(); x++) {
 	        for (int y = 0; y < img.getHeight(); y++) {
 	            //Color color = new Color(img.getRGB(x, y));
 	            Color color = new Color(img.getRGB(x, y), true);
 
-	            // do something with the color :) (change the hue, saturation and/or brightness)
-	             //float[] hsb = new float[3];
-	             //shade = 3;
-	            int redStep = color.getRed()/8;
-	            int blueStep = color.getBlue()/8;
-	            int greenStep = color.getGreen()/8;
-	             int red = cap(redStep*(shade+1),0,255);
-	             int green = cap(greenStep*(shade+1),0,255);
-	             int blue = cap(blueStep*(shade+1),0,255);
-	             int alpha = color.getAlpha();
-	             //Color.RGBtoHSB(red, green, blue, hsb);
-	             color = new Color(red,green,blue,alpha);
+	            //int redStep = color.getRed()/8;
+	            //int blueStep = color.getBlue()/8;
+	            //int greenStep = color.getGreen()/8;
+	            //int red = cap(redStep*(shade+1),0,255);
+	            //int green = cap(greenStep*(shade+1),0,255);
+	            //int blue = cap(blueStep*(shade+1),0,255);
+	            //int alpha = color.getAlpha();
+	            
+	            int newRed = color.getRed()*multiples[shade]/100;
+	            int newGreen = color.getGreen()*multiples[shade]/100;
+	            int newBlue = color.getBlue()*multiples[shade]/100;
+	            int red = cap(newRed,0,255);
+	            int green = cap(newGreen,0,255);
+	            int blue = cap(newBlue,0,255);
+	            int alpha = color.getAlpha();
+	            color = new Color(red,green,blue,alpha);
 	             
-	            // or just call brighter to just tint it
-	            //Color brighter = color.darker();
-
-	             //color = color.darker();
 	            result.setRGB(x, y, color.getRGB());
-	             //result.setRGB(x, y, Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
 	             
 	        }
 	        

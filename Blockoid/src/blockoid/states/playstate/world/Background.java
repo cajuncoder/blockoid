@@ -13,9 +13,10 @@ public class Background {
 	//Color base1 = new Color(169,222,193);
 	Color base1 = new Color(169-16,222-16,193-16);
 	Color base2 = new Color(109,201,180);
-	Star[] stars = new Star[64];
+	int nOfStars = 96;
+	Star[] stars = new Star[nOfStars];
 	SpriteSheet bgTile = Assets.getSpriteSheet("bg/backgroundTile2", 64, 128);
-	SpriteSheet tile = Assets.getSpriteSheet("bg/foregroundTile2", 128, 128);
+	SpriteSheet tile = Assets.getSpriteSheet("bg/foregroundTile3", 128, 128);
 	SpriteSheet[] foreground;
 	SpriteSheet[] background;
 	
@@ -45,7 +46,8 @@ public class Background {
 		//g.fillRect(x, y, xSize, ySize);
 		
 		int interval = 255/7;
-		Color clr = modify(atmosphere, -(7-lightLevel)*interval, -(7-lightLevel)*interval, -(7-lightLevel)*interval);
+		//Color clr = modify(atmosphere, -(7-lightLevel)*interval, -(7-lightLevel)*interval, -(7-lightLevel)*interval);
+		Color clr = modify(atmosphere, lightLevel);
 		for(int i = 4; i >= 0; i--) {
 			
 			int dy = i*(world.game.height/10);
@@ -96,7 +98,7 @@ public class Background {
 		}
 		Color color = new Color(foreground[0].sheets[world.sunlightLevel].getRGB(127, 127), true);
 		g.setColor(color);
-		g.fillRect(0, world.game.height/3+tile.spriteSizeY, world.game.width, world.game.height/3);
+		g.fillRect(0, world.game.height/3+tile.spriteSizeY, world.game.width, world.game.height/2);
 	}
 	
 	
@@ -109,6 +111,21 @@ public class Background {
 		blue = bound(blue, 0, 255);
 		color = new Color(red, green, blue);
 		return color;
+	}
+	
+	private Color modify(Color color, int shade) {
+		int[] greenMultis = {4, 8, 18, 29, 42, 56, 80, 100, 133};
+		int[] blueMultis = {4, 8, 25, 36, 45, 59, 75, 100, 133};
+		int[] redMultis = {4, 8, 18, 29, 46, 72, 89, 100, 133};
+	            int newRed = color.getRed()*redMultis[shade]/100;
+	            int newGreen = color.getGreen()*greenMultis[shade]/100;
+	            int newBlue = color.getBlue()*blueMultis[shade]/100;
+	            int red = bound(newRed,0,255);
+	            int green = bound(newGreen,0,255);
+	            int blue = bound(newBlue,0,255);
+	            int alpha = color.getAlpha();
+	            Color newColor = new Color(red,green,blue,alpha);
+	            return newColor;
 	}
 	
 	private int bound(int value, int min, int max) {

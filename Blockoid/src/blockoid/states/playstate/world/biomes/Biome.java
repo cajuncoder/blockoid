@@ -13,7 +13,7 @@ import blockoid.states.playstate.world.tiles.Tile;
 
 public abstract class Biome {
 
-	public static int BIOME_SIZE = 64;
+	public static int BIOME_SIZE = 128;
 	public World world;
 	public int index;
 	public int startX;
