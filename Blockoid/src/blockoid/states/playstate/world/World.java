@@ -58,7 +58,7 @@ public class World {
 	public int CameraOffX = 0;
 	public int CameraOffY = 0;
 	public Game game;
-	public int sizeX = 512*8;
+	public int sizeX = 512*4;
 	public int sizeY = 512;
 	public static int TILE_SIZE = 8;
 	public Tile[][] bgTiles = new Tile[sizeX][sizeY];
@@ -181,7 +181,7 @@ public class World {
 		if(renderEndX >= sizeX) renderEndX = sizeX;
 		if(renderEndY >= sizeY) renderEndY = sizeY;
 		
-		background.draw(g, CameraOffX, CameraOffY);
+		if(background!=null) background.draw(g, CameraOffX, CameraOffY);
 		
 		//Outlines
 		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
