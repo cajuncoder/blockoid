@@ -25,8 +25,9 @@ public class Background {
 		for(int i = 0; i < stars.length; i++) {
 			stars[i] = new Star(world.game);
 		}
-		foreground = new SpriteSheet[(((world.sizeX*8) + (world.game.width*4))/tile.spriteSizeX)/2];
-		background = new SpriteSheet[(((world.sizeX*8) + (world.game.width*6))/bgTile.spriteSizeX)/3];
+		foreground = new SpriteSheet[(((world.sizeX*8) + (1024))/tile.spriteSizeX)/3];
+		//background = new SpriteSheet[(((world.sizeX*8) + (1024*2))/bgTile.spriteSizeX)/1];
+		background = new SpriteSheet[1024*2/bgTile.spriteSizeX];
 		for(int i = 0; i < foreground.length; i++) {
 			foreground[i] = tile;
 		}
@@ -87,18 +88,18 @@ public class Background {
 		
 		//g.setColor(new Color(0,0,0,bound((7-lightLevel)*interval,0,255)));
 		//g.fillRect(0, 0, world.game.width, world.game.height);
-		int foreOffX = CameraOffX/2;
-		int backOffX = CameraOffX/3;
+		int foreOffX = CameraOffX/3;
+		int backOffX = 0;//CameraOffX/4;
 
 		for(int i = 0; i < background.length; i++) {
-			background[i].drawSprite((i*background[i].spriteSizeX)-backOffX, world.game.height/3, 0, world.sunlightLevel, g);
+			background[i].drawSprite((i*background[i].spriteSizeX)-backOffX, world.game.height/2-48, 0, world.sunlightLevel, g);
 		}
 		for(int i = 0; i < foreground.length; i++) {
-			foreground[i].drawSprite((i*foreground[i].spriteSizeX)-foreOffX, world.game.height/3, 0, world.sunlightLevel, g);
+			foreground[i].drawSprite((i*foreground[i].spriteSizeX)-foreOffX, world.game.height/2-48, 0, world.sunlightLevel, g);
 		}
 		Color color = new Color(foreground[0].sheets[world.sunlightLevel].getRGB(127, 127), true);
 		g.setColor(color);
-		g.fillRect(0, world.game.height/3+tile.spriteSizeY, world.game.width, world.game.height/2);
+		g.fillRect(0, world.game.height/2+tile.spriteSizeY-48, world.game.width, world.game.height/2);
 	}
 	
 	
