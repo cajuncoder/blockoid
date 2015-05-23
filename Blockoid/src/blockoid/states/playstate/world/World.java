@@ -89,7 +89,7 @@ public class World {
 	public World(Game game) {
 		this.game = game;
 		background = new Background(this);
-		
+		//Adding a line
 		int nOfBiomes = sizeX/Biome.BIOME_SIZE;
 		
 		biomes = new Biome[nOfBiomes];
