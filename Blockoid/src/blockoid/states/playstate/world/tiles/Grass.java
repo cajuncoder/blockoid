@@ -7,6 +7,7 @@ import blockoid.Assets;
 import blockoid.graphics.SpriteSheet;
 import blockoid.states.playstate.world.World;
 import blockoid.states.playstate.world.items.DirtBlock;
+import blockoid.states.playstate.world.items.Item;
 
 public class Grass extends Tile {
 
@@ -16,8 +17,13 @@ public class Grass extends Tile {
 		super.hitpool = 4;
 		super.hitpoints = hitpool;
 		super.solid = true;
-		super.itemDrop = new DirtBlock();
+		//super.itemDrop = new DirtBlock();
 		super.breakSound = Assets.getAudio("breakDirt");
+	}
+	
+	public Item getItemDrop() {
+		Item item = new DirtBlock();
+		return item;
 	}
 	
 	public void update(World world) {

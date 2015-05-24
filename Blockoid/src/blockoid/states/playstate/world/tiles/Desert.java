@@ -8,6 +8,7 @@ import blockoid.graphics.SpriteSheet;
 import blockoid.states.playstate.world.World;
 import blockoid.states.playstate.world.items.DesertBlock;
 import blockoid.states.playstate.world.items.DirtBlock;
+import blockoid.states.playstate.world.items.Item;
 
 public class Desert extends Tile {
 
@@ -17,10 +18,15 @@ public class Desert extends Tile {
 		super.hitpool = 4;
 		super.hitpoints = hitpool;
 		super.solid = true;
-		super.itemDrop = new DesertBlock();
+		//super.itemDrop = new DesertBlock();
 		super.breakSound = Assets.getAudio("breakDirt");
 	}
 
+	public Item getItemDrop() {
+		Item item = new DesertBlock();
+		return item;
+	}
+	
 	public void update(World world) {
 		if(yIndex-1 >= 0) {
 			if(world.tiles[xIndex][yIndex-1].inTheSun) {

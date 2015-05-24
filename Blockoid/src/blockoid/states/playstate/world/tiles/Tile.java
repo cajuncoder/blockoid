@@ -28,7 +28,7 @@ public abstract class Tile {
 	public boolean isBackgroundTile = false;
 	public int hitpool = 0;
 	public int hitpoints = 0;
-	public Item itemDrop = null;
+	//public Item itemDrop = null;
 	public Audio breakSound = null;
 	public GameObject object = null;
 	
@@ -46,12 +46,17 @@ public abstract class Tile {
 		processHP(world);
 	}
 	
+	public Item getItemDrop() {
+		Item item = null;
+		return item;
+	}
+	
 	int healCounter = 0;
 	public void processHP(World world) {
 		if(hitpool > 0) {
 			healCounter++;
 			if(hitpoints <= 0) {
-				if(itemDrop!=null)world.addItem(itemDrop.getNewInstance(), x+4, y);
+				if(getItemDrop()!=null)world.addItem(getItemDrop().getNewInstance(), x+4, y);
 				Tile replacement = new Empty(xIndex,yIndex,isBackgroundTile);
 				replacement.lightLevel=this.lightLevel;
 				if(!isBackgroundTile) {
