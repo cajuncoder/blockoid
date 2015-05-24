@@ -13,6 +13,7 @@ public class Empty extends Tile {
 		solid = false;
 		lightLevel = 7;
 		density = 0.25;
+		this.damageOverlay=null;
 	}
 
 	public void draw(Graphics2D g, int OffX, int OffY) {

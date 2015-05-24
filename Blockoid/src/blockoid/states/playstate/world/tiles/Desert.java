@@ -25,7 +25,9 @@ public class Desert extends Tile {
 		if(yIndex-1 >= 0) {
 			if(world.tiles[xIndex][yIndex-1].inTheSun) {
 				if(!isBackgroundTile) world.tiles[xIndex][yIndex] = new DesertGrass(xIndex,yIndex,false);
-				if(isBackgroundTile) world.bgTiles[xIndex][yIndex] = new DesertGrass(xIndex,yIndex,true);
+				//If you uncomment the below line, GameObjects will break!
+				//...unless I happen to have fixed them!
+				//if(isBackgroundTile) world.bgTiles[xIndex][yIndex] = new DesertGrass(xIndex,yIndex,true);
 			}
 		}
 		processHP(world);

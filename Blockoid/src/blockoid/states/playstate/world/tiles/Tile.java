@@ -19,7 +19,7 @@ public abstract class Tile {
 	public int xIndex;
 	public int yIndex;
 	public SpriteSheet sprite;
-	public SpriteSheet lightMask;
+	//public SpriteSheet lightMask;
 	public SpriteSheet damageOverlay;
 	public double lightLevel = 0;
 	public double density = 0.9;
@@ -38,7 +38,7 @@ public abstract class Tile {
 		this.yIndex = yIndex;
 		this.x = xIndex*TILE_SIZE;
 		this.y = yIndex*TILE_SIZE;
-		this.lightMask = Assets.getSpriteSheet("tiles/lightMask", TILE_SIZE, TILE_SIZE);
+		//this.lightMask = Assets.getSpriteSheet("tiles/lightMask", TILE_SIZE, TILE_SIZE);
 		this.damageOverlay = Assets.getSpriteSheet("tiles/damageOverlay", TILE_SIZE, TILE_SIZE);
 	}
 	
@@ -180,7 +180,7 @@ public abstract class Tile {
 		}
 	}
 	
-	public void drawLightMask(Graphics2D g, int OffX, int OffY) {
-		lightMask.drawSprite(x-OffX, y-OffY, (int)Math.ceil(lightLevel), g);
-	}
+	//public void drawLightMask(Graphics2D g, int OffX, int OffY) {
+	//	lightMask.drawSprite(x-OffX, y-OffY, (int)Math.ceil(lightLevel), g);
+	//}
 }

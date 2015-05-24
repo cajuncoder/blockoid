@@ -58,8 +58,8 @@ public class World {
 	public int CameraOffX = 0;
 	public int CameraOffY = 0;
 	public Game game;
-	public int sizeX = 512*4;
-	public int sizeY = 512;
+	public int sizeX = 512*8;
+	public int sizeY = 512/2;
 	public static int TILE_SIZE = 8;
 	public Tile[][] bgTiles = new Tile[sizeX][sizeY];
 	public Tile[][] tiles = new Tile[sizeX][sizeY];
@@ -89,7 +89,7 @@ public class World {
 	public World(Game game) {
 		this.game = game;
 		background = new Background(this);
-		//Adding a line
+
 		int nOfBiomes = sizeX/Biome.BIOME_SIZE;
 		
 		biomes = new Biome[nOfBiomes];
@@ -121,18 +121,25 @@ public class World {
 			}
 		}
 		
+		if(player!=null) player.selectedObject=null;
+		
 		//Updates
 		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
 			for(int x = renderStartX; x < sizeX && x < renderEndX; x++) {
 				tiles[x][y].update(this);
 				bgTiles[x][y].update(this);
 				tiles[x][y].getLight(this);
+				
+				
 			}
 		}
 		
 		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
 			for(int x = renderStartX; x < sizeX && x < renderEndX; x++) {
 				bgTiles[x][y].lightLevel = tiles[x][y].lightLevel;
+				
+				if(tiles[x][y].object!=null) tiles[x][y].object.update(this);
+				if(bgTiles[x][y].object!=null) bgTiles[x][y].object.update(this);
 			}
 		}
 		
@@ -144,10 +151,9 @@ public class World {
 			creature.update(game, this);
 		}
 		
-		if(player!=null) player.selectedObject=null;
-		for(GameObject o: objects) {
-			o.update(this);
-		}
+		//for(GameObject o: objects) {
+		//	o.update(this);
+		//}
 		
 		if(player!=null) {
 			if(player.selectedObject!=null) player.selectedObject.selected=true;

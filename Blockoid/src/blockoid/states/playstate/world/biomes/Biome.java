@@ -39,6 +39,10 @@ public abstract class Biome {
 		if(startX < 0) startX = 0;
 	}
 	
+	//public GameObject newTree(Tile tile) {
+	//	return new OakTree(tile);
+	//}
+	
 	public void fill() {
 		stackHeight = world.sizeY/2;
 		if(startX > 0) {
@@ -60,8 +64,7 @@ public abstract class Biome {
 				if(slope>0) stackHeight+= r.nextInt(roughness);
 				if(slope<0) stackHeight-= r.nextInt(roughness);
 			}
-			System.out.println("Slope!!!: " + slope + " Roughness: " + roughness);
-			System.out.println("PreviousLow: " + previousLow + " StackHeight: " + stackHeight);
+			
 			if(slope > 0 && stackHeight >= previousLow+slope){
 				previousLow = stackHeight;
 				slope = r.nextInt(slopeVariance) - r.nextInt(slopeVariance);
@@ -97,7 +100,8 @@ public abstract class Biome {
 					world.tiles[x][y] = top.newInstance(x, y, false);
 					world.bgTiles[x][y] = top.newInstance(x, y, true);
 					int plantTree = r.nextInt(treeRarity);
-					if(plantTree == 0) world.objects.add(treeType.getNewInstance(world.bgTiles[x][y]));//(new OakTree(world.bgTiles[x][y]));
+					//if(plantTree == 0) world.objects.add(treeType.getNewInstance(world.bgTiles[x][y]));//(new OakTree(world.bgTiles[x][y]));
+					if(plantTree == 0) world.bgTiles[x][y].object = treeType.getNewInstance(this.world.bgTiles[x][y]);
 				}
 				if(y < stackHeight) {
 					world.tiles[x][y] = new Empty(x, y, false);

@@ -65,7 +65,9 @@ public class Game implements Serializable {
 
 	// -----------------Constructor-------------------//
 	public Game() {
-		
+		long maxBytes = Runtime.getRuntime().maxMemory();
+		System.out.println("Max memory: " + maxBytes / 1024 / 1024 + "M");
+		//JOptionPane.showMessageDialog(jframe, ("Max memory: " + maxBytes / 1024 / 1024 + "M"));
 		// JFrame
 		jframe.setContentPane(jpanel);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

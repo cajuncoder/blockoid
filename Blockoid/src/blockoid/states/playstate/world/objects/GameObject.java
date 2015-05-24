@@ -11,6 +11,7 @@ import blockoid.states.playstate.world.World;
 import blockoid.states.playstate.world.characters.Player;
 import blockoid.states.playstate.world.items.Item;
 import blockoid.states.playstate.world.tiles.Empty;
+import blockoid.states.playstate.world.tiles.Stone;
 import blockoid.states.playstate.world.tiles.Tile;
 
 public abstract class GameObject {
@@ -33,6 +34,7 @@ public abstract class GameObject {
 	public GameObject(Tile tile) {
 		if(tile!=null) {
 		this.tile = tile;
+		this.tile.object = this;
 		this.dx = tile.x;
 		this.dy = tile.y;
 		this.tileX = tile.xIndex;
@@ -45,8 +47,6 @@ public abstract class GameObject {
 	int healCounter = 0;
 	
 	public void update(World world) {
-		this.tile = world.bgTiles[tileX][tileY];
-		if(tile.object==null) tile.object=this;
 		if(tile.solid) {
 			lightLevel = (int) Math.ceil(tile.lightLevel);
 		}else{
