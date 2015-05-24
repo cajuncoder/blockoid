@@ -8,6 +8,7 @@ import blockoid.graphics.SpriteSheet;
 import blockoid.states.playstate.world.World;
 import blockoid.states.playstate.world.items.DesertBlock;
 import blockoid.states.playstate.world.items.DesertStoneBlock;
+import blockoid.states.playstate.world.items.Item;
 
 public class DesertStone extends Tile {
 
@@ -17,8 +18,13 @@ public class DesertStone extends Tile {
 		super.hitpool = 8;
 		super.hitpoints = hitpool;
 		super.solid = true;
-		super.itemDrop = new DesertStoneBlock();
+		//super.itemDrop = new DesertStoneBlock();
 		super.breakSound = Assets.getAudio("breakDirt");
+	}
+	
+	public Item getItemDrop() {
+		Item item = new DesertStoneBlock();
+		return item;
 	}
 
 	public void update(World world) {

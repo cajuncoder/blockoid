@@ -58,7 +58,7 @@ public class World {
 	public int CameraOffX = 0;
 	public int CameraOffY = 0;
 	public Game game;
-	public int sizeX = 512*8;
+	public int sizeX = 512*16;
 	public int sizeY = 512/2;
 	public static int TILE_SIZE = 8;
 	public Tile[][] bgTiles = new Tile[sizeX][sizeY];
