@@ -66,6 +66,7 @@ public class Keyboard implements KeyListener, Serializable {
 	}
 	
 	public String getStringTyped() {
+		bufferRead = true;
 		return charBuffer.toString();
 	}
 	
