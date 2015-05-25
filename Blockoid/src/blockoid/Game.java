@@ -1,5 +1,6 @@
 package blockoid;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -140,18 +141,22 @@ public class Game implements Serializable {
 		// time	
 		long dt = 1000000000 / 60;
 		long currentTime = System.nanoTime();
+		long oldfps = 0;
+		long lastRender = 0;
+		int ticks = 0;
 		long accumulator = 0;
 		long t = 0;
+		int fps = 0;
 		
 		while (true) {
 			
+			long fpslimit = 1000000000 / 999;
 			width = jpanel.getWidth()/scale;
 			height = jpanel.getHeight()/scale;
 			
 			if(oldWidth != width || oldHeight != height) {
 				bufferImage = (BufferedImage) jpanel.createImage(width, height);
 				bufferGraphics = (Graphics2D) bufferImage.getGraphics();
-				g = graphicsContext();
 			}
 			
 			// update
@@ -161,12 +166,26 @@ public class Game implements Serializable {
 			accumulator += frameTime;
 			
 			while (accumulator >= dt) {
+				//we don't need t passed into update.
+				//this runs at 60 ticks regardless, which is all we need.
 				update(t);
 				accumulator -= dt;
 				t += dt;
+				ticks++;
 			}
 			
-			render();
+			if (currentTime - lastRender >= fpslimit) {
+				render();
+				fps++;
+				lastRender = currentTime;
+			}
+			
+			if (currentTime - oldfps >= 1000000000) {
+				jframe.setTitle("-Blockoid-     FPS: " + fps + " Updates: " + ticks);
+				fps = 0;
+				ticks = 0;
+				oldfps = currentTime;
+			}
 			
 			oldWidth = width;
 			oldHeight = height;
@@ -186,21 +205,16 @@ public class Game implements Serializable {
 		keyboard.clear();
 	}
 
+	
 	// -------------------Render---------------------//
+	
 	public void render() {
 
 		//if(g == null) 
 		g = graphicsContext();
-
-		//g = (Graphics2D) jpanel.getGraphics();
-		//bufferGraphics.setColor(Color.BLACK);
-		//bufferGraphics.fillRect(0, 0, WIDTH, HEIGHT);
-
 		currentState().draw(bufferGraphics);
-		//System.out.print(width);
-		//System.out.println(scale);
+
 		g.drawImage(bufferImage, 0, 0, width * scale, height * scale, jpanel);
-		//g.drawImage(bufferImage, 0, 0, jpanel.getWidth(), jpanel.getHeight(), jpanel);
 
 		g.dispose();
 	}
@@ -209,8 +223,6 @@ public class Game implements Serializable {
 		//if(g == null) 
 		g = graphicsContext();
 		g.drawImage(bufferImage, 0, 0, width * scale, height * scale, jpanel);
-		//g.drawImage(bufferImage, 0, 0, jpanel.getWidth(), jpanel.getHeight(), jpanel);
-		//g.drawImage(bufferImage, 0, 0, jframe.getWidth(), jframe.getHeight(), jpanel);
 		g.dispose();
 	}
 	
