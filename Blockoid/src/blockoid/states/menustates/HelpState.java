@@ -22,7 +22,7 @@ public class HelpState extends GameState {
 		super(game);
 	}
 	
-	public void update() {
+	public void update(long elapsedTime) {
 		if (game.mouse.clickL) {
 			game.resetState(new MainMenuState(game));
 		}

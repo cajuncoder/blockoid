@@ -137,14 +137,12 @@ public class Game implements Serializable {
 			bufferImage = (BufferedImage) jpanel.createImage(width, height);
 			bufferGraphics = (Graphics2D) bufferImage.getGraphics();
 
-		// time
-		int fps = 0;
-		int ticks = 0;
-		long time = 0;
-		long oldtick = 0;
-		long oldfps = 0;
+		// time	
+		long dt = 1000000000 / 60;
+		long currentTime = System.nanoTime();
+		long accumulator = 0;
+		long t = 0;
 		
-
 		while (true) {
 			
 			width = jpanel.getWidth()/scale;
@@ -153,26 +151,22 @@ public class Game implements Serializable {
 			if(oldWidth != width || oldHeight != height) {
 				bufferImage = (BufferedImage) jpanel.createImage(width, height);
 				bufferGraphics = (Graphics2D) bufferImage.getGraphics();
-				g = (Graphics2D) jpanel.getGraphics();
+				g = graphicsContext();
 			}
 			
 			// update
-			time = System.nanoTime();
+			long newTime = System.nanoTime();
+			long frameTime = newTime - currentTime;
+			currentTime = newTime;
+			accumulator += frameTime;
 			
-			if (time - oldtick >= 1000000000 / 60) {
-				oldtick = time;
-				ticks++;
-				update();
-				render();
-				fps++;
+			while (accumulator >= dt) {
+				update(t);
+				accumulator -= dt;
+				t += dt;
 			}
 			
-			if (time - oldfps >= 1000000000) {
-				jframe.setTitle("-Blockoid-     FPS: " + fps + " Updates: " + ticks);
-				fps = 0;
-				ticks = 0;
-				oldfps = time;
-			}
+			render();
 			
 			oldWidth = width;
 			oldHeight = height;
@@ -184,9 +178,9 @@ public class Game implements Serializable {
 	}
 
 	// -------------------Update---------------------//
-	public void update() {
+	public void update(long elapsedTime) {
 		keyboard.update();
-		currentState().update();
+		currentState().update(elapsedTime);
 		mouseWheel.clear();
 		mouse.clear();
 		keyboard.clear();

@@ -13,8 +13,8 @@ public class PauseState extends MenuState {
 		addOption("main", "Main Menu");
 	}
 	
-	public void update() {
-		super.update();
+	public void update(long elapsedTime) {
+		super.update(elapsedTime);
 		
 		// If a menu option was clicked, change states
 		if (isOptionClicked("resume") || game.keyboard.isKeyTyped(KeyEvent.VK_ESCAPE)) {

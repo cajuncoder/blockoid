@@ -13,8 +13,8 @@ public class MainMenuState extends MenuState {
 		addOption("exit", "Exit");
 	}
 	
-	public void update() {
-		super.update();
+	public void update(long elapsedTime) {
+		super.update(elapsedTime);
 		
 		// If a menu option was clicked, change states
 		if (isOptionClicked("start")) {
