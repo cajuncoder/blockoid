@@ -5,9 +5,14 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import blockoid.Game;
 import blockoid.states.playstate.world.World;
+import blockoid.states.playstate.world.characters.Creature;
+import blockoid.states.playstate.world.characters.Dog;
+import blockoid.states.playstate.world.characters.ItFollows;
 import blockoid.states.playstate.world.characters.Player;
 import blockoid.states.playstate.world.items.Inventory;
 import blockoid.states.playstate.world.items.InventorySlot;
@@ -112,6 +117,9 @@ public class GUI {
 			if (game.keyboard.isKeyTyped(KeyEvent.VK_ENTER)) {
 				chatting = false;
 				if (chatText.length() > 0) {
+					if (chatText.startsWith("cheat")) {
+						processCheat();
+					}
 					// TODO(griffy) Send... somewhere!
 					chatText = "";
 				}
@@ -133,6 +141,36 @@ public class GUI {
 		
 		oldX = mx;
 		oldY = my;
+	}
+	
+	protected void processCheat() {
+		Pattern cheatPattern = Pattern.compile("cheat (?<type>[^\\s]+) (?<class>[^\\s]+)( (?<amount>\\d+))?");
+		Matcher m = cheatPattern.matcher(chatText);
+		if (m.matches()) {
+			String type = m.group("type");
+			String clazzName = m.group("class");
+			int amount = m.group("amount") != null ? Integer.parseInt(m.group("amount")) : 1;
+			try {
+				if (type.equals("creature")) {
+					Class<?> clazz = null;
+					clazz = Class.forName("blockoid.states.playstate.world.characters." + clazzName);
+					for (int i = 0; i < amount; i++) {
+						Creature creature = (Creature)clazz.newInstance();
+						world.creatures.add(creature);
+						world.creatures.get(world.creatures.size()-1).place((int)player.x, (int)player.y);
+					}
+				} else if (type.equals("item")) {
+					Class<?> clazz = null;
+					clazz = Class.forName("blockoid.states.playstate.world.items." + clazzName);
+					for (int i = 0; i < amount; i++) {
+						player.inventory.addItem((Item)clazz.newInstance());
+					}
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void addInventory(Inventory inventory) {
@@ -183,7 +221,7 @@ public class GUI {
 			g.setColor(Color.white);
 			g.drawLine(2, 12, game.width - 3, 12);
 			g.setColor(Color.white);
-			g.drawString(chatText, 10, 10);
+			g.drawString("> " + chatText, 2, 10);
 		}
 	}
 	
