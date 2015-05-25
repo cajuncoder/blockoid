@@ -1,5 +1,6 @@
 package blockoid;
 
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -63,5 +64,11 @@ public class Assets {
 			spriteSheets.put(key, sheet);
 		}
 		return sheet;
+	}
+	
+	public static Font getFont(String name, int style, int size) {
+		// Did this so we can support custom fonts in the future that require
+		// being loaded
+		return new Font(name, style, size);
 	}
 }

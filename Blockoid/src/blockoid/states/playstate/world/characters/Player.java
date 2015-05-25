@@ -71,7 +71,7 @@ public class Player extends Character {
 		
 		rightHandItem = toolbelt.slots[toolbeltIndex][0].item;
 		
-		PlayState ps = (PlayState)game.gameState;
+		PlayState ps = (PlayState)game.currentState();
 		lastItemUse++;
 		if(ps.gui.selectedInventory==null && rightHandItem==null) {
 			if(ps.gui.grabbedItem==null) {

@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import blockoid.Assets;
 import blockoid.Audio;
 import blockoid.Game;
 import blockoid.graphics.Button;
@@ -14,8 +15,8 @@ import blockoid.states.GameState;
 
 public class HelpState extends GameState {
 	ArrayList<Button> options = new ArrayList<Button>();
-	Font titleFont = new Font("Gabriola", Font.PLAIN, 32);
-	Font bodyFont = new Font("Gabriola", Font.PLAIN, 16);
+	Font titleFont = Assets.getFont("Gabriola", Font.PLAIN, 32);
+	Font bodyFont = Assets.getFont("Gabriola", Font.PLAIN, 16);
 	
 	public HelpState(Game game) {
 		super(game);
@@ -23,7 +24,7 @@ public class HelpState extends GameState {
 	
 	public void update() {
 		if (game.mouse.clickL) {
-			game.gameState = new MenuState(game);
+			game.resetState(new MainMenuState(game));
 		}
 	}
 	

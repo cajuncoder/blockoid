@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 
 import blockoid.Assets;
 import blockoid.Game;
 import blockoid.states.GameState;
+import blockoid.states.menustates.PauseState;
 import blockoid.states.playstate.world.tiles.Dirt;
 import blockoid.states.playstate.world.tiles.Empty;
 import blockoid.states.playstate.world.tiles.Tile;
@@ -69,6 +71,10 @@ public class PlayState extends GameState {
 		mOverStr = world.tiles[brushX][brushY].getClass().getSimpleName() + ":" + waterMass;
 		//if(game.mouse.holdL) world.tiles[brushX][brushY] = new Water(brushX, brushY);
 		//if(game.mouse.holdR) world.tiles[brushX][brushY] = new Empty(brushX, brushY);
+	
+		if (game.keyboard.isKeyTyped(KeyEvent.VK_ESCAPE)) {
+			game.pushState(new PauseState(game));
+		}
 	}
 	
 	public void draw(Graphics2D g) {

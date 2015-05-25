@@ -3,15 +3,18 @@ package blockoid.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 
 
 public class Keyboard implements KeyListener, Serializable {
 	public boolean[] keys = new boolean[256]; //keys pressed
-	public String keyTyped = "";
-	public int keyCodeTyped = 0;
-	private String lastKeyTyped = "";
-	private int lastKeyCodeTyped = 0;
-	public boolean up, down, left, right, space, shift, i, r, g, q, tab;
+	private Set<Integer> keyCodesTyped = new HashSet<Integer>();
+	private StringBuffer charBuffer = new StringBuffer();
+	private boolean bufferRead = false;
+	public boolean up, down, left, right, space, shift, i, r, g, q, tab, esc;
 	public boolean[] num = new boolean[10];
 	
 	//----------------------Keyboard.UPDATE-METHOD----------------------//
@@ -28,6 +31,7 @@ public class Keyboard implements KeyListener, Serializable {
 		g = keys[KeyEvent.VK_G];
 		q = keys[KeyEvent.VK_Q];
 		tab = keys[KeyEvent.VK_TAB];
+		esc = keys[KeyEvent.VK_ESCAPE];
 		num[0] = keys[KeyEvent.VK_0];
 		num[1] = keys[KeyEvent.VK_1];
 		num[2] = keys[KeyEvent.VK_2];
@@ -38,11 +42,7 @@ public class Keyboard implements KeyListener, Serializable {
 		num[7] = keys[KeyEvent.VK_7];
 		num[8] = keys[KeyEvent.VK_8];
 		num[9] = keys[KeyEvent.VK_9];
-		
-		if(keyTyped.equals(lastKeyTyped)) keyTyped = "";
-		lastKeyTyped = keyTyped;
-		if(keyCodeTyped == lastKeyCodeTyped) keyCodeTyped = 0;
-		lastKeyCodeTyped = keyCodeTyped;
+	
 		//print key ID for fun, which will be same as index
 		//for (int i = 0; i < keys.length; i++) {
 		//	if (keys[i]) {
@@ -50,6 +50,23 @@ public class Keyboard implements KeyListener, Serializable {
 		//	}
 		//}
 		
+	}
+	
+	public void clear() {
+		keyCodesTyped.clear();
+		
+		if (bufferRead)
+			charBuffer.setLength(0);
+		// Don't keep more than 1k chars in the buffer
+		charBuffer.setLength(1024);
+	}
+	
+	public boolean isKeyTyped(int key) {
+		return keyCodesTyped.contains(key);
+	}
+	
+	public String getStringTyped() {
+		return charBuffer.toString();
 	}
 	
 	public void keyPressed(KeyEvent e) {
@@ -63,8 +80,7 @@ public class Keyboard implements KeyListener, Serializable {
 	}
 
 	public void keyTyped(KeyEvent e) {
-		keyTyped = Character.toString(e.getKeyChar());
-		//System.out.println(keyTyped);
-		keyCodeTyped = e.getKeyChar();
+		keyCodesTyped.add((int)e.getKeyChar());
+		charBuffer.append(e.getKeyChar());
 	}
 }

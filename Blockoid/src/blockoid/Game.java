@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.Stack;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -17,6 +18,7 @@ import blockoid.input.Mouse;
 import blockoid.input.MouseMotion;
 import blockoid.input.MouseWheel;
 import blockoid.states.GameState;
+import blockoid.states.menustates.MainMenuState;
 import blockoid.states.menustates.MenuState;
 
 
@@ -32,7 +34,7 @@ public class Game implements Serializable {
 	JPanel jpanel = new JPanel();
 	
 	// GameState
-	public GameState gameState;
+	public Stack<GameState> stateStack = new Stack<GameState>();
 
 	// Graphics
 	//public static int WIDTH = 160+80;
@@ -101,10 +103,26 @@ public class Game implements Serializable {
 		// Set the blank cursor to the JFrame.
 		//jframe.getContentPane().setCursor(blankCursor);
 		
-		gameState = new MenuState(this);
+		resetState(new MainMenuState(this));
 	}
 		
-
+	public GameState currentState() {
+		return stateStack.peek();
+	}
+	
+	public GameState popState() {
+		return stateStack.pop();
+	}
+	
+	public void pushState(GameState state) {
+		stateStack.push(state);
+	}
+	
+	public void resetState(GameState state) {
+		stateStack.clear();
+		stateStack.push(state);
+	}
+	
 	// ------------------Main--------------------//
 	public static void main(String[] args) {
 		Game game = new Game();
@@ -168,9 +186,10 @@ public class Game implements Serializable {
 	// -------------------Update---------------------//
 	public void update() {
 		keyboard.update();
-		gameState.update();
+		currentState().update();
 		mouseWheel.clear();
 		mouse.clear();
+		keyboard.clear();
 	}
 
 	// -------------------Render---------------------//
@@ -183,7 +202,7 @@ public class Game implements Serializable {
 		//bufferGraphics.setColor(Color.BLACK);
 		//bufferGraphics.fillRect(0, 0, WIDTH, HEIGHT);
 
-		gameState.draw(bufferGraphics);
+		currentState().draw(bufferGraphics);
 		//System.out.print(width);
 		//System.out.println(scale);
 		g.drawImage(bufferImage, 0, 0, width * scale, height * scale, jpanel);
