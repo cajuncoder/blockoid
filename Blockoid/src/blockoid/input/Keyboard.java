@@ -12,8 +12,7 @@ import java.util.Stack;
 public class Keyboard implements KeyListener, Serializable {
 	public boolean[] keys = new boolean[256]; //keys pressed
 	private Set<Integer> keyCodesTyped = new HashSet<Integer>();
-	private StringBuffer charBuffer = new StringBuffer();
-	private boolean bufferRead = false;
+	private ArrayList<Character> charBuffer = new ArrayList<Character>();
 	public boolean up, down, left, right, space, shift, i, r, g, q, tab, esc;
 	public boolean[] num = new boolean[10];
 	
@@ -54,20 +53,15 @@ public class Keyboard implements KeyListener, Serializable {
 	
 	public void clear() {
 		keyCodesTyped.clear();
-		
-		if (bufferRead)
-			charBuffer.setLength(0);
-		// Don't keep more than 1k chars in the buffer
-		charBuffer.setLength(1024);
+		charBuffer.clear();
 	}
 	
 	public boolean isKeyTyped(int key) {
 		return keyCodesTyped.contains(key);
 	}
 	
-	public String getStringTyped() {
-		bufferRead = true;
-		return charBuffer.toString();
+	public ArrayList<Character> getCharacterBuffer() {
+		return charBuffer;
 	}
 	
 	public void keyPressed(KeyEvent e) {
@@ -81,7 +75,13 @@ public class Keyboard implements KeyListener, Serializable {
 	}
 
 	public void keyTyped(KeyEvent e) {
-		keyCodesTyped.add((int)e.getKeyChar());
-		charBuffer.append(e.getKeyChar());
+		char ch = e.getKeyChar();
+		int code = (int)ch;
+		if (code >= 32 && code <= 126) {
+			ch = ("" + ch).toUpperCase().charAt(0);
+			code = (int)ch;
+		}
+		keyCodesTyped.add(code);
+		charBuffer.add(e.getKeyChar());
 	}
 }

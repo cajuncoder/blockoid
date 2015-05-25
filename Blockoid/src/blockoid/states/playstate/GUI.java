@@ -20,6 +20,7 @@ public class GUI {
 	
 	World world;
 	Player player;
+	PlayState state;
 	public ArrayList<Inventory> inventories = new ArrayList<Inventory>();
 	public Inventory selectedInventory = null;
 	private InventorySlot selectedSlot = null;
@@ -28,11 +29,14 @@ public class GUI {
 	private int my;
 	private int oldX;
 	private int oldY;
+	private boolean chatting = false;
+	private String chatText = "";
 	
 	public GUI(PlayState playState) {
 		this.game = playState.game;
 		this.world = playState.world;
 		this.player = world.player;
+		this.state = playState;
 	}
 	
 	public void update() {
@@ -104,6 +108,29 @@ public class GUI {
 			grabbedItem=null;
 		}
 		
+		if (chatting) {
+			if (game.keyboard.isKeyTyped(KeyEvent.VK_ENTER)) {
+				chatting = false;
+				if (chatText.length() > 0) {
+					// TODO(griffy) Send... somewhere!
+					chatText = "";
+				}
+			} else {
+				ArrayList<Character> buffer = game.keyboard.getCharacterBuffer();
+				for (Character ch : buffer) {					
+					if ((int)ch == 8) {
+						chatText = chatText.substring(0, chatText.length() > 0 ? chatText.length()-1 : 0);
+					} else if ((int)ch >= 32 && (int)ch <= 126) {
+						if (game.graphicsContext().getFontMetrics(state.font).stringWidth(chatText) < game.width - 20)
+							chatText += ch;
+					}
+				}
+			}
+		} else if (game.keyboard.isKeyTyped(KeyEvent.VK_T)) {
+			chatting = true;
+		}
+
+		
 		oldX = mx;
 		oldY = my;
 	}
@@ -150,6 +177,13 @@ public class GUI {
 				g.setColor(Color.white);
 				g.drawString(selectedSlot.item.name, mx, my);
 			}
+		}
+		
+		if (chatting) {
+			g.setColor(Color.white);
+			g.drawLine(2, 12, game.width - 3, 12);
+			g.setColor(Color.white);
+			g.drawString(chatText, 10, 10);
 		}
 	}
 	

@@ -23,7 +23,7 @@ public class PlayState extends GameState {
 	
 	public Assets assets = new Assets();
 	public World world;
-	private Font font = new Font("Console", Font.PLAIN, 9);
+	public Font font = new Font("Console", Font.PLAIN, 9);
 	public GUI gui;
 	
 	public PlayState(Game game) {

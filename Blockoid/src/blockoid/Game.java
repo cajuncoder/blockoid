@@ -196,7 +196,7 @@ public class Game implements Serializable {
 	public void render() {
 
 		//if(g == null) 
-		g = (Graphics2D) jpanel.getGraphics();
+		g = graphicsContext();
 
 		//g = (Graphics2D) jpanel.getGraphics();
 		//bufferGraphics.setColor(Color.BLACK);
@@ -213,10 +213,14 @@ public class Game implements Serializable {
 	
 	public void draw() {
 		//if(g == null) 
-		g = (Graphics2D) jpanel.getGraphics();
+		g = graphicsContext();
 		g.drawImage(bufferImage, 0, 0, width * scale, height * scale, jpanel);
 		//g.drawImage(bufferImage, 0, 0, jpanel.getWidth(), jpanel.getHeight(), jpanel);
 		//g.drawImage(bufferImage, 0, 0, jframe.getWidth(), jframe.getHeight(), jpanel);
 		g.dispose();
+	}
+	
+	public Graphics2D graphicsContext() {
+		return (Graphics2D) jpanel.getGraphics();
 	}
 }
