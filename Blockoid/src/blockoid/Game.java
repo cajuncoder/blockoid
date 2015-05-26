@@ -157,6 +157,7 @@ public class Game implements Serializable {
 			if(oldWidth != width || oldHeight != height) {
 				bufferImage = (BufferedImage) jpanel.createImage(width, height);
 				bufferGraphics = (Graphics2D) bufferImage.getGraphics();
+				g = graphicsContext();
 			}
 			
 			// update
@@ -210,20 +211,20 @@ public class Game implements Serializable {
 	
 	public void render() {
 
-		//if(g == null) 
+		if(g == null) 
 		g = graphicsContext();
 		currentState().draw(bufferGraphics);
 
 		g.drawImage(bufferImage, 0, 0, width * scale, height * scale, jpanel);
 
-		g.dispose();
+		//g.dispose();
 	}
 	
 	public void draw() {
 		//if(g == null) 
-		g = graphicsContext();
+		//g = graphicsContext();
 		g.drawImage(bufferImage, 0, 0, width * scale, height * scale, jpanel);
-		g.dispose();
+		//g.dispose();
 	}
 	
 	public Graphics2D graphicsContext() {

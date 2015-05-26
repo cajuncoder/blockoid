@@ -112,8 +112,8 @@ public class World {
 	
 	public void update() {
 		
-		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
-			for(int x = renderStartX; x < sizeX && x < renderEndX; x++) {
+		for(int y = renderStartY; y < sizeY && y <= renderEndY; y++) {
+			for(int x = renderStartX; x < sizeX && x <= renderEndX; x++) {
 				tiles[x][y].lightLevel = 0;
 				bgTiles[x][y].lightLevel = 0;
 				tiles[x][y].inTheSun=false;
@@ -124,8 +124,8 @@ public class World {
 		if(player!=null) player.selectedObject=null;
 		
 		//Updates
-		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
-			for(int x = renderStartX; x < sizeX && x < renderEndX; x++) {
+		for(int y = renderStartY; y < sizeY && y <= renderEndY; y++) {
+			for(int x = renderStartX; x < sizeX && x <= renderEndX; x++) {
 				tiles[x][y].update(this);
 				bgTiles[x][y].update(this);
 				tiles[x][y].getLight(this);
@@ -134,8 +134,8 @@ public class World {
 			}
 		}
 		
-		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
-			for(int x = renderStartX; x < sizeX && x < renderEndX; x++) {
+		for(int y = renderStartY; y < sizeY && y <= renderEndY; y++) {
+			for(int x = renderStartX; x < sizeX && x <= renderEndX; x++) {
 				bgTiles[x][y].lightLevel = tiles[x][y].lightLevel;
 				
 				if(tiles[x][y].object!=null) tiles[x][y].object.update(this);
@@ -176,11 +176,18 @@ public class World {
 	}
 	
 	public void draw(Graphics2D g) {
-		
-		renderStartX = CameraOffX/8 -3;
-		renderStartY = CameraOffY/8 -1;
-		renderEndX = (CameraOffX/8)+(game.width/8)+4;
-		renderEndY = (CameraOffY/8)+(game.height/8)+12;
+		int startXPadding = -4;
+		int endXPadding = 4;
+		int startYPadding = -4;
+		int endYPadding = 12;
+		renderStartX = CameraOffX/8 + startXPadding;
+		renderStartY = CameraOffY/8 + startYPadding;
+		renderEndX = (CameraOffX/8)+(game.width/8)+endXPadding;
+		renderEndY = (CameraOffY/8)+(game.height/8)+endYPadding;
+		int subRenderStartX = renderStartX-startXPadding;
+		int subRenderStartY = renderStartY-startYPadding;
+		int subRenderEndX = renderEndX-endXPadding;
+		int subRenderEndY = renderEndY-endYPadding+1;
 		
 		if(renderStartX < 0) renderStartX = 0;
 		if(renderStartY < 0) renderStartY = 0;
@@ -190,8 +197,8 @@ public class World {
 		if(background!=null) background.draw(g, CameraOffX, CameraOffY);
 		
 		//Outlines
-		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
-			for(int x = renderStartX; x < sizeX && x < renderEndX; x++) {
+		for(int y = subRenderStartY; y < sizeY && y <= subRenderEndY; y++) {
+			for(int x = subRenderStartX; x < sizeX && x <= subRenderEndX; x++) {
 				if(bgTiles[x][y].solid && !bgTiles[x][y].getClass().equals(Empty.class) && !tiles[x][y].solid) {
 					//g.drawImage(tilebg, tiles[x][y].x-1-CameraOffX, tiles[x][y].y-1-CameraOffY, null);
 					tilebg.drawSprite(tiles[x][y].x-1-CameraOffX, tiles[x][y].y-1-CameraOffY, 0, (int)Math.ceil(tiles[x][y].lightLevel), g);
@@ -201,12 +208,14 @@ public class World {
 		
 		//Draw Background Tiles
 		g.setColor(new Color(1,1,1,75));
-		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
-			for(int x = renderStartX; x < sizeX && x < renderEndX; x++) {
+		for(int y = renderStartY; y < sizeY && y <= renderEndY; y++) {
+			for(int x = renderStartX; x < sizeX && x <= renderEndX; x++) {
 				//bgTiles[x][y].update(this);
+				if(x >= subRenderStartX && y >= subRenderStartY && x <= subRenderEndX && y <= subRenderEndY) {
 				if(!bgTiles[x][y].getClass().equals(Empty.class) && !tiles[x][y].solid){
 					bgTiles[x][y].draw(g, CameraOffX, CameraOffY);
 					g.fillRect(tiles[x][y].x-CameraOffX, tiles[x][y].y-CameraOffY, 8, 8);
+				}
 				}
 				if(bgTiles[x][y].object!=null) bgTiles[x][y].object.draw(g, CameraOffX, CameraOffY);
 			}
@@ -219,8 +228,8 @@ public class World {
 		
 		// Foreground //
 		//Outlines
-		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
-			for(int x = renderStartX; x < sizeX && x < renderEndX; x++) {
+		for(int y = subRenderStartY; y < sizeY && y <= subRenderEndY; y++) {
+			for(int x = subRenderStartX; x < sizeX && x <= subRenderEndX; x++) {
 				if(tiles[x][y].solid) {
 					//g.drawImage(tilebg, tiles[x][y].x-1-CameraOffX, tiles[x][y].y-1-CameraOffY, null);
 					tilebg.drawSprite(tiles[x][y].x-1-CameraOffX, tiles[x][y].y-1-CameraOffY, 0, (int)Math.ceil(tiles[x][y].lightLevel), g);
@@ -232,9 +241,11 @@ public class World {
 		if(player.inWater) player.draw(g, CameraOffX, CameraOffY);
 		
 		//Draw Foreground Tiles
-		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
-			for(int x = renderStartX; x < sizeX && x < renderEndX; x++) {
-				tiles[x][y].draw(g, CameraOffX, CameraOffY);
+		for(int y = renderStartY; y < sizeY && y <= renderEndY; y++) {
+			for(int x = renderStartX; x < sizeX && x <= renderEndX; x++) {
+				if(x >= subRenderStartX && y >= subRenderStartY && x <= subRenderEndX && y <= subRenderEndY) {
+					tiles[x][y].draw(g, CameraOffX, CameraOffY);
+				}
 				if(tiles[x][y].object!=null) tiles[x][y].object.draw(g, CameraOffX, CameraOffY);
 			}
 		}
