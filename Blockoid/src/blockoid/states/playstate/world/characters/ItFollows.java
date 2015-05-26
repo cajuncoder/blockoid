@@ -18,32 +18,16 @@ import blockoid.states.playstate.world.tiles.Tile;
 import blockoid.states.playstate.world.tiles.Water;
 import blockoid.states.playstate.world.World;
 
-public class ItFollows extends Creature {
-	private static final int MIN_SEPARATION = 25;
-	private static final int MAX_SEPARATION = 60;
+public class ItFollows extends Being {
+	private Behavior behavior;
 	
-	private double oldDistance = 0;
-	private double oldX = 0;
-	
-	public ItFollows() {
-		super();
-		oldX = x;
-		//Assets.getAudio("itfollows").play(true);
+	public ItFollows(Game game) {
+		super(game);
+		behavior = new FollowBehavior(this);
 	}
 	
-	public void act(Game game, World world) {
-		double playerX = world.player.x;
-		double playerY = world.player.y;
-		
-		double distance = Math.abs(playerX - x);
-		if (distance > MIN_SEPARATION) {
-			if (playerX > x) moveRight();
-			if (playerX < x) moveLeft();
-			boolean gapWidening = Math.abs(distance - oldDistance) > 1;
-			if (x == oldX && (gapWidening || distance > MAX_SEPARATION)) jump();
-		}
-		oldDistance = distance;
-		oldX = x;
+	public void act(World world, long elapsedTime) {
+		behavior.act(world, elapsedTime);
 	}
 }
 

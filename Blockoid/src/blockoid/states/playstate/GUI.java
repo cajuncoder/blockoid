@@ -3,6 +3,7 @@ package blockoid.states.playstate;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -10,7 +11,7 @@ import java.util.regex.Pattern;
 
 import blockoid.Game;
 import blockoid.states.playstate.world.World;
-import blockoid.states.playstate.world.characters.Creature;
+import blockoid.states.playstate.world.characters.Being;
 import blockoid.states.playstate.world.characters.Dog;
 import blockoid.states.playstate.world.characters.ItFollows;
 import blockoid.states.playstate.world.characters.Player;
@@ -151,13 +152,14 @@ public class GUI {
 			String clazzName = m.group("class");
 			int amount = m.group("amount") != null ? Integer.parseInt(m.group("amount")) : 1;
 			try {
-				if (type.equals("creature")) {
+				if (type.equals("being")) {
 					Class<?> clazz = null;
 					clazz = Class.forName("blockoid.states.playstate.world.characters." + clazzName);
+					Constructor<?> constructor = clazz.getConstructor(Game.class);
 					for (int i = 0; i < amount; i++) {
-						Creature creature = (Creature)clazz.newInstance();
-						world.creatures.add(creature);
-						world.creatures.get(world.creatures.size()-1).place((int)player.x, (int)player.y);
+						Being being = (Being)constructor.newInstance(game);
+						world.beings.add(being);
+						world.beings.get(world.beings.size()-1).place((int)player.x, (int)player.y);
 					}
 				} else if (type.equals("item")) {
 					Class<?> clazz = null;

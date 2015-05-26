@@ -18,11 +18,12 @@ import blockoid.states.playstate.world.tiles.Tile;
 import blockoid.states.playstate.world.tiles.Water;
 import blockoid.states.playstate.world.World;
 
-abstract public class Character {
+abstract public class Being {
 	protected static int inventoryWidth = 8;
 	protected static int inventoryHeight = 4;
 	//protected static int toolbeltWidth = 12;
 	//protected static int toolbeltHeight = 1;
+	Game game;
 	String name;
 	public SpriteSheet sprite;
 	public Inventory inventory;
@@ -59,7 +60,7 @@ abstract public class Character {
 	public Item rightHandItem = null;
 	int lightLevel = 0;
 	
-	public Character() {
+	public Being(Game game) {
 		inventory = new Inventory("Inventory",inventoryWidth,inventoryHeight);
 		
 		name = "Ogg";
@@ -68,13 +69,14 @@ abstract public class Character {
 		sprite = Assets.getSpriteSheet("characters/character", width, height);
 		animation = walkRight;
 		frame = 0;
+		this.game = game;
 	}
 	
-	public abstract void act(Game game, World world);
+	public abstract void act(World world, long elapsedTime);
 	
 
 	
-	public void update(Game game, World world) {
+	public void update(World world, long elapsedTime) {
 		if(oldYTile-1 > 0) {
 			lightLevel = (int) Math.ceil(world.tiles[oldXTile][oldYTile-1].lightLevel);
 		}
@@ -92,7 +94,7 @@ abstract public class Character {
 			timeInAir = 0;
 		}else{timeInAir++;}
 		
-		act(game, world);
+		act(world, elapsedTime);
 		
 		if(!standingOnGround && animation == walkRight) {
 			animation = jumpRight;

@@ -19,15 +19,15 @@ import blockoid.states.playstate.world.tiles.Tile;
 import blockoid.states.playstate.world.tiles.Water;
 import blockoid.states.playstate.world.World;
 
-public class Player extends Character {	
+public class Player extends Being {	
 	
 	public boolean inventoryOpen = false;
 	public Inventory toolbelt;
 	public int toolbeltIndex = 0;
 	public GameObject selectedObject = null;
 	
-	public Player() {
-		super();
+	public Player(Game game) {
+		super(game);
 		toolbelt = new ToolBelt("Tool Belt");
 		inventory.addItem(new PickAxe());
 		inventory.addItem(new DirtBlock(16));
@@ -40,7 +40,7 @@ public class Player extends Character {
 	}
 	
 	boolean oldSpace = false;
-	public void act(Game game, World world) {
+	public void act(World world, long elapsedTime) {
 		//Controls
 		if(game.keyboard.right){
 			moveRight();

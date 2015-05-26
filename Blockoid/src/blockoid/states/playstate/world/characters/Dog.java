@@ -19,59 +19,16 @@ import blockoid.states.playstate.world.tiles.Tile;
 import blockoid.states.playstate.world.tiles.Water;
 import blockoid.states.playstate.world.World;
 
-public class Dog extends Creature {
-	private static final int MAX_SEPARATION = 25;
+public class Dog extends Being {
+	private Behavior behavior;
 	
-	private double oldDistance = 0;
-	private boolean headingLeft;
-	private double decision;
-	private long counter;
-	
-	public Dog() {
-		super();
-		decision = 0;
-		counter = 0;
+	public Dog(Game game) {
+		super(game);
+		behavior = new WanderFollowBehavior(this);
 	}
 	
-	public void act(Game game, World world) {
-		double playerX = world.player.x;
-		double playerY = world.player.y;
-		
-		boolean playerNearby = Math.abs(playerX - x) < 25 && (playerY == y || playerY == y + 1);
-//		if (playerNearby) {
-//			follow(world.player);
-//		} else {
-			if (counter % 100 == 0)
-				decision = Math.random();
-			
-			if (decision < 0.5) {
-				// change heading
-				headingLeft = !headingLeft;
-			} else if (decision < 0.95) {
-				// walk
-				if (headingLeft) 
-					moveLeft();
-				else
-					moveRight();
-			} else if (decision < 1.0) {
-				jump();
-			}
-//		}
-			
-		counter++;
-	}
-	
-	public void follow(Player player) {
-		double playerX = player.x;
-		double playerY = player.y;
-		double distance = Math.abs(playerX - x);
-		if (distance > MAX_SEPARATION) {
-			if (playerX > x) moveRight();
-			if (playerX < x) moveLeft();
-			boolean gapWidening = Math.abs(distance - oldDistance) > 0;
-			if (gapWidening) jump();
-		}
-		oldDistance = distance;
+	public void act(World world, long elapsedTime) {
+		behavior.act(world, elapsedTime);
 	}
 }
 

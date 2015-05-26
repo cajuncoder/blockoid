@@ -14,9 +14,9 @@ import javax.swing.ImageIcon;
 import blockoid.Assets;
 import blockoid.Game;
 import blockoid.graphics.SpriteSheet;
-import blockoid.states.playstate.world.characters.Creature;
 import blockoid.states.playstate.world.characters.ItFollows;
 import blockoid.states.playstate.world.biomes.*;
+import blockoid.states.playstate.world.characters.Being;
 import blockoid.states.playstate.world.characters.Player;
 import blockoid.states.playstate.world.items.*;
 import blockoid.states.playstate.world.objects.GameObject;
@@ -82,12 +82,13 @@ public class World {
 	public CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<Item>();
 	
 	Background background;
-	public Player player = new Player();
+	public Player player;
 	//public ArrayList<Object> liquidTiles = new ArrayList<Object>();
-	public ArrayList<Creature> creatures = new ArrayList<Creature>();
+	public ArrayList<Being> beings = new ArrayList<Being>();
 	
 	public World(Game game) {
 		this.game = game;
+		player = new Player(game);
 		background = new Background(this);
 
 		int nOfBiomes = sizeX/Biome.BIOME_SIZE;
@@ -110,7 +111,7 @@ public class World {
 		//creatures.get(0).place(((sizeX/2)*8)+4+5, getSurface(sizeX/2)*8+5);
 	}
 	
-	public void update() {
+	public void update(long elapsedTime) {
 		
 		for(int y = renderStartY; y < sizeY && y <= renderEndY; y++) {
 			for(int x = renderStartX; x < sizeX && x <= renderEndX; x++) {
@@ -147,8 +148,8 @@ public class World {
 			i.update(this);
 		}
 		
-		for (Creature creature: creatures) {
-			creature.update(game, this);
+		for (Being being: beings) {
+			being.update(this, elapsedTime);
 		}
 		
 		//for(GameObject o: objects) {
@@ -157,7 +158,7 @@ public class World {
 		
 		if(player!=null) {
 			if(player.selectedObject!=null) player.selectedObject.selected=true;
-			player.update(game, this);
+			player.update(this, elapsedTime);
 			CameraOffX = Math.round(player.dx - game.width/2);
 			CameraOffY = Math.round(player.dy - game.height/2 - (game.height/8));
 		}
@@ -256,8 +257,8 @@ public class World {
 			i.worldDraw(g, CameraOffX, CameraOffY);
 		}
 		
-		for (Creature creature: creatures) {
-			creature.draw(g, CameraOffX, CameraOffY);
+		for (Being being: beings) {
+			being.draw(g, CameraOffX, CameraOffY);
 		}
 	}
 	

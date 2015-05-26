@@ -43,7 +43,7 @@ public class PlayState extends GameState {
 	}
 
 	public void update(long elapsedTime) {
-		world.update();
+		world.update(elapsedTime);
 		gui.update();
 		//if(player==null) {
 			//if(game.keyboard.left) world.CameraOffX-=1;
