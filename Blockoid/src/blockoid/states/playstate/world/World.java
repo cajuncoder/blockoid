@@ -78,7 +78,7 @@ public class World {
 	public SpriteSheet tilebg = Assets.getSpriteSheet("tiles/tilebg", 10, 10);
 	public BufferedImage worldbg = Assets.getImage("bg/forebackground");
 	public BufferedImage worldbg2 = Assets.getImage("bg/backbackground");
-	public CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<GameObject>();
+	//public CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<GameObject>();
 	public CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<Item>();
 	
 	Background background;
@@ -200,7 +200,7 @@ public class World {
 		}
 		
 		//Draw Background Tiles
-		g.setColor(new Color(1,1,1,80));
+		g.setColor(new Color(1,1,1,75));
 		for(int y = renderStartY; y < sizeY && y < renderEndY; y++) {
 			for(int x = renderStartX; x < sizeX && x < renderEndX; x++) {
 				//bgTiles[x][y].update(this);
@@ -267,13 +267,13 @@ public class World {
 		items.add(item);
 	}
 	
-	public synchronized void addObject(GameObject object, Tile tile) {
+	//public synchronized void addObject(GameObject object, Tile tile) {
 		
-	}
+	//}
 	
-	public synchronized void removeObject(GameObject object) {
+	//public synchronized void removeObject(GameObject object) {
 		//if(player!=null && player.selectedObject.equals(object)) player.selectedObject = null;
-		if(object.tile.object!=null) object.tile.object=null;
-		objects.remove(object);
-	}
+	//	if(object.tile.object!=null) object.tile.object=null;
+	//	objects.remove(object);
+	//}
 }
