@@ -302,7 +302,7 @@ abstract public class Being {
 	
 	public void draw(Graphics2D g, int OffX, int OffY){
 		//g.drawString(name, dx-OffX-32, dy-OffY-16);
-		sprite.drawSprite(dx-(width/2)-OffX, dy-(height-1)-OffY, animation[frame], lightLevel, g);
+		sprite.drawSprite(dx-(sprite.spriteSizeX/2)-OffX, dy-(sprite.spriteSizeY-1)-OffY, animation[frame], lightLevel, g);
 		//sprite.drawSprite(dx-(width/2)-OffX+16, dy-(height-1)-OffY, animation[frame], g);
 		//if(inventoryOpen) inventory.draw(g);
 	}
@@ -327,10 +327,53 @@ abstract public class Being {
 		frameCounter+=1;
 	}
 	
+	//double oldOldAiX; //don't question it! :P
+	double oldAiX;
+	public void aiMoveRight() {
+		moveRight();
+		if(x == oldAiX && standingOnGround) jumpSetAmount(3);
+		oldAiX = x;
+	}
+	
+	public void aiMoveLeft() {
+		moveLeft();
+		if(x == oldAiX && standingOnGround) jumpSetAmount(3);
+		oldAiX = x;
+	}
+	
 	public void jump() {
 		if(timeOnGround>1 || yVel < 0 && timeInAir < 14){
 			yVel = -2.0;
 			//jump.play(false);
+			if(animation == idleRight || animation == walkRight) {
+				animation = jumpRight;
+				frame = 0;
+			}
+			if(animation == idleLeft || animation == walkLeft) {
+				animation = jumpLeft;
+				frame = 0;
+			}
+		}
+		
+		if (inWater){
+			//jumpVel = 4;
+			yVel = -2.0;
+			//jump.play(false);
+		}
+	}
+	
+	public void jumpSetAmount(double amount) {
+		if(timeOnGround>1 || yVel < 0 && timeInAir < 14){
+			yVel = -amount;
+			//jump.play(false);
+			if(animation == idleRight || animation == walkRight) {
+				animation = jumpRight;
+				frame = 0;
+			}
+			if(animation == idleLeft || animation == walkLeft) {
+				animation = jumpLeft;
+				frame = 0;
+			}
 		}
 		
 		if (inWater){

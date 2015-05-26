@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class Keyboard implements KeyListener, Serializable {
 	public boolean[] keys = new boolean[256]; //keys pressed
 	private Set<Integer> keyCodesTyped = new HashSet<Integer>();
-	private ArrayList<Character> charBuffer = new ArrayList<Character>();
+	private CopyOnWriteArrayList<Character> charBuffer = new CopyOnWriteArrayList<Character>();
 	public boolean up, down, left, right, space, shift, i, r, g, q, tab, esc;
 	public boolean[] num = new boolean[10];
 	
@@ -60,7 +61,7 @@ public class Keyboard implements KeyListener, Serializable {
 		return keyCodesTyped.contains(key);
 	}
 	
-	public ArrayList<Character> getCharacterBuffer() {
+	public CopyOnWriteArrayList<Character> getCharacterBuffer() {
 		return charBuffer;
 	}
 	

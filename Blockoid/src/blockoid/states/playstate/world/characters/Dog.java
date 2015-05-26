@@ -36,7 +36,7 @@ public class Dog extends Being {
 	}
 	
 	public void act(World world, long elapsedTime) {
-		speed = 0.5;
+		speed = 0.66;
 		behavior.act(world, elapsedTime);
 	}
 }

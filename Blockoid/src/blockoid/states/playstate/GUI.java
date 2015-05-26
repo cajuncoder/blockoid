@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -125,7 +126,7 @@ public class GUI {
 					chatText = "";
 				}
 			} else {
-				ArrayList<Character> buffer = game.keyboard.getCharacterBuffer();
+				CopyOnWriteArrayList<Character> buffer = game.keyboard.getCharacterBuffer();
 				for (Character ch : buffer) {					
 					if ((int)ch == 8) {
 						chatText = chatText.substring(0, chatText.length() > 0 ? chatText.length()-1 : 0);
