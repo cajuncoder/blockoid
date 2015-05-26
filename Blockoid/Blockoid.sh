@@ -1,2 +1,2 @@
 #!/bin/sh
-java -Xms1G -Xmx1G -jar Blockoid.jar
+java -Xms2G -Xmx2G -jar Blockoid.jar
