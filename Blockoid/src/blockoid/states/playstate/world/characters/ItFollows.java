@@ -19,7 +19,8 @@ import blockoid.states.playstate.world.tiles.Water;
 import blockoid.states.playstate.world.World;
 
 public class ItFollows extends Creature {
-	private static final int MAX_SEPARATION = 25;
+	private static final int MAX_SEPARATION = 50;
+	private static final int MIN_SEPARATION = 25;
 	
 	private double oldDistance = 0;
 	
@@ -33,11 +34,11 @@ public class ItFollows extends Creature {
 		double playerY = world.player.y;
 		
 		double distance = Math.abs(playerX - x);
-		if (distance > MAX_SEPARATION) {
+		if (distance > MIN_SEPARATION) {
 			if (playerX > x) moveRight();
 			if (playerX < x) moveLeft();
-			boolean gapWidening = Math.abs(distance - oldDistance) > 0;
-			if (gapWidening) jump();
+			boolean gapWidening = Math.abs(distance - oldDistance) > 1;
+			if (gapWidening || distance > MAX_SEPARATION) jump();
 		}
 		oldDistance = distance;
 	}
