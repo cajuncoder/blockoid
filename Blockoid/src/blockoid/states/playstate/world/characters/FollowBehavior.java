@@ -23,6 +23,8 @@ public class FollowBehavior implements Behavior {
 	
 	@Override
 	public void act(World world, long elapsedTime) {
+		being.speed = world.player.speed;
+		
 		double playerX = world.player.x;
 		
 		double distance = Math.abs(playerX - being.x);
