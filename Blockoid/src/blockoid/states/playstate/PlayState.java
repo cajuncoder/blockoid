@@ -42,7 +42,7 @@ public class PlayState extends GameState {
 
 	}
 
-	public void update() {
+	public void update(long elapsedTime) {
 		world.update();
 		gui.update();
 		//if(player==null) {

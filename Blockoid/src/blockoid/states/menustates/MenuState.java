@@ -37,7 +37,7 @@ abstract public class MenuState extends GameState {
 		return options.get(index).clicked;
 	}
 	
-	public void update() {
+	public void update(long elapsedTime) {
 		// Update all the menu options
 		for (Button option : options) {
 			option.update(game.mouseMotion.x, game.mouseMotion.y, game.mouse.clickL);

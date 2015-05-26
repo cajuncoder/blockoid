@@ -110,7 +110,7 @@ public abstract class GameObject {
 			item.y = dy;
 			world.addItem(item, (int)item.x, (int)item.y-this.spriteSheet.spriteSizeY);
 		}
-		world.removeObject(this);
+		//world.removeObject(this);
 	}
 	
 	public GameObject getNewInstance(Tile tile) {

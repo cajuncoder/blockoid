@@ -14,7 +14,7 @@ public abstract class GameState {
 		this.game = game;
 	}
 	
-	public void update() {
+	public void update(long elapsedTime) {
 		
 	}
 	
