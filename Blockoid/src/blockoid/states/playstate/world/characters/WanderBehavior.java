@@ -23,7 +23,7 @@ public class WanderBehavior implements Behavior {
 	
 	@Override
 	public void act(World world, long elapsedTime) {
-		if (decisionTime == 0 || elapsedTime > decisionTime + 1000000000) {
+		if (decisionTime == 0 || elapsedTime > decisionTime + 2000000000) {
 			decisionTime = elapsedTime;
 			decision = Math.random();
 		}
@@ -31,14 +31,14 @@ public class WanderBehavior implements Behavior {
 		if (decision < 0.20) {
 			// change heading
 			headingLeft = !headingLeft;
-		} else if (decision < 0.50) {
+		} else if (decision < 0.60) {
 			// walk
 			if (headingLeft) 
-				being.moveLeft();
+				being.aiMoveLeft();
 			else
-				being.moveRight();
-		} else if (decision < 0.60) {
-			being.jump();
+				being.aiMoveRight();
+		} else if (decision < 0.61) {
+			//being.jump();
 		}
 	}
 }

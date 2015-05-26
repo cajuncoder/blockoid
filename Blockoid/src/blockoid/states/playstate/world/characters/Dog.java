@@ -27,7 +27,7 @@ public class Dog extends Being {
 		behavior = new WanderFollowBehavior(this);
 		sprite = Assets.getSpriteSheet("characters/dog20x14", 20, 14);
 		height = 14;
-		speed = 0.5;
+		speed = 0.66;
 		idleRight = new int[]{5};
 		idleLeft = new int[]{0};
 		walkRight = new int[]{6, 7, 6, 8};

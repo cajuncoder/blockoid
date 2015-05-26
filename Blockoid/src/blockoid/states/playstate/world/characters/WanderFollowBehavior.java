@@ -3,7 +3,7 @@ package blockoid.states.playstate.world.characters;
 import blockoid.states.playstate.world.World;
 
 public class WanderFollowBehavior implements Behavior {	
-	private static final int ATTRACTION_DISTANCE = 50;
+	private static final int ATTRACTION_DISTANCE = 100;
 	private Being being;
 	private Behavior[] behaviors;
 	
