@@ -186,7 +186,7 @@ public class World {
 		renderEndY = (CameraOffY/8)+(game.height/8)+endYPadding;
 		int subRenderStartX = renderStartX-startXPadding;
 		int subRenderStartY = renderStartY-startYPadding;
-		int subRenderEndX = renderEndX-endXPadding;
+		int subRenderEndX = renderEndX-endXPadding+1;
 		int subRenderEndY = renderEndY-endYPadding+1;
 		
 		if(renderStartX < 0) renderStartX = 0;
