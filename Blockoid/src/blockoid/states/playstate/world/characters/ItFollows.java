@@ -20,6 +20,7 @@ import blockoid.states.playstate.world.World;
 
 public class ItFollows extends Creature {
 	private static final int MIN_SEPARATION = 25;
+	private static final int MAX_SEPARATION = 60;
 	
 	private double oldDistance = 0;
 	private double oldX = 0;
@@ -38,8 +39,8 @@ public class ItFollows extends Creature {
 		if (distance > MIN_SEPARATION) {
 			if (playerX > x) moveRight();
 			if (playerX < x) moveLeft();
-			boolean gapWidening = Math.abs(distance - oldDistance) > 0;
-			if (gapWidening && x == oldX) jump();
+			boolean gapWidening = Math.abs(distance - oldDistance) > 1;
+			if (x == oldX && (gapWidening || distance > MAX_SEPARATION)) jump();
 		}
 		oldDistance = distance;
 		oldX = x;
