@@ -6,14 +6,14 @@ import blockoid.states.playstate.world.World;
 public class WanderBehavior implements Behavior {
 	private boolean headingLeft;
 	private double decision;
-	private long counter;
+	private long decisionTime;
 	
 	private Being being;
 	
 	public WanderBehavior(Being being) {
 		attachBeing(being);
 		this.decision = 0;
-		this.counter = 0;
+		this.decisionTime = 0;
 	}
 	
 	@Override
@@ -23,22 +23,22 @@ public class WanderBehavior implements Behavior {
 	
 	@Override
 	public void act(World world, long elapsedTime) {
-		if (counter % 100 == 0)
+		if (decisionTime == 0 || elapsedTime > decisionTime + 1000000000) {
+			decisionTime = elapsedTime;
 			decision = Math.random();
+		}
 		
-		if (decision < 0.5) {
+		if (decision < 0.20) {
 			// change heading
 			headingLeft = !headingLeft;
-		} else if (decision < 0.95) {
+		} else if (decision < 0.50) {
 			// walk
 			if (headingLeft) 
 				being.moveLeft();
 			else
 				being.moveRight();
-		} else if (decision < 1.0) {
+		} else if (decision < 0.60) {
 			being.jump();
 		}
-			
-		counter++;
 	}
 }
