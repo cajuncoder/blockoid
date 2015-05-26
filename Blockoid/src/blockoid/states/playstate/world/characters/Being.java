@@ -51,7 +51,10 @@ abstract public class Being {
 	private int oldFrameCounter;
 	public int hitpool;
 	public int hitpoints;
+	public double speed = 1;
 	public int[] animation;
+	public int[] idleRight = {0};
+	public int[] idleLeft = {3};
 	public int[] walkRight = {0, 1};
 	public int[] walkLeft = {3, 4};
 	public int[] jumpRight = {2};
@@ -84,8 +87,8 @@ abstract public class Being {
 		if(standingOnGround) {
 			xVel = 0;
 		}else{
-			if(xVel > 0) xVel -= 0.03;
-			if(xVel < 0) xVel += 0.03;
+			if(xVel >= 0.03) xVel -= 0.03;
+			if(xVel <= -0.03) xVel += 0.03;
 		}
 		
 		if(yVel <= 2.5) yVel += 0.125;
@@ -114,8 +117,10 @@ abstract public class Being {
 		
 		if(frameCounter == oldFrameCounter && standingOnGround) {
 			frame = 0;
-			if(animation==jumpRight) animation = walkRight;
-			if(animation==jumpLeft) animation = walkLeft;
+			if(animation==walkRight) animation = idleRight;
+			if(animation==walkLeft) animation = idleLeft;
+			if(animation==jumpRight) animation = idleRight;
+			if(animation==jumpLeft) animation = idleLeft;
 		}
 		
 		standingOnGround = false;
@@ -304,9 +309,9 @@ abstract public class Being {
 	
 	public void moveLeft() {
 		if(standingOnGround || inWater) {
-			xVel=-1.00;
+			xVel=-speed;
 		}else{
-			if(xVel>-1.00) xVel-=0.1;
+			if(xVel>-speed) xVel-=0.1;
 		}
 		animation = walkLeft;
 		frameCounter+=1;
@@ -314,9 +319,9 @@ abstract public class Being {
 	
 	public void moveRight() {
 		if(standingOnGround || inWater) {
-			xVel=1.00;
+			xVel=speed;
 		}else{
-			if(xVel<1.00) xVel+=0.1;
+			if(xVel<speed) xVel+=0.1;
 		}
 		animation = walkRight;
 		frameCounter+=1;

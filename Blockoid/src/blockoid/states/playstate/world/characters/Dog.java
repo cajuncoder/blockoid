@@ -24,7 +24,17 @@ public class Dog extends Being {
 	
 	public Dog(Game game) {
 		super(game);
-		behavior = new WanderFollowBehavior(this);
+		//behavior = new WanderFollowBehavior(this);
+		behavior = new FollowBehavior(this);
+		sprite = Assets.getSpriteSheet("characters/dog20x14", 20, 14);
+		height = 14;
+		speed = 0.5;
+		idleRight = new int[]{5};
+		idleLeft = new int[]{0};
+		walkRight = new int[]{6, 7, 6, 8};
+		walkLeft = new int[]{1, 2, 1, 3};
+		jumpRight = new int[]{9};
+		jumpLeft = new int[]{4};
 	}
 	
 	public void act(World world, long elapsedTime) {
