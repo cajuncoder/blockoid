@@ -1,2 +1,2 @@
-java -Xms2G -Xmx2G -jar Blockoid.jar
+java -Xms1280M -Xmx1280M -jar Blockoid.jar
 PAUSE
