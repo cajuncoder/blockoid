@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import blockoid.audio.Audio;
 import blockoid.graphics.SpriteSheet;
 
 public class Assets {
