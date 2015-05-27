@@ -198,7 +198,12 @@ abstract public class Being {
 				
 						if(world.tiles[xTile][yTile].solid == true) {
 							//y = oldY;
-							if(yi == 0) {
+							if(yi == 0 && !standingOnGround) {
+								if (timeInAir > 70) {
+									int deduction = (timeInAir - 70) / 10 + 1;
+									hitpoints -= deduction;
+									hitpoints = Math.max(0, hitpoints);
+								}
 								standingOnGround = true;
 								y = world.tiles[xTile][yTile].y;
 								yVel = 0;
@@ -301,10 +306,23 @@ abstract public class Being {
 	}
 	
 	public void draw(Graphics2D g, int OffX, int OffY){
+		int x = dx-(sprite.spriteSizeX/2)-OffX;
+		int y = dy-(sprite.spriteSizeY-1)-OffY;
 		//g.drawString(name, dx-OffX-32, dy-OffY-16);
-		sprite.drawSprite(dx-(sprite.spriteSizeX/2)-OffX, dy-(sprite.spriteSizeY-1)-OffY, animation[frame], lightLevel, g);
+		sprite.drawSprite(x, y, animation[frame], lightLevel, g);
 		//sprite.drawSprite(dx-(width/2)-OffX+16, dy-(height-1)-OffY, animation[frame], g);
 		//if(inventoryOpen) inventory.draw(g);
+		int barX = x;
+		int barY = y-height/2;
+		int barWidth = width;
+		int barHeight = 3;
+		
+		g.setColor(Color.DARK_GRAY);
+		g.drawRect(barX, barY, barWidth, barHeight);
+		g.setColor(Color.RED);
+		g.fillRect(barX+1, barY+1, barWidth-1, barHeight-1);
+		g.setColor(Color.GREEN);
+		g.fillRect(barX+1, barY+1, (int)((barWidth-1) * (hitpoints * 1.0 / hitpool)), barHeight-1);
 	}
 	
 	public void moveLeft() {
