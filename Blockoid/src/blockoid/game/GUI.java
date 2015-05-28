@@ -117,7 +117,7 @@ public class GUI {
 			if (game.keyboard.isKeyTyped(KeyEvent.VK_ENTER)) {
 				chatting = false;
 				if (chatText.length() > 0) {
-					if (chatText.startsWith("cheat")) {
+					if (chatText.startsWith("spawn")) {
 						processCheat();
 					}
 					// TODO(griffy) Send... somewhere!
@@ -144,7 +144,7 @@ public class GUI {
 	}
 	
 	protected void processCheat() {
-		Pattern cheatPattern = Pattern.compile("cheat (?<type>[^\\s]+) (?<class>[^\\s]+)( (?<amount>\\d+))?");
+		Pattern cheatPattern = Pattern.compile("spawn (?<type>[^\\s]+) (?<class>[^\\s]+)( (?<amount>\\d+))?");
 		Matcher m = cheatPattern.matcher(chatText);
 		if (m.matches()) {
 			String type = m.group("type");
@@ -164,7 +164,8 @@ public class GUI {
 					Class<?> clazz = null;
 					clazz = Class.forName("blockoid.game.item." + clazzName);
 					for (int i = 0; i < amount; i++) {
-						player.inventory.addItem((Item)clazz.newInstance());
+						//player.inventory.addItem((Item)clazz.newInstance());
+						world.addItem((Item) clazz.newInstance(), (int)player.x, (int)player.y-32);
 					}
 				}
 			} catch (Exception e) {
