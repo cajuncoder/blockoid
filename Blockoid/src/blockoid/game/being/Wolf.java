@@ -16,6 +16,7 @@ public class Wolf extends Dog {
 		Being enemy = world.nearestEnemy(this);
 		if (enemy == null)
 			return;
+		((AttackBehavior)behavior).setTarget(enemy);
 		behavior.act(world, elapsedTime);
 	}
 }

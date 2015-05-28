@@ -303,13 +303,17 @@ public class World {
 	//}
 	
 	public Being nearestBeing(Being being, boolean filterFriendly, boolean filterEnemy) {
+		if (being == null) return null;
+		
 		double nearest = Integer.MAX_VALUE;
 		Being nearestBeing = null;
 		
-		ArrayList<Being> beings = (ArrayList<Being>) this.beings.clone();
+		ArrayList<Being> beings = new ArrayList<Being>(this.beings);
 		beings.add(player);
 		
 		for (Being b : beings) {
+			if (b == null) continue;
+			if (b.isDead()) continue;
 			if (b.hashCode() == being.hashCode()) continue;
 			if (filterFriendly && b.isFriendly(being)) continue;
 			if (filterEnemy && b.isEnemy(being)) continue;
