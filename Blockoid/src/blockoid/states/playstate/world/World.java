@@ -84,7 +84,7 @@ public class World {
 	Background background;
 	public Player player;
 	//public ArrayList<Object> liquidTiles = new ArrayList<Object>();
-	public ArrayList<Being> beings = new ArrayList<Being>();
+	public CopyOnWriteArrayList<Being> beings = new CopyOnWriteArrayList<Being>();
 	
 	public World(Game game) {
 		this.game = game;
@@ -111,7 +111,16 @@ public class World {
 		//creatures.get(0).place(((sizeX/2)*8)+4+5, getSurface(sizeX/2)*8+5);
 	}
 	
+	private int spawnNewPlayerCounter = 600;
 	public void update(long elapsedTime) {
+		
+		if(player==null) {
+			spawnNewPlayerCounter -= 1;
+			if(spawnNewPlayerCounter <= 0) {
+			player = new Player(game);
+			player.place(((sizeX/2)*8)+4, getSurface(sizeX/2)*8);
+			}
+		}else{spawnNewPlayerCounter = 600;}
 		
 		for(int y = renderStartY; y < sizeY && y <= renderEndY; y++) {
 			for(int x = renderStartX; x < sizeX && x <= renderEndX; x++) {
@@ -156,9 +165,10 @@ public class World {
 		//	o.update(this);
 		//}
 		
+		if(player!=null) player.update(this, elapsedTime);
+		
 		if(player!=null) {
 			if(player.selectedObject!=null) player.selectedObject.selected=true;
-			player.update(this, elapsedTime);
 			CameraOffX = Math.round(player.dx - game.width/2);
 			CameraOffY = Math.round(player.dy - game.height/2 - (game.height/8));
 		}
@@ -239,7 +249,7 @@ public class World {
 		}
 		
 		//Player In Water
-		if(player.inWater) player.draw(g, CameraOffX, CameraOffY);
+		if(player != null && player.inWater) player.draw(g, CameraOffX, CameraOffY);
 		
 		//Draw Foreground Tiles
 		for(int y = renderStartY; y < sizeY && y <= renderEndY; y++) {
@@ -252,7 +262,7 @@ public class World {
 		}
 		
 		//Player && Items
-		if(!player.inWater) player.draw(g, CameraOffX, CameraOffY);
+		if(player!=null && !player.inWater) player.draw(g, CameraOffX, CameraOffY);
 		for(Item i: items) {
 			i.worldDraw(g, CameraOffX, CameraOffY);
 		}

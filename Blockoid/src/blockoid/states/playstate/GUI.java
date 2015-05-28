@@ -47,7 +47,9 @@ public class GUI {
 	}
 	
 	public void update() {
-		if(game.keyboard.keys[KeyEvent.VK_ESCAPE]) {
+		player = world.player;
+		
+		if(game.keyboard.keys[KeyEvent.VK_ESCAPE] || player == null) {
 			inventories.clear();
 		}
 		

@@ -60,6 +60,7 @@ abstract public class Being {
 	public int[] jumpRight = {2};
 	public int[] jumpLeft = {5};
 	Audio jump = Assets.getAudio("jump");
+	Audio hurt = Assets.getAudio("genericHurt");
 	public Item rightHandItem = null;
 	int lightLevel = 0;
 	
@@ -67,7 +68,7 @@ abstract public class Being {
 		inventory = new Inventory("Inventory",inventoryWidth,inventoryHeight);
 		
 		name = "Ogg";
-		hitpool = 3;
+		hitpool = 16;
 		hitpoints = hitpool;
 		sprite = Assets.getSpriteSheet("characters/character", width, height);
 		animation = walkRight;
@@ -78,7 +79,8 @@ abstract public class Being {
 	public abstract void act(World world, long elapsedTime);
 	
 
-	
+	private int showHealthbarTimer = 120;
+	private int oldHitpoints = 0;
 	public void update(World world, long elapsedTime) {
 		if(oldYTile-1 > 0) {
 			lightLevel = (int) Math.ceil(world.tiles[oldXTile][oldYTile-1].lightLevel);
@@ -134,6 +136,8 @@ abstract public class Being {
 		//dx = (int)Math.round(x);
 		//dy = (int)Math.round(y);
 		checkCollision(world);
+		showHealthbarTimer-=1;
+		if(hitpoints!=oldHitpoints) showHealthbarTimer = 120;
 		
 		oldX = x;
 		oldY = y;
@@ -143,6 +147,7 @@ abstract public class Being {
 		if(standingOnGround) {timeOnGround+=1;} else {timeOnGround=0;}
 		
 		oldi = game.keyboard.i;
+		oldHitpoints = hitpoints;
 	}
 		
 	public void checkCollision(World world) {
@@ -199,10 +204,11 @@ abstract public class Being {
 						if(world.tiles[xTile][yTile].solid == true) {
 							//y = oldY;
 							if(yi == 0 && !standingOnGround) {
-								if (timeInAir > 70) {
-									int deduction = (timeInAir - 70) / 10 + 1;
-									hitpoints -= deduction;
-									hitpoints = Math.max(0, hitpoints);
+								if (timeInAir > 80) {
+									int deduction = (timeInAir - 80) / 10 + 1;
+									//hitpoints -= deduction;
+									//hitpoints = Math.max(0, hitpoints);
+									hurt(deduction, world);
 								}
 								standingOnGround = true;
 								y = world.tiles[xTile][yTile].y;
@@ -231,19 +237,22 @@ abstract public class Being {
 								x = oldX;
 							} 
 							if(yi == 0) {
-								if(standingOnGround && x-oldX < 0 && !world.tiles[xTile][yTile-1].solid) {
+								//jump over stuff
+								if(standingOnGround && x-oldX < 0 && !world.tiles[xTile][yTile-1].solid && !world.tiles[xTile][yTile-2].solid) {
 									yVel=-1.4;
 									//xVel=-1.25;
 									y+=yVel;
 									//x+=xVel;
 									standingOnGround=false;
+									timeInAir = 0;
 								} else
-								if(standingOnGround && x-oldX > 0 && !world.tiles[xTile][yTile-1].solid) {
+								if(standingOnGround && x-oldX > 0 && !world.tiles[xTile][yTile-1].solid && !world.tiles[xTile][yTile-2].solid) {
 									yVel=-1.4;
 									//xVel=+1.25;
 									y+=yVel;
 									//x+=xVel;
 									standingOnGround=false;
+									timeInAir = 0;
 								}
 								
 									x = oldX;
@@ -282,8 +291,29 @@ abstract public class Being {
 			if(wt!=null&&wt.mass>60) {
 				inWater = true;
 			}else{inWater = false;}
+			
 		}
 		
+	}
+	
+	public void hurt(int amount, World world) {
+		hitpoints-=amount;
+		if(hitpoints<0) hitpoints = 0;
+		
+		if(x >= world.CameraOffX && x <= world.CameraOffX+world.game.width) {
+			if(y >= world.CameraOffY && y <= world.CameraOffY+world.game.width) {
+				hurt.play(false);
+			}else{System.out.println("Sound offscreen");}
+		}else{System.out.println("Sound offscreen");}
+		
+		//Death
+		if(hitpoints <= 0 && hitpool > 0) {
+			if(this.equals(world.player)) {
+				world.player = null;
+			}else{
+				world.beings.remove(this);
+			}
+		}
 	}
 	
 	public Tile getTile(double x, double y, World world) {
@@ -312,17 +342,19 @@ abstract public class Being {
 		sprite.drawSprite(x, y, animation[frame], lightLevel, g);
 		//sprite.drawSprite(dx-(width/2)-OffX+16, dy-(height-1)-OffY, animation[frame], g);
 		//if(inventoryOpen) inventory.draw(g);
-		int barX = x;
-		int barY = y-height/2;
-		int barWidth = width;
-		int barHeight = 3;
-		
-		g.setColor(Color.DARK_GRAY);
-		g.drawRect(barX, barY, barWidth, barHeight);
-		g.setColor(Color.RED);
-		g.fillRect(barX+1, barY+1, barWidth-1, barHeight-1);
-		g.setColor(Color.GREEN);
-		g.fillRect(barX+1, barY+1, (int)((barWidth-1) * (hitpoints * 1.0 / hitpool)), barHeight-1);
+
+		if(showHealthbarTimer > 0) {
+			int barX = x;
+			int barY = y-height/2;
+			int barWidth = width;
+			int barHeight = 3;
+			g.setColor(Color.DARK_GRAY);
+			g.drawRect(barX, barY, barWidth, barHeight);
+			g.setColor(Color.RED);
+			g.fillRect(barX+1, barY+1, barWidth-1, barHeight-1);
+			g.setColor(Color.GREEN);
+			g.fillRect(barX+1, barY+1, (int)((barWidth-1) * (hitpoints * 1.0 / hitpool)), barHeight-1);
+		}
 	}
 	
 	public void moveLeft() {
