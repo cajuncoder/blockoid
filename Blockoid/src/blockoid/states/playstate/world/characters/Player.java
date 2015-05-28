@@ -146,4 +146,5 @@ public class Player extends Being {
 		lastItemUse = 0;
 		}
 	}
+	
 }

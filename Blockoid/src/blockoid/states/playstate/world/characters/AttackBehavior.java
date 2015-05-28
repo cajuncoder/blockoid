@@ -2,16 +2,16 @@ package blockoid.states.playstate.world.characters;
 
 import blockoid.states.playstate.world.World;
 
-public class FollowBehavior implements Behavior {
-	private static final int MIN_SEPARATION = 10;
-	private static final int MAX_SEPARATION = 150;
+public class AttackBehavior implements Behavior {
+	private static final int MIN_SEPARATION = 15;
+	private static final int MAX_SEPARATION = 250;
 	
 	private double oldDistance = 0;
 	private double oldX = 0;
 	
 	private Being being;
 	
-	public FollowBehavior(Being being) {
+	public AttackBehavior(Being being) {
 		attachBeing(being);
 	}
 	
@@ -24,16 +24,22 @@ public class FollowBehavior implements Behavior {
 	@Override
 	public void act(World world, long elapsedTime) {
 		if(world.player!=null) {
-			being.speed = world.player.speed;
+			//being.speed = world.player.speed;
 		
 			double playerX = world.player.x;
+			double playerY = world.player.y;
 		
-			double distance = Math.abs(playerX - being.x);
-			if (distance > MIN_SEPARATION) {
-				if (playerX > being.x) being.aiMoveRight();
-				if (playerX < being.x) being.aiMoveLeft();
+			double distance = Math.abs(playerX - being.x) + Math.abs(playerY - being.y);
+			if (distance > MIN_SEPARATION && distance < MAX_SEPARATION) {
+			if (playerX > being.x) being.aiMoveRight();
+			if (playerX < being.x) being.aiMoveLeft();
 			//boolean gapWidening = Math.abs(distance - oldDistance) > 1;
 			//if (being.x == oldX && (gapWidening || distance > MAX_SEPARATION)) being.jump();
+			}
+			
+			if(distance <= MIN_SEPARATION) {
+				world.player.knockBack(this.being, 5);
+				world.player.hurt(0,world);
 			}
 			oldDistance = distance;
 			oldX = being.x;

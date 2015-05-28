@@ -20,7 +20,7 @@ import blockoid.states.playstate.world.tiles.Water;
 import blockoid.states.playstate.world.World;
 
 public class Dog extends Being {
-	private Behavior behavior;
+	protected Behavior behavior;
 	
 	public Dog(Game game) {
 		super(game);

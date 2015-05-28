@@ -42,6 +42,7 @@ abstract public class Being {
 	public int jumpCounter = 0;
 	protected boolean standingOnGround = false;
 	public boolean inWater = false;
+	public boolean knockedBack = false;
 	protected int timeOnGround = 0;
 	protected int timeInAir = 0;
 	public int height = 16;
@@ -87,10 +88,19 @@ abstract public class Being {
 		}
 		
 		if(standingOnGround) {
-			xVel = 0;
+			if(xVel >= 0.2) xVel -= 0.2;
+			if(xVel <= -0.2) xVel += 0.2;
+			if(xVel <= 0.2 && xVel >= -0.2) {
+				xVel=0;
+				knockedBack = false;
+			}
 		}else{
 			if(xVel >= 0.03) xVel -= 0.03;
 			if(xVel <= -0.03) xVel += 0.03;
+			if(xVel <= 0.03 && xVel >= -0.03) {
+				xVel=0;
+				knockedBack = false;
+			}
 		}
 		
 		if(yVel <= 2.5) yVel += 0.125;
@@ -204,8 +214,9 @@ abstract public class Being {
 						if(world.tiles[xTile][yTile].solid == true) {
 							//y = oldY;
 							if(yi == 0 && !standingOnGround) {
-								if (timeInAir > 80) {
-									int deduction = (timeInAir - 80) / 10 + 1;
+								if (timeInAir > 72) {
+									int deduction = ((timeInAir - 72) / 10) + 1;
+									System.out.println(deduction);
 									//hitpoints -= deduction;
 									//hitpoints = Math.max(0, hitpoints);
 									hurt(deduction, world);
@@ -303,8 +314,8 @@ abstract public class Being {
 		if(x >= world.CameraOffX && x <= world.CameraOffX+world.game.width) {
 			if(y >= world.CameraOffY && y <= world.CameraOffY+world.game.width) {
 				hurt.play(false);
-			}else{System.out.println("Sound offscreen");}
-		}else{System.out.println("Sound offscreen");}
+			}
+		}
 		
 		//Death
 		if(hitpoints <= 0 && hitpool > 0) {
@@ -313,6 +324,21 @@ abstract public class Being {
 			}else{
 				world.beings.remove(this);
 			}
+		}
+	}
+	
+	public void knockBack(Being being, double amount) {
+		if(knockedBack==false) {
+			knockedBack = true;
+			if(amount > 7) amount = 7;
+			double xDiff = this.x - being.x;
+			double yDiff = this.y - being.y;
+			if(xDiff==0 && yDiff == 0) {yDiff = 1;}
+			double totalDiff = Math.abs(xDiff) + Math.abs(yDiff);
+			this.xVel = (xDiff/totalDiff)*amount;
+			this.yVel = (yDiff/totalDiff)*amount;
+			System.out.println(xVel);
+			System.out.println(yVel);
 		}
 	}
 	
@@ -359,7 +385,7 @@ abstract public class Being {
 	
 	public void moveLeft() {
 		if(standingOnGround || inWater) {
-			xVel=-speed;
+			if(!knockedBack) xVel=-speed;
 		}else{
 			if(xVel>-speed) xVel-=0.1;
 		}
@@ -369,7 +395,7 @@ abstract public class Being {
 	
 	public void moveRight() {
 		if(standingOnGround || inWater) {
-			xVel=speed;
+			if(!knockedBack) xVel=speed;
 		}else{
 			if(xVel<speed) xVel+=0.1;
 		}
