@@ -153,7 +153,7 @@ public class GUI {
 			try {
 				if (type.equals("being")) {
 					Class<?> clazz = null;
-					clazz = Class.forName("blockoid.states.playstate.world.characters." + clazzName);
+					clazz = Class.forName("blockoid.game.being." + clazzName);
 					Constructor<?> constructor = clazz.getConstructor(Game.class);
 					for (int i = 0; i < amount; i++) {
 						Being being = (Being)constructor.newInstance(game);
@@ -162,7 +162,7 @@ public class GUI {
 					}
 				} else if (type.equals("item")) {
 					Class<?> clazz = null;
-					clazz = Class.forName("blockoid.states.playstate.world.items." + clazzName);
+					clazz = Class.forName("blockoid.game.item." + clazzName);
 					for (int i = 0; i < amount; i++) {
 						player.inventory.addItem((Item)clazz.newInstance());
 					}
