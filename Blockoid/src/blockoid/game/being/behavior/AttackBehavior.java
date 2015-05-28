@@ -3,47 +3,48 @@ package blockoid.game.being.behavior;
 import blockoid.game.World;
 import blockoid.game.being.Being;
 
-public class AttackBehavior implements Behavior {
-	private static final int MIN_SEPARATION = 15;
-	private static final int MAX_SEPARATION = 250;
-	
-	private double oldDistance = 0;
-	private double oldX = 0;
-	
-	private Being being;
+public class AttackBehavior extends Behavior {
+	protected Being target;
+	private int minSeparation, maxSeparation;
 	
 	public AttackBehavior(Being being) {
-		attachBeing(being);
+		super(being);
+		FollowBehavior follow = new FollowBehavior(being);
+		behaviors.put("follow", follow);
+		setMinSeparation(15);
+		setMaxSeparation(250);
 	}
 	
-	@Override
-	public void attachBeing(Being being) {
-		this.being = being;
-		this.oldX = being.x;
+	// dear lord these are verbose and repetitive :(
+	public void setMinSeparation(int min) {
+		minSeparation = min;
+		FollowBehavior behavior = (FollowBehavior)behaviors.get("follow");
+		behavior.setMinSeparation(min);
+	}
+	
+	public void setMaxSeparation(int max) {
+		maxSeparation = max;
+		FollowBehavior behavior = (FollowBehavior)behaviors.get("follow");
+		behavior.setMaxSeparation(max);
+	}
+	
+	public void setTarget(Being being) {
+		target = being;
+		FollowBehavior behavior = (FollowBehavior)behaviors.get("follow");
+		behavior.setTarget(being);
 	}
 	
 	@Override
 	public void act(World world, long elapsedTime) {
-		if(world.player!=null) {
-			//being.speed = world.player.speed;
+		if (target.isDead())
+			return;
 		
-			double playerX = world.player.x;
-			double playerY = world.player.y;
-		
-			double distance = Math.abs(playerX - being.x) + Math.abs(playerY - being.y);
-			if (distance > MIN_SEPARATION && distance < MAX_SEPARATION) {
-			if (playerX > being.x) being.aiMoveRight();
-			if (playerX < being.x) being.aiMoveLeft();
-			//boolean gapWidening = Math.abs(distance - oldDistance) > 1;
-			//if (being.x == oldX && (gapWidening || distance > MAX_SEPARATION)) being.jump();
-			}
-			
-			if(distance <= MIN_SEPARATION) {
-				world.player.knockBack(this.being, 3);
-				world.player.hurt(2,world);
-			}
-			oldDistance = distance;
-			oldX = being.x;
+		boolean targetNearby = Math.abs(target.x - being.x) < minSeparation;
+		if (targetNearby) {
+			target.knockBack(being, 3);
+			target.hurt(2, world);
+		} else {
+			behaviors.get("follow").act(world, elapsedTime);
 		}
 	}
 }

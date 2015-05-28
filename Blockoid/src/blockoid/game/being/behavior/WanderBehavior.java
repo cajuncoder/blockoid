@@ -4,26 +4,22 @@ import blockoid.Game;
 import blockoid.game.World;
 import blockoid.game.being.Being;
 
-public class WanderBehavior implements Behavior {
+public class WanderBehavior extends Behavior {
 	private boolean headingLeft;
 	private double decision;
 	private long decisionTime;
 	
-	private Being being;
-	
 	public WanderBehavior(Being being) {
-		attachBeing(being);
+		super(being);
+		this.headingLeft = false;
 		this.decision = 0;
 		this.decisionTime = 0;
 	}
 	
 	@Override
-	public void attachBeing(Being being) {
-		this.being = being;
-	}
-	
-	@Override
 	public void act(World world, long elapsedTime) {
+		being.useMinSpeed();
+		
 		if (decisionTime == 0 || elapsedTime > decisionTime + 2000000000) {
 			decisionTime = elapsedTime;
 			decision = Math.random();

@@ -301,4 +301,33 @@ public class World {
 	//	if(object.tile.object!=null) object.tile.object=null;
 	//	objects.remove(object);
 	//}
+	
+	public Being nearestBeing(Being being, boolean filterFriendly, boolean filterEnemy) {
+		double nearest = Integer.MAX_VALUE;
+		Being nearestBeing = null;
+		
+		ArrayList<Being> beings = (ArrayList<Being>) this.beings.clone();
+		beings.add(player);
+		
+		for (Being b : beings) {
+			if (b.hashCode() == being.hashCode()) continue;
+			if (filterFriendly && b.isFriendly(being)) continue;
+			if (filterEnemy && b.isEnemy(being)) continue;
+			
+			if (Math.abs(b.x - being.x) < nearest) {
+				nearest = Math.abs(b.x - being.x);
+				nearestBeing = b;
+			}
+		}
+		
+		return nearestBeing;
+	}
+	
+	public Being nearestEnemy(Being being) {
+		return nearestBeing(being, true, false);
+	}
+	
+	public Being nearestFriendly(Being being) {
+		return nearestBeing(being, false, true);
+	}
 }

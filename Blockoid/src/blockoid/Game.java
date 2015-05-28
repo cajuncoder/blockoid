@@ -210,7 +210,6 @@ public class Game implements Serializable {
 	// -------------------Render---------------------//
 	
 	public void render() {
-
 		if(g == null) 
 		g = graphicsContext();
 		currentState().draw(bufferGraphics);

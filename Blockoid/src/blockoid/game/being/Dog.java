@@ -36,10 +36,11 @@ public class Dog extends Being {
 		walkLeft = new int[]{1, 2, 1, 3};
 		jumpRight = new int[]{9};
 		jumpLeft = new int[]{4};
+		minSpeed = 0.66;
+		maxSpeed = 1.0;
 	}
 	
 	public void act(World world, long elapsedTime) {
-		speed = 0.66;
 		behavior.act(world, elapsedTime);
 	}
 }

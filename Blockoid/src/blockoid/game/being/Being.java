@@ -9,6 +9,7 @@ import blockoid.Assets;
 import blockoid.Game;
 import blockoid.audio.Audio;
 import blockoid.game.Inventory;
+import blockoid.game.Player;
 import blockoid.game.World;
 import blockoid.game.item.*;
 import blockoid.game.tile.Dirt;
@@ -54,6 +55,8 @@ abstract public class Being {
 	public int hitpool;
 	public int hitpoints;
 	public double speed = 1;
+	protected double minSpeed = 1;
+	protected double maxSpeed = 1;
 	public int[] animation;
 	public int[] idleRight = {0};
 	public int[] idleLeft = {3};
@@ -467,6 +470,31 @@ abstract public class Being {
 			yVel = -2.0;
 			//jump.play(false);
 		}
+	}
+	
+	public boolean isEnemy(Being being) {
+		return (this instanceof Player && !(being instanceof Player)) ||
+			   (!(this instanceof Player) && being instanceof Player);
+	}
+	
+	public boolean isFriendly(Being being) {
+		return !isEnemy(being);
+	}
+	
+	public boolean isDead() {
+		return hitpoints == 0;
+	}
+	
+	public boolean isAlive() {
+		return !isDead();
+	}
+	
+	public void useMinSpeed() {
+		speed = minSpeed;
+	}
+	
+	public void useMaxSpeed() {
+		speed = maxSpeed;
 	}
 }
 
