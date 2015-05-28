@@ -82,7 +82,9 @@ abstract public class Being {
 
 	private int showHealthbarTimer = 120;
 	private int oldHitpoints = 0;
+	private int hurtTimer = 30;
 	public void update(World world, long elapsedTime) {
+		hurtTimer--;
 		if(oldYTile-1 > 0) {
 			lightLevel = (int) Math.ceil(world.tiles[oldXTile][oldYTile-1].lightLevel);
 		}
@@ -308,33 +310,40 @@ abstract public class Being {
 	}
 	
 	public void hurt(int amount, World world) {
-		hitpoints-=amount;
-		if(hitpoints<0) hitpoints = 0;
+		if(hurtTimer<=0) {
+			hurtTimer = 30;
+			hitpoints-=amount;
+			if(hitpoints<0) hitpoints = 0;
 		
-		if(x >= world.CameraOffX && x <= world.CameraOffX+world.game.width) {
-			if(y >= world.CameraOffY && y <= world.CameraOffY+world.game.width) {
-				hurt.play(false);
+			if(x >= world.CameraOffX && x <= world.CameraOffX+world.game.width) {
+				if(y >= world.CameraOffY && y <= world.CameraOffY+world.game.width) {
+					hurt.play(false);
+				}
 			}
-		}
 		
-		//Death
-		if(hitpoints <= 0 && hitpool > 0) {
-			if(this.equals(world.player)) {
-				world.player = null;
-			}else{
-				world.beings.remove(this);
+			//Death
+			if(hitpoints <= 0 && hitpool > 0) {
+				if(this.equals(world.player)) {
+					world.player = null;
+				}else{
+					world.beings.remove(this);
+				}
 			}
 		}
 	}
 	
 	public void knockBack(Being being, double amount) {
 		if(knockedBack==false) {
+			timeInAir = 0;
+			standingOnGround = false;
 			knockedBack = true;
 			if(amount > 7) amount = 7;
 			double xDiff = this.x - being.x;
 			double yDiff = this.y - being.y;
-			if(xDiff==0 && yDiff == 0) {yDiff = 1;}
+			//if(xDiff==0 && yDiff == 0) {yDiff = -1;}
 			double totalDiff = Math.abs(xDiff) + Math.abs(yDiff);
+			if(totalDiff==0) totalDiff = 2;
+			if(yDiff > -totalDiff/2 && yDiff < totalDiff/2) yDiff -= totalDiff/2;
 			this.xVel = (xDiff/totalDiff)*amount;
 			this.yVel = (yDiff/totalDiff)*amount;
 			System.out.println(xVel);

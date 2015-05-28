@@ -38,8 +38,8 @@ public class AttackBehavior implements Behavior {
 			}
 			
 			if(distance <= MIN_SEPARATION) {
-				world.player.knockBack(this.being, 5);
-				world.player.hurt(0,world);
+				world.player.knockBack(this.being, 3);
+				world.player.hurt(2,world);
 			}
 			oldDistance = distance;
 			oldX = being.x;
