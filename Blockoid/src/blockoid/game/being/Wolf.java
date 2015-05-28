@@ -1,7 +1,8 @@
-package blockoid.states.playstate.world.characters;
+package blockoid.game.being;
 
 import blockoid.Game;
-import blockoid.states.playstate.world.World;
+import blockoid.game.World;
+import blockoid.game.being.behavior.AttackBehavior;
 
 public class Wolf extends Dog {
 

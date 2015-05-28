@@ -1,6 +1,7 @@
-package blockoid.states.playstate.world.characters;
+package blockoid.game.being.behavior;
 
-import blockoid.states.playstate.world.World;
+import blockoid.game.World;
+import blockoid.game.being.Being;
 
 public class AttackBehavior implements Behavior {
 	private static final int MIN_SEPARATION = 15;

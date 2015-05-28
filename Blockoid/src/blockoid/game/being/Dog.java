@@ -11,6 +11,7 @@ import blockoid.Game;
 import blockoid.audio.Audio;
 import blockoid.game.World;
 import blockoid.game.being.behavior.Behavior;
+import blockoid.game.being.behavior.WanderBehavior;
 import blockoid.game.being.behavior.WanderFollowBehavior;
 import blockoid.game.item.*;
 import blockoid.game.tile.Dirt;
