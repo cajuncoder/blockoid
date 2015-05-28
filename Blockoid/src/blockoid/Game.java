@@ -18,9 +18,9 @@ import blockoid.input.Keyboard;
 import blockoid.input.Mouse;
 import blockoid.input.MouseMotion;
 import blockoid.input.MouseWheel;
-import blockoid.states.GameState;
-import blockoid.states.menustates.MainMenuState;
-import blockoid.states.menustates.MenuState;
+import blockoid.state.MainMenuState;
+import blockoid.state.MenuState;
+import blockoid.state.State;
 
 
 //@SuppressWarnings("serial")
@@ -35,7 +35,7 @@ public class Game implements Serializable {
 	JPanel jpanel = new JPanel();
 	
 	// GameState
-	public Stack<GameState> stateStack = new Stack<GameState>();
+	public Stack<State> stateStack = new Stack<State>();
 
 	// Graphics
 	//public static int WIDTH = 160+80;
@@ -107,19 +107,19 @@ public class Game implements Serializable {
 		resetState(new MainMenuState(this));
 	}
 		
-	public GameState currentState() {
+	public State currentState() {
 		return stateStack.peek();
 	}
 	
-	public GameState popState() {
+	public State popState() {
 		return stateStack.pop();
 	}
 	
-	public void pushState(GameState state) {
+	public void pushState(State state) {
 		stateStack.push(state);
 	}
 	
-	public void resetState(GameState state) {
+	public void resetState(State state) {
 		stateStack.clear();
 		stateStack.push(state);
 	}
