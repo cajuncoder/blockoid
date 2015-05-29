@@ -9,7 +9,7 @@ public class Wolf extends Dog {
 	public Wolf(Game game) {
 		super(game);
 		behavior = new AttackBehavior(this);
-		maxSpeed = 1.5;
+		maxSpeed = 0.9;
 	}
 
 	public void act(World world, long elapsedTime) {

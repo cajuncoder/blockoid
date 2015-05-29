@@ -11,8 +11,10 @@ public class AttackBehavior extends Behavior {
 		super(being);
 		FollowBehavior follow = new FollowBehavior(being);
 		behaviors.put("follow", follow);
-		setMinSeparation(15);
-		setMaxSeparation(250);
+		WanderBehavior wander = new WanderBehavior(being);
+		behaviors.put("wander", wander);
+		setMinSeparation(16);
+		setMaxSeparation(128);
 	}
 	
 	// dear lord these are verbose and repetitive :(
@@ -39,12 +41,14 @@ public class AttackBehavior extends Behavior {
 		if (target.isDead())
 			return;
 		
-		boolean targetNearby = Math.abs(target.x - being.x) < minSeparation;
-		if (targetNearby) {
+		int targetDistance = (int) (Math.abs(target.x - being.x)+Math.abs(target.y - being.y));
+		if (targetDistance < minSeparation) {
 			target.knockBack(being, 3);
 			target.hurt(2, world);
-		} else {
+		} else if (targetDistance < maxSeparation){
 			behaviors.get("follow").act(world, elapsedTime);
+		} else {
+			behaviors.get("wander").act(world, elapsedTime);
 		}
 	}
 }
