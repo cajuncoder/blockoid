@@ -39,7 +39,10 @@ public class AttackBehavior extends Behavior {
 		if (target.isDead())
 			return;
 		
-		boolean targetNearby = Math.abs(target.x - being.x) < minSeparation;
+		boolean xNearby = Math.abs(target.x - being.x) < minSeparation;
+		boolean yNearby = Math.abs(target.y - being.y) < 1; 
+		boolean targetNearby = xNearby && yNearby;
+		
 		if (targetNearby) {
 			target.knockBack(being, 3);
 			target.hurt(2, world);
