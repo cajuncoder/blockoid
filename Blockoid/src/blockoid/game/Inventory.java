@@ -45,7 +45,7 @@ public class Inventory {
 	public boolean inventoryFull() {
 		for(int xi = 0; xi < nOfTilesX; xi++) {
 			for(int yi = 0; yi < nOfTilesY; yi++) {
-				if(slots[xi][yi].item==null) {
+				if(slots[xi][yi].item==null || slots[xi][yi].item.stackable && slots[xi][yi].item.numInStack < slots[xi][yi].item.maxInStack) {
 					return false;
 				}
 			}
@@ -56,12 +56,28 @@ public class Inventory {
 	public int addItem(Item item) {
 		//Stackable
 		int itemsLeftover = 0;
-		if(item.stackable) {
+		
 		for(int yi = 0; yi < nOfTilesY; yi++) {
 			for(int xi = 0; xi < nOfTilesX; xi++) {
-					if(item!=null && slots[xi][yi].item!=null) {
-						Item slotItem = slots[xi][yi].item;
-						if(slots[xi][yi].itemsMatch(item)) {
+				Item slotItem = slots[xi][yi].item;
+				
+				//Non Stackable
+				if(slots[xi][yi].item==null) {
+					item.inventory = this;
+					slots[xi][yi].item = item;
+					pickupBloop.play(false);
+					return 0;
+				}
+					///if(item!=null) {
+						//Item slotItem = slots[xi][yi].item;
+						//if(slots[xi][yi].item==null) {
+						//	item.inventory = this;
+						//	slots[xi][yi].item = item;
+						//	pickupBloop.play(false);
+						//	return 0;
+						//}
+				if(item.stackable) {
+						if(slots[xi][yi].item!=null && slots[xi][yi].itemsMatch(item)) {
 							while(slotItem.numInStack < slotItem.maxInStack) {
 								item.numInStack-=1;
 								slotItem.numInStack+=1;
@@ -74,19 +90,10 @@ public class Inventory {
 					}
 				}
 			}
-		}
-	
-		for(int yi = 0; yi < nOfTilesY; yi++) {
-			for(int xi = 0; xi < nOfTilesX; xi++) {
-				//Non Stackable
-				if(slots[xi][yi].item==null) {
-					item.inventory = this;
-					slots[xi][yi].item = item;
-					pickupBloop.play(false);
-					return 0;
-				}
-			}
-		}
+		///}else{
+
+		//}
+//
 		return itemsLeftover;
 	}
 	
