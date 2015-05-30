@@ -53,6 +53,7 @@ public class Inventory {
 		return true;
 	}
 	
+	//WARNING: ITEMSLEFTOVER GET DELETED
 	public int addItem(Item item) {
 		//Stackable
 		int itemsLeftover = 0;
