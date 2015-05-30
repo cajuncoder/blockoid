@@ -32,7 +32,7 @@ public class GUI {
 	private int my;
 	private int oldX;
 	private int oldY;
-	private boolean chatting = false;
+	public boolean chatting = false;
 	private String chatText = "";
 	
 	public GUI(GameState playState) {

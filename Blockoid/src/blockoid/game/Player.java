@@ -42,17 +42,20 @@ public class Player extends Being {
 	boolean oldSpace = false;
 	public void act(World world, long elapsedTime) {
 		//Controls
-		if(game.keyboard.right){
-			moveRight();
-		}
-		if(game.keyboard.left){
-			moveLeft();
-		}
+		boolean chatting = world.gameState.gui.chatting;
+		if(!chatting) {
+			if(game.keyboard.right){
+				moveRight();
+			}
+			if(game.keyboard.left){
+				moveLeft();
+			}
 	
-		if(game.keyboard.space && !oldSpace && timeOnGround>1 || game.keyboard.space && yVel < 0 && timeInAir < 14){
-			jump();
-		}
-		oldSpace = game.keyboard.space;
+			if(game.keyboard.space && !oldSpace && timeOnGround>1 || game.keyboard.space && yVel < 0 && timeInAir < 14){
+				jump();
+			}
+			oldSpace = game.keyboard.space;
+		
 		
 		//Tool Belt
 		toolbelt.moveTo(game.width/2 - toolbelt.sizeX/2, game.height - toolbelt.sizeY-2);
@@ -71,7 +74,7 @@ public class Player extends Being {
 		
 		rightHandItem = toolbelt.slots[toolbeltIndex][0].item;
 		
-		GameState ps = (GameState)game.currentState();
+		GameState ps = world.gameState;//(GameState)game.currentState();
 		lastItemUse++;
 		if(ps.gui.selectedInventory==null && rightHandItem==null) {
 			if(ps.gui.grabbedItem==null) {
@@ -100,6 +103,7 @@ public class Player extends Being {
 				inventory.moveTo(game.width/2 - 4*12, game.height/2 - 2*12);
 				ps.gui.addInventory(inventory);
 			}
+		}
 		}
 	}
 	
