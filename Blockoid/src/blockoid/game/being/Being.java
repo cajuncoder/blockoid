@@ -11,6 +11,7 @@ import blockoid.audio.Audio;
 import blockoid.game.Inventory;
 import blockoid.game.Player;
 import blockoid.game.World;
+import blockoid.game.being.behavior.BehaviorCache;
 import blockoid.game.item.*;
 import blockoid.game.tile.Dirt;
 import blockoid.game.tile.Empty;
@@ -68,6 +69,12 @@ abstract public class Being {
 	Audio hurt = Assets.getAudio("genericHurt");
 	public Item rightHandItem = null;
 	int lightLevel = 0;
+	public Brain brain;
+	public BehaviorCache bcache;
+	public int sightRange = 100;
+	public int attackRange = 2;
+	public int followDistance = 20;
+	public int wanderRange = 100;
 	
 	public Being(Game game) {
 		inventory = new Inventory("Inventory",inventoryWidth,inventoryHeight);
@@ -79,6 +86,8 @@ abstract public class Being {
 		animation = walkRight;
 		frame = 0;
 		this.game = game;
+		brain = new Brain();
+		bcache = new BehaviorCache();
 	}
 	
 	public abstract void act(World world, long elapsedTime);
@@ -222,7 +231,6 @@ abstract public class Being {
 							if(yi == 0 && !standingOnGround) {
 								if (timeInAir > 72) {
 									int deduction = ((timeInAir - 72) / 10) + 1;
-									System.out.println(deduction);
 									//hitpoints -= deduction;
 									//hitpoints = Math.max(0, hitpoints);
 									hurt(deduction, world);
@@ -350,8 +358,6 @@ abstract public class Being {
 			if(yDiff > -totalDiff/2 && yDiff < totalDiff/2) yDiff -= totalDiff/2;
 			this.xVel = (xDiff/totalDiff)*amount;
 			this.yVel = (yDiff/totalDiff)*amount;
-			System.out.println(xVel);
-			System.out.println(yVel);
 		}
 	}
 	
@@ -473,8 +479,9 @@ abstract public class Being {
 	}
 	
 	public boolean isEnemy(Being being) {
-		return (this instanceof Player && !(being instanceof Player)) ||
-			   (!(this instanceof Player) && being instanceof Player);
+		return true; // TODO(griffy) FREE-FOR-ALL!
+		//return (this instanceof Player && !(being instanceof Player)) ||
+		//	   (!(this instanceof Player) && being instanceof Player);
 	}
 	
 	public boolean isFriendly(Being being) {

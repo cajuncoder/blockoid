@@ -40,7 +40,6 @@ public class SpriteSheet implements Serializable {
 		}
 		sheetWidth = sheet.getWidth(null);
 		sheetHeight = sheet.getHeight(null);
-		System.out.println(sheetWidth);
 
 		//store sprite frame coordinates in sprite object.
 		spritesX = (sheetWidth)/spriteSizeX;

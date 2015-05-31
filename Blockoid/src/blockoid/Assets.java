@@ -25,7 +25,7 @@ public class Assets {
 		BufferedImage img = images.get(name);
 		if (img == null) {
 			String filename = "res/gfx/" + name + "." + extension;
-			System.out.println(filename);
+			System.out.println("Loading image " + filename);
 			try {
 			    img = ImageIO.read(new File(filename));
 			} catch (IOException e) {
@@ -44,7 +44,7 @@ public class Assets {
 		Audio audio = audioClips.get(name);
 		if (audio == null) {
 			String filename = "res/sfx/" + name + "." + extension;
-			System.out.println(filename);
+			System.out.println("Loading audio " + filename);
 			audio = new Audio(filename);
 			audioClips.put(name, audio);
 		}

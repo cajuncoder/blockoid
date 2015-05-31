@@ -9,8 +9,14 @@ import blockoid.Assets;
 import blockoid.Game;
 import blockoid.audio.Audio;
 import blockoid.game.World;
+import blockoid.game.being.behavior.Attack;
 import blockoid.game.being.behavior.Behavior;
-import blockoid.game.being.behavior.FollowBehavior;
+import blockoid.game.being.behavior.Follow;
+import blockoid.game.being.behavior.FollowEnemy;
+import blockoid.game.being.behavior.LocateNearestEnemy;
+import blockoid.game.being.behavior.Loop;
+import blockoid.game.being.behavior.Perceive;
+import blockoid.game.being.behavior.Sequence;
 import blockoid.game.item.*;
 import blockoid.game.tile.Dirt;
 import blockoid.game.tile.Empty;
@@ -25,11 +31,16 @@ public class ItFollows extends Being {
 	
 	public ItFollows(Game game) {
 		super(game);
-		behavior = new FollowBehavior(this);
+		sightRange = 1000;
+		behavior = new Loop(new Sequence(new Behavior[]{
+			new Perceive(),
+			new LocateNearestEnemy(),
+			new FollowEnemy()
+		}));
 	}
 	
 	public void act(World world, long elapsedTime) {
-		behavior.act(world, elapsedTime);
+		behavior.act(this, world, elapsedTime);
 	}
 }
 

@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -302,17 +303,22 @@ public class World {
 	//	objects.remove(object);
 	//}
 	
+	public Being[] allBeings() {
+		ArrayList<Being> beings = new ArrayList<Being>(this.beings);
+		beings.add(player);
+		beings.removeAll(Collections.singleton(null));
+		return beings.toArray(new Being[beings.size()]);
+	}
+	
 	public Being nearestBeing(Being being, boolean filterFriendly, boolean filterEnemy) {
 		if (being == null) return null;
 		
 		double nearest = Integer.MAX_VALUE;
 		Being nearestBeing = null;
 		
-		ArrayList<Being> beings = new ArrayList<Being>(this.beings);
-		beings.add(player);
+		Being[] beings = allBeings();
 		
 		for (Being b : beings) {
-			if (b == null) continue;
 			if (b.isDead()) continue;
 			if (b.hashCode() == being.hashCode()) continue;
 			if (filterFriendly && b.isFriendly(being)) continue;

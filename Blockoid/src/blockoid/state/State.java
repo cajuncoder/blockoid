@@ -14,12 +14,8 @@ public abstract class State {
 		this.game = game;
 	}
 	
-	public void update(long elapsedTime) {
-		
-	}
+	public abstract void update(long elapsedTime);
 	
-	public void draw(Graphics2D g) {
-
-	}
+	public abstract void draw(Graphics2D g);
 	
 }

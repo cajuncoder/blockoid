@@ -6,17 +6,60 @@ import blockoid.Game;
 import blockoid.game.World;
 import blockoid.game.being.Being;
 
-abstract public class Behavior {
-	protected Being being;
-	protected HashMap<String, Behavior> behaviors = new HashMap<String, Behavior>();
+public abstract class Behavior {
+	public static final int FAILED    = 0;
+	public static final int RUNNING   = 1;
+	public static final int SUCCEEDED = 2;
+	public static final int STATELESS = 3;
 	
-	public Behavior(Being being) {
-		attachBeing(being);
+	protected int failed(Being being) {
+		setState(being, Behavior.FAILED);
+		return Behavior.FAILED;
 	}
 	
-	public void attachBeing(Being being) {
-		this.being = being;
+	protected int running(Being being) {
+		setState(being, Behavior.RUNNING);
+		return Behavior.RUNNING;
 	}
 	
-	abstract public void act(World world, long elapsedTime);
+	protected int succeeded(Being being) {
+		setState(being, Behavior.SUCCEEDED);
+		return Behavior.SUCCEEDED;
+	}
+	
+	public int reset(Being being) {
+		setState(being, Behavior.STATELESS);
+		return Behavior.STATELESS;
+	}
+	
+	public boolean hasFailed(Being being) {
+		return getState(being) == Behavior.FAILED;
+	}
+	
+	public boolean isRunning(Being being) {
+		return getState(being) == Behavior.RUNNING;
+	}
+	
+	public boolean hasSucceeded(Being being) {
+		return getState(being) == Behavior.SUCCEEDED;
+	}
+	
+	protected void setState(Being being, int state) {
+		storeObject(being, "state", state);
+	}
+	
+	protected int getState(Being being) {
+		Object state = retrieveObject(being, "state");
+		return state == null ? Behavior.STATELESS : (Integer)state;
+	}
+	
+	protected void storeObject(Being being, String name, Object obj) {
+		being.bcache.set(this.hashCode() + "." + name, obj);
+	}
+	
+	protected Object retrieveObject(Being being, String name) {
+		return being.bcache.get(this.hashCode() + "." + name);
+	}
+	
+	abstract public int act(Being being, World world, long elapsedTime);
 }

@@ -11,8 +11,10 @@ import blockoid.Game;
 import blockoid.audio.Audio;
 import blockoid.game.World;
 import blockoid.game.being.behavior.Behavior;
-import blockoid.game.being.behavior.WanderBehavior;
-import blockoid.game.being.behavior.WanderFollowBehavior;
+import blockoid.game.being.behavior.Loop;
+import blockoid.game.being.behavior.Rest;
+import blockoid.game.being.behavior.Sequence;
+import blockoid.game.being.behavior.Wander;
 import blockoid.game.item.*;
 import blockoid.game.tile.Dirt;
 import blockoid.game.tile.Empty;
@@ -27,7 +29,10 @@ public class Dog extends Being {
 	
 	public Dog(Game game) {
 		super(game);
-		behavior = new WanderBehavior(this);
+		behavior = new Loop(new Sequence(new Behavior[]{
+			new Wander(),
+			new Rest(Rest.SECOND*2)
+		}));
 		sprite = Assets.getSpriteSheet("characters/dog20x14", 20, 14);
 		height = 14;
 		idleRight = new int[]{5};
@@ -41,7 +46,7 @@ public class Dog extends Being {
 	}
 	
 	public void act(World world, long elapsedTime) {
-		behavior.act(world, elapsedTime);
+		behavior.act(this, world, elapsedTime);
 	}
 }
 
