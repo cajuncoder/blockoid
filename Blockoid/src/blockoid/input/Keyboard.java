@@ -14,7 +14,7 @@ public class Keyboard implements KeyListener, Serializable {
 	public boolean[] keys = new boolean[256]; //keys pressed
 	private Set<Integer> keyCodesTyped = new HashSet<Integer>();
 	private CopyOnWriteArrayList<Character> charBuffer = new CopyOnWriteArrayList<Character>();
-	public boolean up, down, left, right, space, shift, i, r, g, q, tab, esc;
+	public boolean up, down, left, right, space, shift, i, j, r, g, q, tab, esc;
 	public boolean[] num = new boolean[10];
 	
 	//----------------------Keyboard.UPDATE-METHOD----------------------//
@@ -27,6 +27,7 @@ public class Keyboard implements KeyListener, Serializable {
 		shift = keys[KeyEvent.VK_SHIFT];
 		space = keys[KeyEvent.VK_SPACE];
 		i = keys[KeyEvent.VK_I];
+		j = keys[KeyEvent.VK_J];
 		r = keys[KeyEvent.VK_R];
 		g = keys[KeyEvent.VK_G];
 		q = keys[KeyEvent.VK_Q];

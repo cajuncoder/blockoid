@@ -117,13 +117,13 @@ public abstract class Biome {
 				}
 			}
 			
-			if(r.nextInt(animalRarity)==0) {
-				int type = r.nextInt(animals.length);
-				Being newAnimal = animals[type].getNewInstance();
-				int xPos = (x*8)-4;
-				newAnimal.place(xPos, world.getSurface(xPos/8)*8);
-				world.beings.add(newAnimal);
-			}
+//			if(r.nextInt(animalRarity)==0) {
+//				int type = r.nextInt(animals.length);
+//				Being newAnimal = animals[type].getNewInstance();
+//				int xPos = (x*8)-4;
+//				newAnimal.place(xPos, world.getSurface(xPos/8)*8);
+//				world.beings.add(newAnimal);
+//			}
 		}
 	}
 

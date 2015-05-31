@@ -51,6 +51,14 @@ public class Player extends Being {
 				moveLeft();
 			}
 	
+			if (game.keyboard.j) {
+				Being enemy = world.nearestEnemy(this);
+				if (enemy != null && enemy.distanceFrom(this) <= this.attackRange) {
+					enemy.knockBack(this, 3);
+					enemy.hurt(2, world);
+				}
+			}
+			
 			if(game.keyboard.space && !oldSpace && timeOnGround>1 || game.keyboard.space && yVel < 0 && timeInAir < 14){
 				jump();
 			}

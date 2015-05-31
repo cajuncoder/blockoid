@@ -88,6 +88,7 @@ abstract public class Being {
 		this.game = game;
 		brain = new Brain();
 		bcache = new BehaviorCache();
+		attackRange = sprite.spriteSizeX/2;
 	}
 	
 	public abstract void act(World world, long elapsedTime);
@@ -477,6 +478,10 @@ abstract public class Being {
 			yVel = -2.0;
 			//jump.play(false);
 		}
+	}
+	
+	public int distanceFrom(Being being) {
+		return (int) Math.sqrt(Math.pow(being.x - this.x, 2) + Math.pow(being.y - this.y, 2));
 	}
 	
 	public boolean isEnemy(Being being) {

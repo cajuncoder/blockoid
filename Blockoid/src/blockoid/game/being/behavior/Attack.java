@@ -16,6 +16,7 @@ public class Attack extends Behavior {
 		
 		int targetDistance =  (int) Math.sqrt(Math.pow(being.x - target.x, 2) + Math.pow(being.y - target.y, 2));
 		if (targetDistance <= being.attackRange) {
+			// TODO(griffy) Base these values off some combat system taking into account both beings
 			target.knockBack(being, 3);
 			target.hurt(2, world);
 			return succeeded(being);

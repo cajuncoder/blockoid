@@ -15,8 +15,8 @@ public class Perceive extends Behavior {
 		// Look for objects, beings, and tiles?
 		ArrayList<Item> items = new ArrayList<Item>();
 		for (Item item : world.items) {
-			if (Math.abs(being.x - item.x) <= being.sightRange &&
-				Math.abs(being.y - item.y) <= being.sightRange)
+			int dist = (int) Math.sqrt(Math.pow(being.x - item.x, 2) + Math.pow(being.y - item.y, 2));
+			if (dist <= being.sightRange)
 				items.add(item);
 		}
 		being.brain.addMemory("items", new Memory<ArrayList<Item>>(items));
@@ -24,10 +24,11 @@ public class Perceive extends Behavior {
 		ArrayList<Being> beings = new ArrayList<Being>();
 		for (Being b : world.allBeings()) {
 			if (b.hashCode() == being.hashCode()) continue;
-			if (Math.abs(being.x - b.x) <= being.sightRange &&
-				Math.abs(being.y - b.y) <= being.sightRange)
+			int dist = (int) Math.sqrt(Math.pow(being.x - b.x, 2) + Math.pow(being.y - b.y, 2));
+			if (dist <= being.sightRange)
 				beings.add(b);
 		}
+		System.out.println(beings);
 		being.brain.addMemory("beings", new Memory<ArrayList<Being>>(beings));
 
 		return succeeded(being);
