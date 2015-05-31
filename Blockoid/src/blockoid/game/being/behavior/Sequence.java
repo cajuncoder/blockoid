@@ -7,26 +7,6 @@ public class Sequence extends CompositeBehavior {
 	public Sequence(Behavior[] behaviors) {
 		super(behaviors);
 	}
-
-//	public int act(Being being, World world, long elapsedTime) {
-//		Behavior behavior = currentBehavior(being);
-//		if (!behavior.isRunning(being)) {
-//			if (behavior.hasFailed(being))
-//				return failed(being);
-//			if (behavior.hasSucceeded(being)) {
-//				if (!hasNextBehavior(being))
-//					return succeeded(being);
-//				behavior = nextBehavior(being);
-//			}
-//		}
-//
-//		behavior.act(being, world, elapsedTime);
-//		if (behavior.isRunning(being))
-//			return running(being);
-//		if (behavior.hasFailed(being))
-//			return failed(being);
-//		return getState(being);
-//	}
 	
 	public int act(Being being, World world, long elapsedTime) {
 		Behavior behavior = null;
