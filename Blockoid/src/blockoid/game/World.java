@@ -33,6 +33,7 @@ import blockoid.game.tile.Grass;
 import blockoid.game.tile.Stone;
 import blockoid.game.tile.Tile;
 import blockoid.graphics.SpriteSheet;
+import blockoid.state.GameState;
 
 //TO DO:
 // - Water: Improve Flow
@@ -62,6 +63,7 @@ public class World {
 	public int CameraOffX = 0;
 	public int CameraOffY = 0;
 	public Game game;
+	public GameState gameState;
 	public int sizeX = 512*16;
 	public int sizeY = 512/2;
 	public static int TILE_SIZE = 8;
@@ -90,8 +92,9 @@ public class World {
 	//public ArrayList<Object> liquidTiles = new ArrayList<Object>();
 	public CopyOnWriteArrayList<Being> beings = new CopyOnWriteArrayList<Being>();
 	
-	public World(Game game) {
+	public World(Game game, GameState gameState) {
 		this.game = game;
+		this.gameState = gameState;
 		player = new Player(game);
 		background = new Background(this);
 
@@ -293,15 +296,10 @@ public class World {
 		items.add(item);
 	}
 	
-	//public synchronized void addObject(GameObject object, Tile tile) {
-		
-	//}
-	
-	//public synchronized void removeObject(GameObject object) {
-		//if(player!=null && player.selectedObject.equals(object)) player.selectedObject = null;
-	//	if(object.tile.object!=null) object.tile.object=null;
-	//	objects.remove(object);
-	//}
+	public Biome getBiome(int x) {
+		int i = (x/Biome.BIOME_SIZE)/8;
+		return biomes[i];
+	}
 	
 	public Being[] allBeings() {
 		ArrayList<Being> beings = new ArrayList<Being>(this.beings);

@@ -36,7 +36,7 @@ public class GameState extends State {
 		g.drawString("Loading...", 0, 12);
 		game.draw();
 		
-		world = new World(game);
+		world = new World(game, this);
 		gui = new GUI(this);
 
 	}

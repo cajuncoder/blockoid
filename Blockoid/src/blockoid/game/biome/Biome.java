@@ -2,6 +2,7 @@ package blockoid.game.biome;
 
 import java.util.Random;
 
+import blockoid.Assets;
 import blockoid.game.World;
 import blockoid.game.object.GameObject;
 import blockoid.game.object.OakTree;
@@ -10,6 +11,7 @@ import blockoid.game.tile.Empty;
 import blockoid.game.tile.Grass;
 import blockoid.game.tile.Stone;
 import blockoid.game.tile.Tile;
+import blockoid.graphics.SpriteSheet;
 
 public abstract class Biome {
 
@@ -27,6 +29,7 @@ public abstract class Biome {
 	public int roughnessVariance = 3;
 	public int treeRarity = 10;
 	public GameObject treeType = new OakTree(null);
+	public SpriteSheet[] background = {Assets.getSpriteSheet("bg/foregroundTile3", 128, 128), Assets.getSpriteSheet("bg/backgroundTile2", 64, 128)};
 	public Tile base;
 	public Tile top;
 	
