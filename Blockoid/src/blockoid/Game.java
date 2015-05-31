@@ -173,11 +173,14 @@ public class Game implements Serializable {
 				accumulator -= dt;
 				t += dt;
 				ticks++;
+				
+				render();
+				fps++;
 			}
 			
 			if (currentTime - lastRender >= fpslimit) {
-				render();
-				fps++;
+				//render();
+				//fps++;
 				lastRender = currentTime;
 			}
 			

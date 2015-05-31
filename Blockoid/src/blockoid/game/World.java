@@ -145,8 +145,8 @@ public class World {
 			for(int x = renderStartX; x < sizeX && x <= renderEndX; x++) {
 				tiles[x][y].update(this);
 				bgTiles[x][y].update(this);
-				tiles[x][y].getLight(this);
-				
+				//tiles[x][y].getLight(this);
+				tiles[x][y].lightLevel = 7;
 				
 			}
 		}
