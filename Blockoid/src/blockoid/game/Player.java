@@ -130,11 +130,11 @@ public class Player extends Being {
 			if(tileY < 0) tileY = 0;
 	
 			if(world.tiles[tileX][tileY].object!=null){
-			world.tiles[tileX][tileY].object.damage(1);
-			}else{world.tiles[tileX][tileY].damage(1);}
+			world.tiles[tileX][tileY].object.damage(world, 1);
+			}else{world.tiles[tileX][tileY].damage(world, 1);}
 		}
 		else {
-			selectedObject.damage(1);
+			selectedObject.damage(world, 1);
 			//selectedObject.
 		}
 		lastItemUse = 0;
@@ -152,8 +152,8 @@ public class Player extends Being {
 		if(tileY < 0) tileY = 0;
 	
 		if(world.bgTiles[tileX][tileY].object!=null){
-			world.bgTiles[tileX][tileY].object.damage(1);
-		}else{world.bgTiles[tileX][tileY].damage(1);}
+			world.bgTiles[tileX][tileY].object.damage(world, 1);
+		}else{world.bgTiles[tileX][tileY].damage(world, 1);}
 		
 		lastItemUse = 0;
 		}

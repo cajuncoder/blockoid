@@ -56,17 +56,7 @@ public abstract class Tile {
 		if(hitpool > 0) {
 			healCounter++;
 			if(hitpoints <= 0) {
-				if(getItemDrop()!=null)world.addItem(getItemDrop().getNewInstance(), x+4, y);
-				Tile replacement = new Empty(xIndex,yIndex,isBackgroundTile);
-				replacement.lightLevel=this.lightLevel;
-				if(!isBackgroundTile) {
-					world.tiles[xIndex][yIndex] = replacement;
-					if(breakSound!=null) breakSound.play(false);
-				}else{
-					replacement.isBackgroundTile = true;
-					world.bgTiles[xIndex][yIndex] = replacement;
-					if(breakSound!=null) breakSound.play(false);
-				}
+				destroy(world);
 			}
 			if(hitpoints>0 && hitpoints < hitpool  && healCounter >= 60) {
 				hitpoints++;
@@ -75,9 +65,25 @@ public abstract class Tile {
 		}
 	}
 	
-	public void damage(int value) {
+	public void damage(World world, int value) {
 		healCounter=0;
 		hitpoints-=value;
+	}
+	
+	public void destroy(World world) {
+		if(getItemDrop()!=null)
+			world.addItem(getItemDrop().getNewInstance(), x+4, y);
+
+		Tile replacement = new Empty(xIndex,yIndex,isBackgroundTile);
+		replacement.lightLevel=this.lightLevel;
+		if(!isBackgroundTile) {
+			world.tiles[xIndex][yIndex] = replacement;
+			if(breakSound!=null) breakSound.play(false);
+		}else{
+			replacement.isBackgroundTile = true;
+			world.bgTiles[xIndex][yIndex] = replacement;
+			if(breakSound!=null) breakSound.play(false);
+		}
 	}
 	
 	public void getLight(World world) {

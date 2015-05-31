@@ -11,7 +11,9 @@ import blockoid.audio.Audio;
 import blockoid.game.Inventory;
 import blockoid.game.Player;
 import blockoid.game.World;
+import blockoid.game.being.behavior.Behavior;
 import blockoid.game.being.behavior.BehaviorCache;
+import blockoid.game.being.behavior.Rest;
 import blockoid.game.item.*;
 import blockoid.game.tile.Dirt;
 import blockoid.game.tile.Empty;
@@ -69,6 +71,7 @@ abstract public class Being {
 	Audio hurt = Assets.getAudio("genericHurt");
 	public Item rightHandItem = null;
 	int lightLevel = 0;
+	public Behavior behavior;
 	public Brain brain;
 	public BehaviorCache bcache;
 	public int sightRange = 100;
@@ -86,6 +89,7 @@ abstract public class Being {
 		animation = walkRight;
 		frame = 0;
 		this.game = game;
+		behavior = new Rest(Rest.SECOND);
 		brain = new Brain();
 		bcache = new BehaviorCache();
 		attackRange = sprite.spriteSizeX/2;

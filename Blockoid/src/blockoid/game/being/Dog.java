@@ -25,8 +25,6 @@ import blockoid.state.GameState;
 import blockoid.state.State;
 
 public class Dog extends Being {
-	protected Behavior behavior;
-	
 	public Dog(Game game) {
 		super(game);
 		behavior = new Loop(new Sequence(new Behavior[]{

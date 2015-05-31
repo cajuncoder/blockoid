@@ -50,7 +50,7 @@ public abstract class GameObject {
 		if(tile.solid) {
 			lightLevel = (int) Math.ceil(tile.lightLevel);
 		}else{
-			remove(world);
+			destroy(world);
 			return;
 		}
 		healCounter++;
@@ -59,17 +59,28 @@ public abstract class GameObject {
 			healCounter = 0;
 		}
 		if(hitpoints <= 0) {
-			remove(world);
+			destroy(world);
 			return;
 		}
 		
 		getSelected(world);
 	}
 	
-	public void damage(int value) {
+	public void damage(World world, int value) {
 		this.hitpoints -= value;
 		healCounter = 0;
 		hit.play(false);
+	}
+	
+	public void destroy(World world) {
+		this.tile.object = null;
+		if(dropItem!=null) {
+			Item item = dropItem.getNewInstance();
+			item.x = dx;
+			item.y = dy;
+			world.addItem(item, (int)item.x, (int)item.y-this.spriteSheet.spriteSizeY);
+		}
+		//world.removeObject(this);
 	}
 	
 	public void getSelected(World world) {
@@ -100,17 +111,6 @@ public abstract class GameObject {
 		dOffY = -yOff-spriteSheet.spriteSizeY;
 		int lightOff = 0; if(selected) lightOff = 1;
 		spriteSheet.drawSprite(dx+dOffX, dy+dOffY, 0, lightLevel+lightOff, g);
-	}
-	
-	public void remove(World world) {
-		this.tile.object = null;
-		if(dropItem!=null) {
-			Item item = dropItem.getNewInstance();
-			item.x = dx;
-			item.y = dy;
-			world.addItem(item, (int)item.x, (int)item.y-this.spriteSheet.spriteSizeY);
-		}
-		//world.removeObject(this);
 	}
 	
 	public GameObject getNewInstance(Tile tile) {

@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 
 import blockoid.Assets;
 import blockoid.game.World;
+import blockoid.game.being.Being;
+import blockoid.game.being.Wolf;
 import blockoid.game.item.DirtBlock;
 import blockoid.game.item.Item;
 import blockoid.graphics.SpriteSheet;

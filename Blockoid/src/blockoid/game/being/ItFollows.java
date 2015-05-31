@@ -27,8 +27,6 @@ import blockoid.state.GameState;
 import blockoid.state.State;
 
 public class ItFollows extends Being {
-	private Behavior behavior;
-	
 	public ItFollows(Game game) {
 		super(game);
 		sightRange = 1000;
