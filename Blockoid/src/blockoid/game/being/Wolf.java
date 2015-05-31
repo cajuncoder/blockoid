@@ -32,8 +32,6 @@ public class Wolf extends Dog {
 				})
 			})
 		}));
-
-		maxSpeed = 0.9;
 		
 		sprite = Assets.getSpriteSheet("characters/wolf20x14", 20, 14);
 		height = 14;
@@ -43,11 +41,16 @@ public class Wolf extends Dog {
 		walkLeft = new int[]{2, 1, 4};
 		jumpRight = new int[]{9};
 		jumpLeft = new int[]{4};
-		//minSpeed = 0.66;
-		//maxSpeed = 1.0;
+		maxSpeed = 0.95;
+		speed = maxSpeed;
+		attackRange = sprite.spriteSizeX/2;
 	}
 
 	public void act(World world, long elapsedTime) {
 		behavior.act(this, world, elapsedTime);
+	}
+	
+	public Being getNewInstance() {
+		return new Wolf(game);
 	}
 }

@@ -155,8 +155,9 @@ abstract public class Being {
 			xVel = xVel*0.66;
 			yVel = yVel*0.66;
 		}
-		x+=xVel;
-		y+=yVel;
+		
+		if(x+xVel < world.sizeX*8 && x+xVel > 0) x+=xVel;
+		if(y+yVel < world.sizeY*8 && y+yVel > 0) y+=yVel;
 		
 		//dx = (int)Math.round(x);
 		//dy = (int)Math.round(y);
@@ -502,6 +503,10 @@ abstract public class Being {
 	
 	public void useMaxSpeed() {
 		speed = maxSpeed;
+	}
+	
+	public Being getNewInstance() {
+		return null;
 	}
 }
 

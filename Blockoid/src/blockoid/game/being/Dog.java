@@ -43,6 +43,7 @@ public class Dog extends Being {
 		jumpLeft = new int[]{4};
 		minSpeed = 0.66;
 		maxSpeed = 1.0;
+		//maxSpeed = minSpeed;
 	}
 	
 	public void act(World world, long elapsedTime) {

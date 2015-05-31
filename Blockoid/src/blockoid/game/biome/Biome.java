@@ -4,6 +4,8 @@ import java.util.Random;
 
 import blockoid.Assets;
 import blockoid.game.World;
+import blockoid.game.being.Being;
+import blockoid.game.being.Wolf;
 import blockoid.game.object.GameObject;
 import blockoid.game.object.OakTree;
 import blockoid.game.tile.Dirt;
@@ -29,6 +31,8 @@ public abstract class Biome {
 	public int roughnessVariance = 3;
 	public int treeRarity = 10;
 	public GameObject treeType = new OakTree(null);
+	public Being[] animals;
+	public int animalRarity = 64;
 	public SpriteSheet[] background = {Assets.getSpriteSheet("bg/foregroundTile3", 128, 128), Assets.getSpriteSheet("bg/backgroundTile2", 64, 128)};
 	public Tile base;
 	public Tile top;
@@ -40,6 +44,7 @@ public abstract class Biome {
 		endX = (index*BIOME_SIZE) + BIOME_SIZE;
 		if(endX >= world.sizeX) endX = world.sizeX-1;
 		if(startX < 0) startX = 0;
+		animals = new Being[]{new Wolf(world.game)};
 	}
 	
 	//public GameObject newTree(Tile tile) {
@@ -110,6 +115,14 @@ public abstract class Biome {
 					world.tiles[x][y] = new Empty(x, y, false);
 					world.bgTiles[x][y] = new Empty(x, y, true);
 				}
+			}
+			
+			if(r.nextInt(animalRarity)==0) {
+				int type = r.nextInt(animals.length);
+				Being newAnimal = animals[type].getNewInstance();
+				int xPos = (x*8)-4;
+				newAnimal.place(xPos, world.getSurface(xPos/8)*8);
+				world.beings.add(newAnimal);
 			}
 		}
 	}

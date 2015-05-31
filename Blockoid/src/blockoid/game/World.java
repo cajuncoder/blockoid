@@ -118,7 +118,7 @@ public class World {
 		//creatures.get(0).place(((sizeX/2)*8)+4+5, getSurface(sizeX/2)*8+5);
 	}
 	
-	private int spawnNewPlayerCounter = 600;
+	private int spawnNewPlayerCounter = 300;
 	public void update(long elapsedTime) {
 		
 		if(player==null) {
@@ -127,7 +127,7 @@ public class World {
 			player = new Player(game);
 			player.place(((sizeX/2)*8)+4, getSurface(sizeX/2)*8);
 			}
-		}else{spawnNewPlayerCounter = 600;}
+		}else{spawnNewPlayerCounter = 300;}
 		
 		for(int y = renderStartY; y < sizeY && y <= renderEndY; y++) {
 			for(int x = renderStartX; x < sizeX && x <= renderEndX; x++) {
@@ -167,10 +167,6 @@ public class World {
 		for (Being being: beings) {
 			being.update(this, elapsedTime);
 		}
-		
-		//for(GameObject o: objects) {
-		//	o.update(this);
-		//}
 		
 		if(player!=null) player.update(this, elapsedTime);
 		
