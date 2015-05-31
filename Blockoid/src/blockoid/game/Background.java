@@ -2,8 +2,11 @@ package blockoid.game;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.HashMap;
+import java.util.Map;
 
 import blockoid.Assets;
+import blockoid.game.biome.Biome;
 import blockoid.graphics.SpriteSheet;
 
 public class Background {
@@ -17,29 +20,25 @@ public class Background {
 	Star[] stars = new Star[nOfStars];
 	SpriteSheet bgTile = Assets.getSpriteSheet("bg/backgroundTile2", 64, 128);
 	SpriteSheet tile = Assets.getSpriteSheet("bg/foregroundTile3", 128, 128);
-	//SpriteSheet[] foreground;
-	//SpriteSheet[] background;
+
 	
 	public Background(World world) {
 		this.world = world;
+		
 		for(int i = 0; i < stars.length; i++) {
 			stars[i] = new Star(world.game);
 		}
-		//foreground = new SpriteSheet[(((world.sizeX*8) + (1024))/tile.spriteSizeX)/3];
-		//background = new SpriteSheet[(((world.sizeX*8) + (1024*2))/bgTile.spriteSizeX)/1];
-		//background = new SpriteSheet[1024*2/bgTile.spriteSizeX];
-		//for(int i = 0; i < foreground.length; i++) {
-		//	foreground[i] = tile;
-		//}
-		//for(int i = 0; i < background.length; i++) {
-		//	background[i] = bgTile;
-		//}
 	}
 	
 	Color atmosclr = atmosphere;
 	int oldLightLevel = -1;
 	Color baseclr = Color.BLACK;
+	Biome oldBiome = null;
 	public void draw(Graphics2D g, int CameraOffX, int CameraOffY) {
+		Biome biome = world.getBiome((CameraOffX + (world.game.width/2)));
+		tile = biome.background[0];
+		bgTile = biome.background[1];
+		
 		int lightLevel = world.sunlightLevel;
 		//Atmosphere
 		int x = 0;
@@ -85,11 +84,12 @@ public class Background {
 		for(int i = foreOffX/tileW; i <= (foreOffX/tileW)+(scrnW/tileW)+1; i++) {
 			tile.drawSprite((i*tileW)-foreOffX, world.game.height/2-48, 0, world.sunlightLevel, g);
 		}
-		if(lightLevel!=oldLightLevel) baseclr = new Color(tile.sheets[world.sunlightLevel].getRGB(127, 127), true);
+		if(lightLevel!=oldLightLevel || biome!=oldBiome) baseclr = new Color(tile.sheets[world.sunlightLevel].getRGB(127, 127), true);
 		g.setColor(baseclr);
 		g.fillRect(0, world.game.height/2+tile.spriteSizeY-48, world.game.width, world.game.height/2);
 		
 		oldLightLevel = lightLevel;
+		oldBiome = biome;
 	}
 	
 	

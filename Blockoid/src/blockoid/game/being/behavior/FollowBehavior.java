@@ -11,7 +11,7 @@ public class FollowBehavior extends Behavior {
 	
 	public FollowBehavior(Being being) {
 		super(being);
-		setMinSeparation(10);
+		setMinSeparation(5);
 		setMaxSeparation(150);
 	}
 	

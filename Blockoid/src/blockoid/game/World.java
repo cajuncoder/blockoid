@@ -295,15 +295,10 @@ public class World {
 		items.add(item);
 	}
 	
-	//public synchronized void addObject(GameObject object, Tile tile) {
-		
-	//}
-	
-	//public synchronized void removeObject(GameObject object) {
-		//if(player!=null && player.selectedObject.equals(object)) player.selectedObject = null;
-	//	if(object.tile.object!=null) object.tile.object=null;
-	//	objects.remove(object);
-	//}
+	public Biome getBiome(int x) {
+		int i = (x/Biome.BIOME_SIZE)/8;
+		return biomes[i];
+	}
 	
 	public Being nearestBeing(Being being, boolean filterFriendly, boolean filterEnemy) {
 		if (being == null) return null;
