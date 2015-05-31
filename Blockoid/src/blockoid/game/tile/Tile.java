@@ -20,7 +20,7 @@ public abstract class Tile {
 	public int yIndex;
 	public SpriteSheet sprite;
 	//public SpriteSheet lightMask;
-	public SpriteSheet damageOverlay;
+	//public SpriteSheet damageOverlay;
 	public double lightLevel = 0;
 	public double density = 0.9;
 	public boolean inTheSun = false;
@@ -39,7 +39,7 @@ public abstract class Tile {
 		this.x = xIndex*TILE_SIZE;
 		this.y = yIndex*TILE_SIZE;
 		//this.lightMask = Assets.getSpriteSheet("tiles/lightMask", TILE_SIZE, TILE_SIZE);
-		this.damageOverlay = Assets.getSpriteSheet("tiles/damageOverlay", TILE_SIZE, TILE_SIZE);
+		//this.damageOverlay = Assets.getSpriteSheet("tiles/damageOverlay", TILE_SIZE, TILE_SIZE);
 	}
 	
 	public void update(World world) {
@@ -116,7 +116,7 @@ public abstract class Tile {
 		if(right!=null) {
 			if(lightLevel-right.density  > right.lightLevel) {
 				 right.lightLevel = lightLevel-right.density;
-				 right.getLight(world);
+				 //right.getLight(world);
 				//if(right.inTheSun && world.bgTiles[xIndex][yIndex].getClass().equals(Empty.class)) {
 				//	this.inTheSun = true;
 				//	lightLevel = right.lightLevel;
@@ -144,7 +144,7 @@ public abstract class Tile {
 			if(lightLevel-down.density  > down.lightLevel) {
 				 down.lightLevel = lightLevel-down.density;
 				 //if(this.inTheSun) down.lightLevel = lightLevel;
-				 down.getLight(world);
+				 //down.getLight(world);
 			}
 		}
 			}

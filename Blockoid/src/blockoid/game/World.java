@@ -145,8 +145,8 @@ public class World {
 			for(int x = renderStartX; x < sizeX && x <= renderEndX; x++) {
 				tiles[x][y].update(this);
 				bgTiles[x][y].update(this);
-				//tiles[x][y].getLight(this);
-				tiles[x][y].lightLevel = 7;
+				tiles[x][y].getLight(this);
+				//tiles[x][y].lightLevel = 7;
 				
 			}
 		}
@@ -205,8 +205,12 @@ public class World {
 		
 		if(renderStartX < 0) renderStartX = 0;
 		if(renderStartY < 0) renderStartY = 0;
-		if(renderEndX >= sizeX) renderEndX = sizeX;
-		if(renderEndY >= sizeY) renderEndY = sizeY;
+		if(renderEndX >= sizeX) renderEndX = sizeX-1;
+		if(renderEndY >= sizeY) renderEndY = sizeY-1;
+		if(subRenderStartX < 0) subRenderStartX = 0;
+		if(subRenderStartY < 0) subRenderStartY = 0;
+		if(subRenderEndX >= sizeX) subRenderEndX = sizeX-1;
+		if(subRenderEndY >= sizeY) subRenderEndY = sizeY-1;
 		
 		if(background!=null) background.draw(g, CameraOffX, CameraOffY);
 		
@@ -294,7 +298,12 @@ public class World {
 	
 	public Biome getBiome(int x) {
 		int i = (x/Biome.BIOME_SIZE)/8;
-		return biomes[i];
+		if(i < biomes.length) {
+			return biomes[i];
+		}else{
+			return biomes[0];
+		}
+		
 	}
 	
 	public Being[] allBeings() {

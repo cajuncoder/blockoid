@@ -17,7 +17,7 @@ import blockoid.graphics.SpriteSheet;
 
 public abstract class Biome {
 
-	public static int BIOME_SIZE = 128;
+	public static int BIOME_SIZE = 32;
 	public World world;
 	public int index;
 	public int startX;
