@@ -19,7 +19,6 @@ public abstract class Tile {
 	public int xIndex;
 	public int yIndex;
 	public SpriteSheet sprite;
-	//public SpriteSheet lightMask;
 	public SpriteSheet damageOverlay;
 	public double lightLevel = 0;
 	public double density = 0.9;
@@ -28,7 +27,6 @@ public abstract class Tile {
 	public boolean isBackgroundTile = false;
 	public int hitpool = 0;
 	public int hitpoints = 0;
-	//public Item itemDrop = null;
 	public Audio breakSound = null;
 	public GameObject object = null;
 	
@@ -38,7 +36,6 @@ public abstract class Tile {
 		this.yIndex = yIndex;
 		this.x = xIndex*TILE_SIZE;
 		this.y = yIndex*TILE_SIZE;
-		//this.lightMask = Assets.getSpriteSheet("tiles/lightMask", TILE_SIZE, TILE_SIZE);
 		this.damageOverlay = Assets.getSpriteSheet("tiles/damageOverlay", TILE_SIZE, TILE_SIZE);
 	}
 	
@@ -90,7 +87,7 @@ public abstract class Tile {
 		}
 		if(inTheSun && world.sunlightLevel > lightLevel) lightLevel = world.sunlightLevel;
 		if(lightLevel >= density && density > 0) {
-		//lightLevel = 0;
+
 		Tile right = null;
 		Tile left = null;
 		Tile up = null;
@@ -101,26 +98,17 @@ public abstract class Tile {
 		if(yIndex+1 < world.sizeY-1) down = world.tiles[xIndex][yIndex+1];
 
 		//left
-		//if(left!=null && left.xIndex > renderStartX+4) {
 		if(left!=null) {
 			if(lightLevel-left.density > left.lightLevel) {
 				 left.lightLevel = lightLevel-left.density;
 				 left.getLight(world);
-				//if(left.inTheSun && world.bgTiles[xIndex][yIndex].getClass().equals(Empty.class)) {
-				//	this.inTheSun = true;
-				//	lightLevel = left.lightLevel;
-				//}
 			}
 		}
 		//right
 		if(right!=null) {
 			if(lightLevel-right.density  > right.lightLevel) {
 				 right.lightLevel = lightLevel-right.density;
-				 right.getLight(world);
-				//if(right.inTheSun && world.bgTiles[xIndex][yIndex].getClass().equals(Empty.class)) {
-				//	this.inTheSun = true;
-				//	lightLevel = right.lightLevel;
-				//}
+				 //right.getLight(world);
 			}
 		}
 		//up
@@ -128,23 +116,13 @@ public abstract class Tile {
 			if(lightLevel-up.density  > up.lightLevel) {
 				 up.lightLevel = lightLevel-up.density;
 				 up.getLight(world);
-				//if(up.inTheSun && world.bgTiles[xIndex][yIndex].getClass().equals(Empty.class)) {
-				//	this.inTheSun = true;
-				//	lightLevel = up.lightLevel;
-				//}
 			}
 		}
 		//down
 		if(down!=null) {
-			//if(this.inTheSun) {
-			//	down.lightLevel = lightLevel;
-			//	if(down.getClass().equals(Empty.class)) down.inTheSun=true;
-			//	down.getLight(world);
-			//}else
 			if(lightLevel-down.density  > down.lightLevel) {
 				 down.lightLevel = lightLevel-down.density;
-				 //if(this.inTheSun) down.lightLevel = lightLevel;
-				 down.getLight(world);
+				 //down.getLight(world);
 			}
 		}
 			}

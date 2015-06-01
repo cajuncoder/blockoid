@@ -44,7 +44,7 @@ public class Game implements Serializable {
 	public int height = 16*13; //208
 	public int oldHeight = 0;
 	public int  oldWidth = 0;
-	public int scale = 3;
+	public int scale = 1;//3;
 	public BufferedImage bufferImage;
 	public Graphics2D bufferGraphics;
 	public Graphics2D g;

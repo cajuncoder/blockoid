@@ -35,7 +35,7 @@ public class Background {
 	Color baseclr = Color.BLACK;
 	Biome oldBiome = null;
 	public void draw(Graphics2D g, int CameraOffX, int CameraOffY) {
-		Biome biome = world.getBiome((CameraOffX + (world.game.width/2)));
+		Biome biome = world.getBiome((CameraOffX + (world.game.width/2)+1));
 		tile = biome.background[0];
 		bgTile = biome.background[1];
 		

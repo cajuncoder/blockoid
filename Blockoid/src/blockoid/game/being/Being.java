@@ -424,7 +424,6 @@ abstract public class Being {
 		frameCounter+=1;
 	}
 	
-	//double oldOldAiX; //don't question it! :P
 	double oldAiX;
 	public void aiMoveRight() {
 		moveRight();

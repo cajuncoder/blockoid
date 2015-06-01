@@ -198,15 +198,20 @@ public class World {
 		renderStartY = CameraOffY/8 + startYPadding;
 		renderEndX = (CameraOffX/8)+(game.width/8)+endXPadding;
 		renderEndY = (CameraOffY/8)+(game.height/8)+endYPadding;
+		
 		int subRenderStartX = renderStartX-startXPadding;
 		int subRenderStartY = renderStartY-startYPadding;
 		int subRenderEndX = renderEndX-endXPadding+1;
 		int subRenderEndY = renderEndY-endYPadding+1;
-		
 		if(renderStartX < 0) renderStartX = 0;
 		if(renderStartY < 0) renderStartY = 0;
 		if(renderEndX >= sizeX) renderEndX = sizeX;
 		if(renderEndY >= sizeY) renderEndY = sizeY;
+		if(subRenderStartX < 0) subRenderStartX = 0;
+		if(subRenderStartY < 0) subRenderStartY = 0;
+		if(subRenderEndX >= sizeX) subRenderEndX = sizeX;
+		if(subRenderEndY >= sizeY) subRenderEndY = sizeY;
+
 		
 		if(background!=null) background.draw(g, CameraOffX, CameraOffY);
 		
@@ -234,11 +239,6 @@ public class World {
 				if(bgTiles[x][y].object!=null) bgTiles[x][y].object.draw(g, CameraOffX, CameraOffY);
 			}
 		}
-		
-		// Game Objects //
-		//for(GameObject o : objects) {
-		//	o.draw(g, CameraOffX, CameraOffY);
-		//}
 		
 		// Foreground //
 		//Outlines
@@ -294,7 +294,11 @@ public class World {
 	
 	public Biome getBiome(int x) {
 		int i = (x/Biome.BIOME_SIZE)/8;
-		return biomes[i];
+		if(i < biomes.length) {
+			return biomes[i];
+		}else{
+			return biomes[0];
+		}
 	}
 	
 	public Being[] allBeings() {
