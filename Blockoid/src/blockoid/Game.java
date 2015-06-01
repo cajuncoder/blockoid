@@ -44,7 +44,7 @@ public class Game implements Serializable {
 	public int height = 16*13; //208
 	public int oldHeight = 0;
 	public int  oldWidth = 0;
-	public int scale = 1;//3;
+	public int scale = 3;
 	public BufferedImage bufferImage;
 	public Graphics2D bufferGraphics;
 	public Graphics2D g;
@@ -210,20 +210,20 @@ public class Game implements Serializable {
 	// -------------------Render---------------------//
 	
 	public void render() {
-		if(g == null) 
+		//if(g == null) 
 		g = graphicsContext();
 		currentState().draw(bufferGraphics);
 
 		g.drawImage(bufferImage, 0, 0, width * scale, height * scale, jpanel);
 
-		//g.dispose();
+		g.dispose();
 	}
 	
 	public void draw() {
 		//if(g == null) 
-		//g = graphicsContext();
+		g = graphicsContext();
 		g.drawImage(bufferImage, 0, 0, width * scale, height * scale, jpanel);
-		//g.dispose();
+		g.dispose();
 	}
 	
 	public Graphics2D graphicsContext() {

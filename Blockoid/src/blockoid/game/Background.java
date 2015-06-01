@@ -16,7 +16,7 @@ public class Background {
 	//Color base1 = new Color(169,222,193);
 	Color base1 = new Color(169-16,222-16,193-16);
 	Color base2 = new Color(109,201,180);
-	int nOfStars = 96;
+	int nOfStars = 48;
 	Star[] stars = new Star[nOfStars];
 	SpriteSheet bgTile = Assets.getSpriteSheet("bg/backgroundTile2", 64, 128);
 	SpriteSheet tile = Assets.getSpriteSheet("bg/foregroundTile3", 128, 128);
@@ -35,7 +35,7 @@ public class Background {
 	Color baseclr = Color.BLACK;
 	Biome oldBiome = null;
 	public void draw(Graphics2D g, int CameraOffX, int CameraOffY) {
-		Biome biome = world.getBiome((CameraOffX + (world.game.width/2)+1));
+		Biome biome = world.getBiome((CameraOffX + (world.game.width/2)-8));
 		tile = biome.background[0];
 		bgTile = biome.background[1];
 		
@@ -59,7 +59,6 @@ public class Background {
 			xSize = world.game.width;
 			g.setColor(clr);
 			g.fillRect(dx, dy, xSize, ySize);
-			//clr = clr.darker();
 			clr = modify(clr, -lightLevel, -lightLevel, 0);
 		}
 		if(lightLevel < 3.9) {

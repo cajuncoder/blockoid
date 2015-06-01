@@ -106,21 +106,21 @@ public abstract class Tile {
 		}
 		//right
 		if(right!=null) {
-			if(lightLevel-right.density  > right.lightLevel) {
+			if(lightLevel-right.density > right.lightLevel) {
 				 right.lightLevel = lightLevel-right.density;
 				 //right.getLight(world);
 			}
 		}
 		//up
 		if(up!=null) {
-			if(lightLevel-up.density  > up.lightLevel) {
+			if(lightLevel-up.density > up.lightLevel) {
 				 up.lightLevel = lightLevel-up.density;
 				 up.getLight(world);
 			}
 		}
 		//down
 		if(down!=null) {
-			if(lightLevel-down.density  > down.lightLevel) {
+			if(lightLevel-down.density > down.lightLevel) {
 				 down.lightLevel = lightLevel-down.density;
 				 //down.getLight(world);
 			}

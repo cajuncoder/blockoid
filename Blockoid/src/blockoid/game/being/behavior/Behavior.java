@@ -45,7 +45,7 @@ public abstract class Behavior {
 	}
 	
 	protected void setState(Being being, int state) {
-		System.out.println(this.getClass().getName() + ": " + (state == Behavior.FAILED ? "Failed" : (state == Behavior.SUCCEEDED ? "Succeeded" : (state == Behavior.RUNNING ? "Running" : "Stateless"))));
+		//System.out.println(this.getClass().getName() + ": " + (state == Behavior.FAILED ? "Failed" : (state == Behavior.SUCCEEDED ? "Succeeded" : (state == Behavior.RUNNING ? "Running" : "Stateless"))));
 		storeObject(being, "state", state);
 	}
 	

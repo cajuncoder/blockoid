@@ -28,7 +28,7 @@ public class Perceive extends Behavior {
 			if (dist <= being.sightRange)
 				beings.add(b);
 		}
-		System.out.println(beings);
+		//System.out.println(beings);
 		being.brain.addMemory("beings", new Memory<ArrayList<Being>>(beings));
 
 		return succeeded(being);

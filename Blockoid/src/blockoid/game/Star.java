@@ -18,7 +18,7 @@ public class Star {
 		this.game = game;
 		Random r = new Random();
 		x = r.nextInt(100);
-		y = r.nextInt(100);
+		y = r.nextInt(66);
 	}
 	
 	public void draw(Graphics2D g) {
