@@ -1,8 +1,9 @@
-package blockoid.game.being.behavior;
+package blockoid.game.being.behavior.primitive;
 
 import java.util.ArrayList;
 
 import blockoid.game.being.Being;
+import blockoid.game.being.behavior.Behavior;
 
 public abstract class CompositeBehavior extends Behavior {
 	protected Behavior[] behaviors;
@@ -18,12 +19,12 @@ public abstract class CompositeBehavior extends Behavior {
 		return super.reset(being);
 	}
 	
-	protected int succeeded(Being being) {
+	public int succeeded(Being being) {
 		reset(being);
 		return super.succeeded(being);
 	}
 	
-	protected int failed(Being being) {
+	public int failed(Being being) {
 		reset(being);
 		return super.failed(being);
 	}

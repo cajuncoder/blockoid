@@ -1,9 +1,13 @@
 package blockoid.game.being.behavior;
 
+import blockoid.game.World;
 import blockoid.game.being.Being;
 
-public class FollowFriendly extends FollowBeing {
-	@Override
+public class RunFromFriendly extends RunFromBeing {
+	public RunFromFriendly() {
+		super();
+	}
+
 	protected String targetName() {
 		return "target.friendly";
 	}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import blockoid.Assets;
 import blockoid.Game;
@@ -78,6 +79,7 @@ abstract public class Being {
 	public int attackRange = 2;
 	public int followDistance = 20;
 	public int wanderRange = 100;
+	public int maxDamage = 1;
 	
 	public Being(Game game) {
 		inventory = new Inventory("Inventory",inventoryWidth,inventoryHeight);
@@ -89,7 +91,7 @@ abstract public class Being {
 		animation = walkRight;
 		frame = 0;
 		this.game = game;
-		behavior = new Rest(Rest.SECOND);
+		behavior = new Rest(World.SECOND);
 		brain = new Brain();
 		bcache = new BehaviorCache();
 		attackRange = sprite.spriteSizeX/2;
@@ -130,6 +132,7 @@ abstract public class Being {
 		}else{timeInAir++;}
 		
 		act(world, elapsedTime);
+		brain.update(world, elapsedTime);
 		
 		if(!standingOnGround && animation == walkRight) {
 			animation = jumpRight;
@@ -351,11 +354,12 @@ abstract public class Being {
 	}
 	
 	public void knockBack(Being being, double amount) {
+		rememberEnemy(being);
 		if(knockedBack==false) {
 			timeInAir = 0;
 			standingOnGround = false;
 			knockedBack = true;
-			if(amount > 7) amount = 7;
+			if(amount > 3) amount = 3;
 			double xDiff = this.x - being.x;
 			double yDiff = this.y - being.y;
 			//if(xDiff==0 && yDiff == 0) {yDiff = -1;}
@@ -488,10 +492,33 @@ abstract public class Being {
 		return (int) Math.sqrt(Math.pow(being.x - this.x, 2) + Math.pow(being.y - this.y, 2));
 	}
 	
+	public void rememberEnemy(Being enemy) {
+		brain.addMemory("target.enemy", new Memory<Being>(enemy));
+		ArrayList<Being> enemies = getEnemies();
+		enemies.add(enemy);
+		brain.addMemory("enemies", new Memory<ArrayList<Being>>(enemies));
+	}
+	
+	public ArrayList<Being> getEnemies() {
+		Memory enemies = brain.getMemory("enemies");
+		if (enemies == null)
+			return new ArrayList<Being>();
+		return (ArrayList<Being>)enemies.retrieve();
+	}
+	
 	public boolean isEnemy(Being being) {
-		return true; // TODO(griffy) FREE-FOR-ALL!
-		//return (this instanceof Player && !(being instanceof Player)) ||
-		//	   (!(this instanceof Player) && being instanceof Player);
+		ArrayList<Being> enemies = getEnemies();
+		for (Being enemy : enemies) {
+			if (enemy.hashCode() == being.hashCode())
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean attackedBy(Being being) {
+		// TODO(griffy) Will have to distinguish between attackers and enemies at some point
+		return isEnemy(being);
 	}
 	
 	public boolean isFriendly(Being being) {

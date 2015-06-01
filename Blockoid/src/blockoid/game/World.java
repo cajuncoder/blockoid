@@ -16,6 +16,8 @@ import blockoid.Assets;
 import blockoid.Game;
 import blockoid.game.being.Being;
 import blockoid.game.being.ItFollows;
+import blockoid.game.being.Spider;
+import blockoid.game.being.Wolf;
 import blockoid.game.biome.Biome;
 import blockoid.game.biome.DesertBiome;
 import blockoid.game.biome.ForestBiome;
@@ -59,6 +61,10 @@ import blockoid.state.GameState;
 
 
 public class World {
+	public static final long MILLISECOND = 1000000;
+	public static final long SECOND = 1000*MILLISECOND;
+	public static final long MINUTE = 60*SECOND;
+	public static final long HOUR   = 60*MINUTE;
 	
 	public int CameraOffX = 0;
 	public int CameraOffY = 0;
@@ -333,5 +339,16 @@ public class World {
 	
 	public Being nearestFriendly(Being being) {
 		return nearestBeing(being, false, true);
+	}
+	
+	public void fight(Being attacker, Being attacked) {
+		// TODO(griffy) Take into account the type of the being, its current weapon,
+		//              distance from the attacked, armor being worn, throw in some randomness, etc.
+		int damage = (int)(Math.random() * attacker.maxDamage);
+		// Just to give an example of something we could do...
+		if (attacker instanceof Spider && attacked instanceof Wolf)
+			damage *= 2;
+		attacked.knockBack(attacker, damage);
+		attacked.hurt(damage, this);
 	}
 }

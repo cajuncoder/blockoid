@@ -1,6 +1,7 @@
-package blockoid.game.being.behavior;
+package blockoid.game.being.behavior.primitive;
 
 import blockoid.game.being.Being;
+import blockoid.game.being.behavior.Behavior;
 
 public abstract class Decorator extends Behavior {
 	protected Behavior behavior;
@@ -9,15 +10,15 @@ public abstract class Decorator extends Behavior {
 		this.behavior = behavior;
 	}
 	
-	protected int failed(Being being) {
+	public int failed(Being being) {
 		return behavior.failed(being);
 	}
 	
-	protected int running(Being being) {
+	public int running(Being being) {
 		return behavior.running(being);
 	}
 	
-	protected int succeeded(Being being) {
+	public int succeeded(Being being) {
 		return behavior.succeeded(being);
 	}
 	
@@ -37,11 +38,11 @@ public abstract class Decorator extends Behavior {
 		return behavior.hasSucceeded(being);
 	}
 	
-	protected void setState(Being being, int state) {
+	public void setState(Being being, int state) {
 		behavior.setState(being, state);
 	}
 	
-	protected int getState(Being being) {
+	public int getState(Being being) {
 		return behavior.getState(being);
 	}
 }

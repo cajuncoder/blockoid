@@ -12,17 +12,17 @@ public abstract class Behavior {
 	public static final int SUCCEEDED = 2;
 	public static final int STATELESS = 3;
 	
-	protected int failed(Being being) {
+	public int failed(Being being) {
 		setState(being, Behavior.FAILED);
 		return Behavior.FAILED;
 	}
 	
-	protected int running(Being being) {
+	public int running(Being being) {
 		setState(being, Behavior.RUNNING);
 		return Behavior.RUNNING;
 	}
 	
-	protected int succeeded(Being being) {
+	public int succeeded(Being being) {
 		setState(being, Behavior.SUCCEEDED);
 		return Behavior.SUCCEEDED;
 	}
@@ -44,12 +44,12 @@ public abstract class Behavior {
 		return getState(being) == Behavior.SUCCEEDED;
 	}
 	
-	protected void setState(Being being, int state) {
+	public void setState(Being being, int state) {
 		System.out.println(this.getClass().getName() + ": " + (state == Behavior.FAILED ? "Failed" : (state == Behavior.SUCCEEDED ? "Succeeded" : (state == Behavior.RUNNING ? "Running" : "Stateless"))));
 		storeObject(being, "state", state);
 	}
 	
-	protected int getState(Being being) {
+	public int getState(Being being) {
 		Object state = retrieveObject(being, "state");
 		return state == null ? Behavior.STATELESS : (Integer)state;
 	}

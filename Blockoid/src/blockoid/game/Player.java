@@ -37,6 +37,7 @@ public class Player extends Being {
 		inventory.addItem(new DirtBlock());
 		inventory.addItem(new DirtBlock(8));
 		inventory.addItem(new DirtBlock());
+		maxDamage = 5;
 	}
 	
 	boolean oldSpace = false;
@@ -52,11 +53,9 @@ public class Player extends Being {
 			}
 	
 			if (game.keyboard.j) {
-				Being enemy = world.nearestEnemy(this);
-				if (enemy != null && enemy.distanceFrom(this) <= this.attackRange) {
-					enemy.knockBack(this, 3);
-					enemy.hurt(2, world);
-				}
+				Being being = world.nearestBeing(this, false, false);
+				if (being.distanceFrom(this) <= attackRange)
+					world.fight(this, being);
 			}
 			
 			if(game.keyboard.space && !oldSpace && timeOnGround>1 || game.keyboard.space && yVel < 0 && timeInAir < 14){

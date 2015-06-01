@@ -1,24 +1,25 @@
-package blockoid.game.being.behavior;
+package blockoid.game.being.behavior.primitive;
 
 import blockoid.game.World;
 import blockoid.game.being.Being;
+import blockoid.game.being.behavior.Behavior;
 
 public class Parallel extends CompositeBehavior {
 	public Parallel(Behavior[] behaviors) {
 		super(behaviors);
 	}
 	
-	protected int failed(Being being) {
+	public int failed(Being being) {
 		setState(being, Behavior.FAILED);
 		return Behavior.FAILED;
 	}
 	
-	protected int running(Being being) {
+	public int running(Being being) {
 		setState(being, Behavior.RUNNING);
 		return Behavior.RUNNING;
 	}
 	
-	protected int succeeded(Being being) {
+	public int succeeded(Being being) {
 		setState(being, Behavior.SUCCEEDED);
 		return Behavior.SUCCEEDED;
 	}

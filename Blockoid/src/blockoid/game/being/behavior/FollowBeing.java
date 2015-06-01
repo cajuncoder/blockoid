@@ -3,8 +3,8 @@ package blockoid.game.being.behavior;
 import blockoid.game.World;
 import blockoid.game.being.Being;
 
-public abstract class Follow extends Behavior {
-	public Follow() {
+public class FollowBeing extends Behavior {
+	public FollowBeing() {
 		super();
 	}
 	
@@ -28,5 +28,7 @@ public abstract class Follow extends Behavior {
 		return succeeded(being);
 	}
 	
-	protected abstract String targetName();
+	protected String targetName() {
+		return "target.being";
+	}
 }

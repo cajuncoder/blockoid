@@ -1,7 +1,8 @@
-package blockoid.game.being.behavior;
+package blockoid.game.being.behavior.primitive;
 
 import blockoid.game.World;
 import blockoid.game.being.Being;
+import blockoid.game.being.behavior.Behavior;
 
 public class Repeat extends Decorator {
 	int count;
@@ -19,7 +20,8 @@ public class Repeat extends Decorator {
 			reset(being);
 		}
 		storeObject(being, "iteration", iteration(being) + 1);
-		return behavior.act(being, world, elapsedTime);
+		behavior.act(being, world, elapsedTime);
+		return running(being);
 	}
 	
 	protected int iteration(Being being) {

@@ -7,11 +7,6 @@ import blockoid.game.being.Memory;
 public class Rest extends Behavior {
 	long time;
 	
-	public static final long MILLISECOND = 1000000;
-	public static final long SECOND = 1000*MILLISECOND;
-	public static final long MINUTE = 60*SECOND;
-	public static final long HOUR   = 60*MINUTE;
-	
 	public Rest(long time) {
 		super();
 		this.time = time;
@@ -19,8 +14,11 @@ public class Rest extends Behavior {
 
 	@Override
 	public int act(Being being, World world, long elapsedTime) {
+		Memory mem = being.brain.getMemory("rest.start");
 		if (isRunning(being)) {
-			long startTime = (Long)being.brain.getMemory("rest.start").retrieve();
+			if (mem == null)
+				return succeeded(being);
+			long startTime = (Long)mem.retrieve();
 			if (elapsedTime >= startTime + time)
 				return succeeded(being);
 		} else {

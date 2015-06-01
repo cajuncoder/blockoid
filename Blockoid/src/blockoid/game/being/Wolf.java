@@ -3,18 +3,20 @@ package blockoid.game.being;
 import blockoid.Assets;
 import blockoid.Game;
 import blockoid.game.World;
-import blockoid.game.being.behavior.Attack;
+import blockoid.game.being.behavior.AttackBeing;
 import blockoid.game.being.behavior.Behavior;
+import blockoid.game.being.behavior.FollowBeing;
 import blockoid.game.being.behavior.FollowEnemy;
+import blockoid.game.being.behavior.LocateNearestBeing;
 import blockoid.game.being.behavior.LocateNearestEnemy;
-import blockoid.game.being.behavior.Loop;
-import blockoid.game.being.behavior.Parallel;
 import blockoid.game.being.behavior.Perceive;
 import blockoid.game.being.behavior.Rest;
-import blockoid.game.being.behavior.Selector;
-import blockoid.game.being.behavior.Sequence;
 import blockoid.game.being.behavior.Wander;
-import blockoid.game.being.behavior.When;
+import blockoid.game.being.behavior.primitive.Loop;
+import blockoid.game.being.behavior.primitive.Parallel;
+import blockoid.game.being.behavior.primitive.Selector;
+import blockoid.game.being.behavior.primitive.Sequence;
+import blockoid.game.being.behavior.primitive.When;
 
 public class Wolf extends Dog {
 
@@ -23,14 +25,14 @@ public class Wolf extends Dog {
 		behavior = new Loop(new Parallel(new Behavior[]{
 			new Perceive(),
 			new When(
-				new LocateNearestEnemy(),
+				new LocateNearestBeing(),
 				new Sequence(new Behavior[]{
-					new FollowEnemy(),
-					new Attack()
+					new FollowBeing(),
+					new AttackBeing()
 				}),
 				new Sequence(new Behavior[]{
 					new Wander(),
-					new Rest(Rest.SECOND*2)
+					new Rest(World.SECOND*2)
 				})
 			)
 		}));
@@ -45,6 +47,7 @@ public class Wolf extends Dog {
 		jumpLeft = new int[]{4};
 		maxSpeed = 0.95;
 		speed = maxSpeed;
+		maxDamage = 7;
 	}
 
 	public void act(World world, long elapsedTime) {

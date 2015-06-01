@@ -3,22 +3,20 @@ package blockoid.game.being.behavior;
 import blockoid.game.World;
 import blockoid.game.being.Being;
 
-public class Attack extends Behavior {
-	public Attack() {
+public class AttackBeing extends Behavior {
+	public AttackBeing() {
 		super();
 	}
 	
 	@Override
 	public int act(Being being, World world, long elapsedTime) {
-		Being target = (Being)being.brain.getMemory("target.enemy").retrieve();
+		Being target = (Being)being.brain.getMemory(targetName()).retrieve();
 		if (target.isDead())
 			return failed(being);
 		
 		int targetDistance =  (int) Math.sqrt(Math.pow(being.x - target.x, 2) + Math.pow(being.y - target.y, 2));
 		if (targetDistance <= being.attackRange) {
-			// TODO(griffy) Base these values off some combat system taking into account both beings
-			target.knockBack(being, 3);
-			target.hurt(2, world);
+			world.fight(being, target);
 			return succeeded(being);
 		}
 		
@@ -29,5 +27,9 @@ public class Attack extends Behavior {
 		}
 		
 		return failed(being);
+	}
+	
+	protected String targetName() {
+		return "target.being";
 	}
 }
